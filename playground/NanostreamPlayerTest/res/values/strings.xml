@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NanostreamPlayerTest</string>
+    <string name="start_text">Starting Test</string>
+    <string name="action_320x240">320x240</string>
+    <string name="action_640x360">640x360</string>
+    <string name="action_640x480">640x480</string>
+
+</resources>
