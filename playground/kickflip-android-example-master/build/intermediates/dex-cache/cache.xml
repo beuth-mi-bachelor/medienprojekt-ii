@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/angi/medienprojekt-ii/playground/kickflip-android-example-master/app/build/intermediates/exploded-aar/io.kickflip/sdk/1.1.1/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="8b391cb17fd0eb5f3d5f305824fc7303c8cbc79f">
+        <dex dex="/Users/angi/medienprojekt-ii/playground/kickflip-android-example-master/app/build/intermediates/pre-dexed/debug/classes-f539a37a1b0eab8a550f8c6cd56e234740d2affd.jar" />
+    </item>
+    <item
+        jar="/Users/angi/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/Users/angi/medienprojekt-ii/playground/kickflip-android-example-master/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-8b79bbc0e9481a71e414a88350d12581768e1a31.jar" />
+    </item>
+    <item
+        jar="/Users/angi/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.2.0/74137f8d9aac26dd9463efe32271f2be8d41cda9/picasso-2.2.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="74137f8d9aac26dd9463efe32271f2be8d41cda9">
+        <dex dex="/Users/angi/medienprojekt-ii/playground/kickflip-android-example-master/app/build/intermediates/pre-dexed/debug/picasso-2.2.0-806df8db5aaefed59c87279ecaec8b39b97d0c87.jar" />
+    </item>
+    <item
+        jar="/Users/angi/.gradle/caches/modules-2/files-2.1/com.readystatesoftware.systembartint/systembartint/1.0.3/de4f7404e2f58d8f6e83cb1e85d0c2d6c2987287/systembartint-1.0.3.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="de4f7404e2f58d8f6e83cb1e85d0c2d6c2987287">
+        <dex dex="/Users/angi/medienprojekt-ii/playground/kickflip-android-example-master/app/build/intermediates/pre-dexed/debug/systembartint-1.0.3-aa3a2c6bb91e03f11432874cfcc81b1955b0dcdb.jar" />
+    </item>
+    <item
+        jar="/Users/angi/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/16.0/aca09d2e5e8416bf91550e72281958e35460be52/guava-16.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="aca09d2e5e8416bf91550e72281958e35460be52">
+        <dex dex="/Users/angi/medienprojekt-ii/playground/kickflip-android-example-master/app/build/intermediates/pre-dexed/debug/guava-16.0-0e2d2d0ea51ce16afa550995b27db9fa8661ac60.jar" />
+    </item>
+
+</items>
