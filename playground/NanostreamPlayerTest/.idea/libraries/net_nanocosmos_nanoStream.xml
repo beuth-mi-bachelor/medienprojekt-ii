@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="net.nanocosmos.nanoStream">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/net.nanocosmos.nanoStream.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

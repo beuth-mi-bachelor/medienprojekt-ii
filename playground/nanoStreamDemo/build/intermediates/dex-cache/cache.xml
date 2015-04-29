@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="F:\Android-SDK\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="F:\Repository\medienprojekt-ii\playground\nanoStreamDemo\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-e35fdc72e7d6d8608a5117bae31c859a61abf89a.jar" />
+    </item>
+    <item
+        jar="F:\Repository\medienprojekt-ii\playground\nanoStreamDemo\app\libs\net.nanocosmos.nanoStream.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ed1dec06c658ae52776348f9771f22cf32d0f3fb">
+        <dex dex="F:\Repository\medienprojekt-ii\playground\nanoStreamDemo\app\build\intermediates\pre-dexed\debug\net.nanocosmos.nanoStream-9a370abf2037fb9b12585713ed6d9338e8a7fd62.jar" />
+    </item>
+
+</items>
