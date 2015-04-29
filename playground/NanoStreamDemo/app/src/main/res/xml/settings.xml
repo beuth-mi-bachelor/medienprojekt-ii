@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_header_connection" >
+        <EditTextPreference
+            android:key="prefStreamingCode"
+            android:title="@string/pref_streaming_code" />
+        <EditTextPreference
+            android:defaultValue="@string/pref_value_server"
+            android:key="prefURI"
+            android:summary="@string/pref_value_server"
+            android:title="@string/pref_streaming_server" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_video" >
+        <ListPreference
+            android:defaultValue="640x480"
+            android:key="prefResolution"
+            android:summary="640x480"
+            android:title="@string/pref_title_resolution" />
+        <ListPreference
+            android:defaultValue="15"
+            android:key="prefFPS"
+            android:summary="15 fps"
+            android:title="@string/pref_title_fps" />
+        <ListPreference
+            android:defaultValue="500000"
+            android:entries="@array/pref_bitrate_name"
+            android:entryValues="@array/pref_bitrate_value"
+            android:key="prefBitrate"
+            android:summary="500 kbit/s"
+            android:title="@string/pref_title_bitrate" />
+
+        <SwitchPreference
+            android:key="prefSwapUV"
+            android:summaryOff="UV Swap : OFF"
+            android:summaryOn="UV Swap : ON"
+            android:switchTextOff="OFF"
+            android:switchTextOn="ON"
+            android:title="@string/pref_title_uv" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_auth" >
+        <EditTextPreference
+            android:key="prefAuthUser"
+            android:title="@string/pref_auth_name" />
+        <EditTextPreference
+            android:key="prefAuthPass"
+            android:title="@string/pref_auth_passwd" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_advanced" >
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/pref_abc_mode_name"
+            android:entryValues="@array/pref_abc_mode_value"
+            android:key="prefABCMode"
+            android:title="@string/pref_title_abc_mode" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

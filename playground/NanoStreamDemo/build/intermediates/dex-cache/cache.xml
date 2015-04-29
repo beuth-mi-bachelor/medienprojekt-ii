@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/libs/net.nanocosmos.nanoStream.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d4ad379553a985d862b4c97fe767508c82c7b414">
+        <dex dex="/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/build/intermediates/pre-dexed/debug/net.nanocosmos.nanoStream-df61376719417e36b86fa6b4f260b218a0f93952.jar" />
+    </item>
+    <item
+        jar="/Users/mduve/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-834af51ee5ae09c8f705889474edcb3f08fac0e2.jar" />
+    </item>
+
+</items>

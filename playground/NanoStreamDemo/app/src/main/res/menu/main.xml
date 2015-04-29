@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/but_settings"
+        android:onClick="showSettings"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/action_settings"/>
+
+    <group android:id="@+id/toggleStreaming" >
+        <item
+            android:id="@+id/startStreaming"
+            android:icon="@drawable/but_start"
+            android:onClick="toggleStreaming"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            android:title="@string/stream_start">
+        </item>
+    </group>
+
+    <item
+        android:id="@+id/toggleCamera"
+        android:icon="@drawable/but_camerarotate"
+        android:onClick="toggleCamera"
+        android:showAsAction="always"
+        android:title="Flip">
+    </item>
+    <item
+        android:id="@+id/aboutApp"
+        android:onClick="viewAbout"
+        android:showAsAction="never"
+        android:title="About">
+    </item>
+
+</menu>
