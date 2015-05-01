@@ -1,0 +1,18 @@
+{
+  "name": "Schabuu!",
+  "version": "0.1.0",
+  "description": "Android Application for playing a game mixed up from tabu and charade",
+  "main": "gameserver.js",
+  "author": "Schabuu!-Team",
+  "license": "MIT",
+  "engines": {
+    "node": "^0.12",
+    "npm": "~2.5.1"
+  },
+  "dependencies": {
+    "express": "^4.12.3"
+  },
+  "devDependencies": {
+    "express": "^4.12.3"
+  }
+}
