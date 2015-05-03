@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (client) {
-
+    console.log("connected", client);
     client.on('message', function (msg, err) {
         console.log(msg);
     });

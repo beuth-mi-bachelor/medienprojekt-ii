@@ -1,35 +1,60 @@
 package de.beuth.schabuu.socketiodemo;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
 
+import de.beuth.schabuu.user.User;
 
-public class ConnectActivity extends ActionBarActivity {
+public class ConnectActivity extends Activity {
 
-    private ServerHandler server;
+    private User currentUser = null;
+
+    TelephonyManager teleManager;
+
+    Button buttonConnect,
+           buttonNewUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
 
-        Button button = (Button) findViewById(R.id.button_connect);
+        teleManager = (TelephonyManager)getSystemService(ConnectActivity.TELEPHONY_SERVICE);
 
-        // Capture button clicks
-        button.setOnClickListener(new View.OnClickListener() {
+
+        buttonConnect = (Button) findViewById(R.id.connect_button);
+        buttonNewUser = (Button) findViewById(R.id.new_user_button);
+
+        buttonConnect.setOnClickListener(new OnClickListener(){
+            @Override
             public void onClick(View arg0) {
-                server = new ServerHandler();
-                //server.connectToServer();
+                if (currentUser != null) {
+                    currentUser.setClientInstance(new ClientTask("192.168.1.101", 1337, getApplicationContext()));
+                    currentUser.getClientInstance().execute();
+                } else {
+                    Toast.makeText(getApplicationContext(), "no User is set", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buttonNewUser.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View arg0) {
+                currentUser = new User(teleManager.getDeviceId());
+                Toast.makeText(getApplicationContext(), "logged in as" + currentUser.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,16 +65,10 @@ public class ConnectActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
