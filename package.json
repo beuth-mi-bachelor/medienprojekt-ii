@@ -13,6 +13,7 @@
     "express": "^4.12.3"
   },
   "devDependencies": {
-    "express": "^4.12.3"
+    "express": "^4.12.3",
+    "pomelo": "^1.1.6"
   }
 }
