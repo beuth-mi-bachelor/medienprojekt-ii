@@ -10,16 +10,12 @@ var PORT = 1337;
 function init() {
     players = [];
     socket = io.listen(PORT);
-    socket.configure(function () {
-        socket.set("transports", ["websocket"]);
-        socket.set("log level", 2);
-    });
     setEventHandlers();
 }
 
-function setEventHandlers() {
+var setEventHandlers = function() {
     socket.sockets.on("connection", onSocketConnection);
-}
+};
 
 function onSocketConnection(client) {
     util.log("New player has connected: " + client.id);
@@ -39,6 +35,7 @@ function onClientDisconnect() {
 }
 
 function onNewPlayer(data) {
+    console.log(data);
     var newPlayer = new Player(data.x, data.y),
         i,
         existingPlayer;
