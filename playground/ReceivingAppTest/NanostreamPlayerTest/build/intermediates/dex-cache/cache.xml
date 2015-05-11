@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/angi/AndroidStudioProjects/NanostreamPlayerTest/app/libs/net.nanocosmos.nanoStream.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ed1dec06c658ae52776348f9771f22cf32d0f3fb">
+        <dex dex="/Users/angi/AndroidStudioProjects/NanostreamPlayerTest/app/build/intermediates/pre-dexed/debug/net.nanocosmos.nanoStream-4fe804aa0bd66cfe6236155edd45d610ea713578.jar" />
+    </item>
+    <item
+        jar="/Users/angi/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/Users/angi/AndroidStudioProjects/NanostreamPlayerTest/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-8b79bbc0e9481a71e414a88350d12581768e1a31.jar" />
+    </item>
+
+</items>
