@@ -55,4 +55,4 @@
             android:title="@string/pref_title_abc_mode" />
     </PreferenceCategory>
 
-</PreferenceScreen><!-- From: file:/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/src/main/res/xml/settings.xml -->
+</PreferenceScreen><!-- From: file:/Users/Felix/mp2/playground/NanoStreamDemo/app/src/main/res/xml/settings.xml -->

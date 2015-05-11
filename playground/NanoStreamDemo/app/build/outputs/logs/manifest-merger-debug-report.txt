@@ -1,8 +1,6 @@
 -- Merging decision tree log ---
 manifest
 ADDED from AndroidManifest.xml:2:1
-	xmlns:android
-		ADDED from AndroidManifest.xml:2:11
 	package
 		ADDED from AndroidManifest.xml:3:5
 		INJECTED from AndroidManifest.xml:0:0
@@ -13,6 +11,8 @@ ADDED from AndroidManifest.xml:2:1
 		ADDED from AndroidManifest.xml:4:6
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
 uses-sdk
 ADDED from AndroidManifest.xml:7:5
 	android:targetSdkVersion
@@ -73,14 +73,14 @@ application
 ADDED from AndroidManifest.xml:25:5
 	android:label
 		ADDED from AndroidManifest.xml:30:9
+	android:hardwareAccelerated
+		ADDED from AndroidManifest.xml:28:9
 	android:allowBackup
 		ADDED from AndroidManifest.xml:27:9
 	android:icon
 		ADDED from AndroidManifest.xml:29:9
 	android:theme
 		ADDED from AndroidManifest.xml:31:9
-	android:hardwareAccelerated
-		ADDED from AndroidManifest.xml:28:9
 	android:name
 		ADDED from AndroidManifest.xml:26:9
 activity#net.nanocosmos.nanoStream.activities.MainActivity

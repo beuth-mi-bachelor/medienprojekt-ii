@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/Felix/mp2/playground/NanoStreamDemo/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string-array name="pref_abc_mode_name">
         <item>Disabled</item>
@@ -34,11 +34,11 @@
         <item>1500000</item>
         <item>2000000</item>
     </string-array>
-    <!-- From: file:/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/Users/Felix/mp2/playground/NanoStreamDemo/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/Felix/mp2/playground/NanoStreamDemo/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">nanoStream</string>
@@ -60,7 +60,7 @@
     <string name="stream_stop">Stop</string>
     <string name="title_activity_preference">Settings</string>
     <string name="title_activity_settings_activtiy">Settings</string>
-    <!-- From: file:/Users/mduve/repository/medienprojekt-ii/playground/NanoStreamDemo/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Users/Felix/mp2/playground/NanoStreamDemo/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Holo">
         <!--
