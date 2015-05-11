@@ -64,6 +64,7 @@
     "-W100": false,
     "globals": {
         "jQuery": false,
-        "console": false
+        "console": false,
+        "require": false
     }
 }

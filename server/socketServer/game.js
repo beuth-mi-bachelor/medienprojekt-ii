@@ -22,47 +22,39 @@
     function onSocketConnection(client) {
         client.on("disconnect", onClientDisconnect);
         client.on("new_player", onNewPlayer);
-        client.on("join_room", onJoinRoom);
-        client.on("leave_room", onLeaveRoom);
+        client.on("join_room", function(data) {
+            onJoinRoom(this, data);
+        });
+        client.on("leave_room", function(data) {
+            onLeaveRoom(this, data);
+        });
     }
 
-    function onClientDisconnect() {
-        var removePlayer = playerById(this.id);
+    function onClientDisconnect(data) {
+        var removePlayer = playerById(data.id);
         if (!removePlayer) {
             return;
         }
         players.splice(players.indexOf(removePlayer), 1);
-        this.broadcast.emit("remove player", {id: this.id});
     }
 
     function onNewPlayer(data) {
-        var newPlayer = new Player(data.x, data.y),
-            i,
-            existingPlayer;
-        newPlayer.id = this.id;
-        this.broadcast.emit("new player", {
-            id: newPlayer.id
-        });
-        for (i = 0; i < players.length; i++) {
-            existingPlayer = players[i];
-            this.emit("new player", {
-                id: existingPlayer.id
-            });
-        }
+        var newPlayer = new Player(data.id);
+        console.log(players);
         players.push(newPlayer);
     }
 
-    function onJoinRoom(roomName) {
-        socket.join(roomName, function() {
-            socket.emit("room", {
+    function onJoinRoom(client, roomName) {
+        client.join(roomName, function() {
+            client.emit("room", {
                 room: roomName
             });
         });
     }
 
-    function onLeaveRoom(roomName) {
-        socket.leave(roomName, function() {
-            socket.emit("room", {
+    function onLeaveRoom(client, roomName) {
+        client.leave(roomName, function() {
+            client.emit("room", {
                 room: roomName
             });
         });

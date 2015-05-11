@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -27,16 +28,22 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
     Button connect;
     Button join;
     Button leave;
-    EditText editText;
+    EditText roomName;
+    EditText name;
+    TextView log;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_connection);
 
-        editText = (EditText) findViewById(R.id.input_room);
+        roomName = (EditText) findViewById(R.id.input_roomname);
+        name = (EditText) findViewById(R.id.input_name);
 
-        connect = (Button) findViewById(R.id.connect_button);
+        log = (TextView) findViewById(R.id.text_view);
+
+        connect = (Button) findViewById(R.id.button_connect);
         connect.setOnClickListener(this);
 
         join = (Button) findViewById(R.id.button_join);
@@ -73,7 +80,7 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.connect_button:
+            case R.id.button_connect:
                 System.out.println("pressed connect button");
                 if (socket == null || !socket.connected()) {
                     connect();
@@ -83,15 +90,13 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
                 if (socket == null || !socket.connected()) {
                     connect();
                 }
-                socket.emit("join_room", editText.getText());
-                socket.disconnect();
+                socket.emit("join_room", roomName.getText());
                 break;
             case R.id.button_leave:
                 if (socket == null || !socket.connected()) {
                     connect();
                 }
-                socket.emit("leave_room", editText.getText());
-                socket.disconnect();
+                socket.emit("leave_room", roomName.getText());
                 break;
         }
     }
@@ -110,9 +115,19 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         socket.on(Socket.EVENT_DISCONNECT, onDisconnect);
+        socket.on("room", onRoomEvent);
 
         socket.connect();
     }
+
+    private Emitter.Listener onRoomEvent = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            setText(log, "room called!\n");
+            setText(log, args[0].toString() + "\n");
+        }
+    };
 
     private Emitter.Listener onConnectError = new Emitter.Listener() {
 
@@ -129,12 +144,11 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
             System.out.println("Connected!");
             JSONObject playerData = new JSONObject();
             try {
-                playerData.put("name", "Peter");
+                playerData.put("name", name.getText());
             } catch (JSONException e) {
                 System.err.println(e.getMessage());
             }
             socket.emit("new_player", playerData);
-            socket.disconnect();
         }
     };
 
@@ -145,5 +159,14 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
             System.out.println("Disconnected!");
         }
     };
+
+    private void setText(final TextView text, final String value){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                text.append(value);
+            }
+        });
+    }
 
 }

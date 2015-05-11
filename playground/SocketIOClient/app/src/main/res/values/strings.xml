@@ -4,4 +4,6 @@
     <string name="connect_button_text">Connect</string>
     <string name="text_button_join">Join</string>
     <string name="text_button_leave">Leave</string>
+    <string name="input_name">name</string>
+    <string name="input_room_text">room name</string>
 </resources>
