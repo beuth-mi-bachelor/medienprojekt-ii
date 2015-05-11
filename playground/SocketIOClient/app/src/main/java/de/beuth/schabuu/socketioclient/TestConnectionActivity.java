@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -24,14 +25,25 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
 
     Socket socket;
     Button connect;
+    Button join;
+    Button leave;
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_connection);
 
-        connect = (Button)findViewById(R.id.connect_button);
+        editText = (EditText) findViewById(R.id.input_room);
+
+        connect = (Button) findViewById(R.id.connect_button);
         connect.setOnClickListener(this);
+
+        join = (Button) findViewById(R.id.button_join);
+        join.setOnClickListener(this);
+
+        leave = (Button) findViewById(R.id.button_leave);
+        leave.setOnClickListener(this);
 
     }
 
@@ -63,22 +75,43 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
         switch(v.getId()){
             case R.id.connect_button:
                 System.out.println("pressed connect button");
-
-                try {
-                    socket = IO.socket("http://" + SERVER_ADDRESS + ":" + PORT_NUMBER);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
+                if (socket == null || !socket.connected()) {
+                    connect();
                 }
-
-                socket.on(Socket.EVENT_CONNECT, onConnect);
-                socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-                socket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-                socket.on(Socket.EVENT_DISCONNECT, onDisconnect);
-
-                socket.connect();
-
+                break;
+            case R.id.button_join:
+                if (socket == null || !socket.connected()) {
+                    connect();
+                }
+                socket.emit("join_room", editText.getText());
+                socket.disconnect();
+                break;
+            case R.id.button_leave:
+                if (socket == null || !socket.connected()) {
+                    connect();
+                }
+                socket.emit("leave_room", editText.getText());
+                socket.disconnect();
                 break;
         }
+    }
+
+    private void connect() {
+
+        if (socket == null) {
+            try {
+                socket = IO.socket("http://" + SERVER_ADDRESS + ":" + PORT_NUMBER);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        socket.on(Socket.EVENT_CONNECT, onConnect);
+        socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        socket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+        socket.on(Socket.EVENT_DISCONNECT, onDisconnect);
+
+        socket.connect();
     }
 
     private Emitter.Listener onConnectError = new Emitter.Listener() {
@@ -96,12 +129,11 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
             System.out.println("Connected!");
             JSONObject playerData = new JSONObject();
             try {
-                playerData.put("x", 10);
-                playerData.put("y‚", 40);
+                playerData.put("name", "Peter");
             } catch (JSONException e) {
                 System.err.println(e.getMessage());
             }
-            socket.emit("new player", playerData);
+            socket.emit("new_player", playerData);
             socket.disconnect();
         }
     };
