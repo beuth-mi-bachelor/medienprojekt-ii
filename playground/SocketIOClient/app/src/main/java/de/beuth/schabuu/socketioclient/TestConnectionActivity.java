@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 
 public class TestConnectionActivity extends ActionBarActivity implements View.OnClickListener {
 
-    public static final String SERVER_ADDRESS = "192.168.178.85";
+    public static final String SERVER_ADDRESS = "192.168.1.103";
     public static final int PORT_NUMBER = 1337;
 
     Socket socket;
@@ -133,7 +133,10 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
 
         @Override
         public void call(Object... args) {
-            System.out.println("ERROR!");
+            System.out.println(Socket.EVENT_CONNECT_ERROR+": ");
+            for(Object erroMsg : args)
+                System.out.println("\t"+erroMsg);
+
         }
     };
 

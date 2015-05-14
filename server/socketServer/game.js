@@ -28,6 +28,7 @@
         client.on("leave_room", function(data) {
             onLeaveRoom(this, data);
         });
+
     }
 
     function onClientDisconnect(data) {
@@ -36,12 +37,13 @@
             return;
         }
         players.splice(players.indexOf(removePlayer), 1);
+        console.log("Client with Player ID: "+ data.id + "disconnect from server");
     }
 
     function onNewPlayer(data) {
         var newPlayer = new Player(data.id);
-        console.log(players);
         players.push(newPlayer);
+        console.log("New Player with ID: "+ data.id);
     }
 
     function onJoinRoom(client, roomName) {
@@ -50,6 +52,7 @@
                 room: roomName
             });
         });
+        console.log(client + "joint room: " + roomName);
     }
 
     function onLeaveRoom(client, roomName) {
@@ -58,6 +61,7 @@
                 room: roomName
             });
         });
+        console.log(client + "leaved room: " + roomName);
     }
 
     function playerById(id) {
