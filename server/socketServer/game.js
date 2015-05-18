@@ -53,6 +53,7 @@
             });
         });
         console.log(client + "joint room: " + roomName);
+        debugAllRooms();
     }
 
     function onLeaveRoom(client, roomName) {
@@ -72,6 +73,16 @@
             }
         }
         return null;
+    }
+
+    function debugAllRooms(){
+        if(typeof socket.rooms !== "undefined") {
+            for (var i = 0; i < socket.rooms.length; i++) {
+                console.log("RoomNr: " + i + " " + socket.rooms[i]);
+            }
+        }else{
+            console.log("rooms is " + typeof socket.rooms);
+        }
     }
 
     init();
