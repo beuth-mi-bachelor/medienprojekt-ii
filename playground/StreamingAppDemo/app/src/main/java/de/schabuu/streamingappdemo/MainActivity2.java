@@ -1,23 +1,88 @@
 package de.schabuu.streamingappdemo;
 
 import android.content.Intent;
+import android.hardware.Camera;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import net.nanocosmos.nanoStream.streamer.AdaptiveBitrateControlSettings;
+import net.nanocosmos.nanoStream.streamer.NanostreamEventListener;
+import net.nanocosmos.nanoStream.streamer.nanoStream;
+
+import java.util.prefs.PreferenceChangeListener;
 
 
-public class MainActivity2 extends ActionBarActivity {
+public class MainActivity2 extends ActionBarActivity implements NanostreamEventListener {
+
+    private StreamPreview surface;
+    long startedTimestamp = 0;
+
+    private nanoStream streamLib;
+
+    private int width = 640;
+    private int height = 480;
+    private int BIT_RATE = 500000;
+    private int FRAME_RATE = 15;
+
+    private String license = "";
+    private String serverUrl = "";
+
+    private String streamName = "";
+    private String authUser = "";
+    private String authPass = "";
+    private AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.DISABLED;
+
+    net.nanocosmos.nanoStream.util.VideoCamera mVideoCam = null;
+    nanoStream.VideoSourceType vsType = nanoStream.VideoSourceType.EXTERNAL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity2);
 
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        surface = (StreamPreview) findViewById(R.id.surface);
+
+        loadPreferences();
+
+        AdaptiveBitrateControlSettings abcSettings = new AdaptiveBitrateControlSettings(abcMode);
+
+        try {
+            streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surface.getHolder(), 2, license, serverUrl, streamName, authUser, authPass,
+                    this, abcSettings, logSettings);
+            mVideoCam = new VideoCamera(width, height, FRAME_RATE, surface.getHolder());
+            mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
+            streamLib.setVideoSource(mVideoCam);
+        } catch (NanostreamException en) {
+            Toast.makeText(getApplicationContext(), en.toString(), Toast.LENGTH_LONG).show();
+        }
+        try
+        {
+            if (streamLib != null)
+            {
+                streamLib.init();
+            }
+        } catch (NanostreamException en)
+        {
+            Toast.makeText(getApplicationContext(), en.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        PreferenceManager.getDefaultSharedPreferences(nanoStreamApp.getAppContext()).registerOnSharedPreferenceChangeListener(new PreferenceChangeListener());
+
+        // This is for the Back Button and Activity Change
         Intent intent = getIntent();
 
         String rn = intent.getStringExtra(MainActivity.ROOM_NAME);

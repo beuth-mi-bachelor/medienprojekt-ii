@@ -1,1 +1,2 @@
-include ':app'
+include ':app','net.nanocosmos.nanoStream'
+project(':net.nanocosmos.nanoStream').projectDir = new File('libs/net.nanocosmos.nanoStream')
