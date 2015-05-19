@@ -6,4 +6,7 @@
     <string name="menu_item_1">Play alone</string>
     <string name="menu_item_2">Play with friends</string>
     <string name="menu_item_3">Settings</string>
+    <string name="play_alone">PLAY ALONE</string>
+    <string name="play_with_friends">PLAY WITH FRIENDS</string>
+    <string name="settings">SETTINGS</string>
 </resources>
