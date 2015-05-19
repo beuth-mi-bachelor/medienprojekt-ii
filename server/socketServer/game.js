@@ -4,13 +4,16 @@
     var io = require("socket.io"),
         Player = require("./Player").Player;
 
-    var socket,
-        players;
+    var socket;
+
+    var Room = require('./room.js');
+
+    var rooms = {};
+    var players = {};
 
     var PORT = 1337;
 
     function init() {
-        players = [];
         socket = io.listen(PORT);
         setEventHandlers();
     }
@@ -20,46 +23,106 @@
     };
 
     function onSocketConnection(client) {
-        client.on("disconnect", onClientDisconnect);
-        client.on("new_player", onNewPlayer);
+        client.on("disconnect", function() {
+            onClientDisconnect(this);
+        });
+        client.on("new_player", function(data) {
+            onNewPlayer(this, data);
+        });
+        client.on("switch_room", function(data) {
+            onSwitchRoom(this, data);
+        });
         client.on("join_room", function(data) {
             onJoinRoom(this, data);
         });
         client.on("leave_room", function(data) {
             onLeaveRoom(this, data);
         });
+        client.on("create_room", function(name,password) {
+            onCreateRoom(this,name,password);
+        });
     }
 
-    function onClientDisconnect(data) {
+    function onClientDisconnect(client) {
+        /*
         var removePlayer = playerById(data.id);
         if (!removePlayer) {
             return;
         }
         players.splice(players.indexOf(removePlayer), 1);
+        */
+        delete players[client.id];
+        console.log("Client with ID: "+ client.id + " and name: " + client.username + " disconnect from server");
     }
 
-    function onNewPlayer(data) {
-        var newPlayer = new Player(data.id);
-        console.log(players);
-        players.push(newPlayer);
+    function onNewPlayer(client,data) {
+        client.username = data.name;
+        client.room = "defaultRoom";
+        var newPlayer = new Player(client.id,data.name,client.room);
+        players[client.id] = newPlayer;
+        console.log("New Player with ID: "+ data.id +" and name: " + data.name);
+    }
+
+    function onSwitchRoom(client, roomName) {
+        client.leave(client.room);
+        client.join(roomName);
+        console.log(client.username +" switched from room "+ socket.room + " to " + roomName);
+        client.room = roomName;
+        //debugAllRooms();
     }
 
     function onJoinRoom(client, roomName) {
-        client.join(roomName, function() {
-            client.emit("room", {
-                room: roomName
+        if(!(roomName in rooms)){
+            client.join(roomName, function() {
+                client.emit("room", {
+                    room: roomName
+                });
             });
-        });
+            client.room = roomName;
+            console.log(client.username + " joint room: " + roomName);
+        }else{
+            client.join(roomName, function() {
+                client.emit("room", {
+                    room: roomName
+                });
+            });
+            client.room = roomName;
+            rooms[roomName].addPerson(client.id);
+            players[client.id].room = roomName;
+            console.log(client.username + " joint custom room: " + roomName);
+        }
+
+
     }
 
     function onLeaveRoom(client, roomName) {
-        client.leave(roomName, function() {
-            client.emit("room", {
-                room: roomName
+        if(!(roomName in rooms)){
+            client.leave(client.room, function () {
+                client.emit("room", {
+                    room: roomName
+                });
             });
-        });
+            client.room = "defaultRoom";
+            console.log(client.username + " leaved room: " + roomName);
+        }else {
+            //TO DO if nobody left in the room destroy it
+            client.leave(client.room, function () {
+                client.emit("room", {
+                    room: roomName
+                });
+            });
+            client.room = "defaultRoom";
+            console.log(client.username + " leaved room: " + roomName);
+        }
     }
 
+    function onCreateRoom(client,name,password) {
+        var room = new Room(name,password);
+        rooms[name] = room;
+        //Emit Update Roomlist here <>
+        onJoinRoom(client,name);
+    }
+    /*
     function playerById(id) {
         var i;
         for (i = 0; i < players.length; i++) {
@@ -69,6 +132,7 @@
         }
         return null;
     }
+    */
 
     init();
 

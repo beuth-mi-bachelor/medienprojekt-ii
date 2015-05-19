@@ -1,9 +1,11 @@
 (function() {
     "use strict";
 
-    function Player(id) {
+    function Player(id,name,roomName) {
         return {
-            id: id
+            id: id,
+            name : name,
+            roomName : roomName
         };
     }
 

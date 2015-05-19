@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.provider.Settings.Secure;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -21,13 +22,14 @@ import java.net.URISyntaxException;
 
 public class TestConnectionActivity extends ActionBarActivity implements View.OnClickListener {
 
-    public static final String SERVER_ADDRESS = "192.168.178.85";
+    public static final String SERVER_ADDRESS = "192.168.1.101";
     public static final int PORT_NUMBER = 1337;
 
     Socket socket;
     Button connect;
     Button join;
     Button leave;
+    Button create;
     EditText roomName;
     EditText name;
     TextView log;
@@ -48,6 +50,9 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
 
         join = (Button) findViewById(R.id.button_join);
         join.setOnClickListener(this);
+
+        create = (Button) findViewById(R.id.button_create);
+        create.setOnClickListener(this);
 
         leave = (Button) findViewById(R.id.button_leave);
         leave.setOnClickListener(this);
@@ -98,6 +103,12 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
                 }
                 socket.emit("leave_room", roomName.getText());
                 break;
+            case R.id.button_create:
+                if (socket == null || !socket.connected()) {
+                    connect();
+                }
+                socket.emit("create_room","Test","Test");
+                break;
         }
     }
 
@@ -133,7 +144,10 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
 
         @Override
         public void call(Object... args) {
-            System.out.println("ERROR!");
+            System.out.println(Socket.EVENT_CONNECT_ERROR+": ");
+            for(Object erroMsg : args)
+                System.out.println("\t"+erroMsg);
+
         }
     };
 
@@ -144,6 +158,7 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
             System.out.println("Connected!");
             JSONObject playerData = new JSONObject();
             try {
+                playerData.put("id", Secure.getString(getContentResolver(),Secure.ANDROID_ID));
                 playerData.put("name", name.getText());
             } catch (JSONException e) {
                 System.err.println(e.getMessage());

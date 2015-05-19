@@ -56,11 +56,12 @@
             android:layout_toEndOf="@+id/text_view" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/text_view"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_create"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/create_room" />
 
 </RelativeLayout>
