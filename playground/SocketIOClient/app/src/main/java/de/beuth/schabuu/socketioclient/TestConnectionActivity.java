@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
 
 public class TestConnectionActivity extends ActionBarActivity implements View.OnClickListener {
 
-    public static final String SERVER_ADDRESS = "192.168.1.101";
+    public static final String SERVER_ADDRESS = "192.168.1.104";
     public static final int PORT_NUMBER = 1337;
 
     Socket socket;
@@ -107,7 +107,8 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
                 if (socket == null || !socket.connected()) {
                     connect();
                 }
-                socket.emit("create_room","Test","Test");
+                //TODO: Password needs to be set manually
+                socket.emit("create_room",roomName.getText(),"pw");
                 break;
         }
     }
