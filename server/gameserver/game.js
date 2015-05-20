@@ -4,24 +4,26 @@
     var io = require("socket.io"),
         Player = require("./Player").Player;
 
-    var socket,
-        players;
+    var socket;
 
     var PORT = 1337;
 
     function init() {
-        players = [];
         socket = io.listen(PORT);
         setEventHandlers();
     }
 
     var setEventHandlers = function() {
-        socket.sockets.on("connection", onSocketConnection);
+        socket.sockets.on("connection", onConnect);
     };
 
-    function onSocketConnection(client) {
-        client.on("disconnect", onClientDisconnect);
-        client.on("new_player", onNewPlayer);
+    function onConnect(client) {
+        client.on("disconnection", function(data) {
+            onDisconnect(this, data);
+        });
+        client.on("new_player", function(data) {
+            onNewPlayer(this, data);
+        });
         client.on("join_room", function(data) {
             onJoinRoom(this, data);
         });
@@ -30,24 +32,27 @@
         });
     }
 
-    function onClientDisconnect(data) {
-        var removePlayer = playerById(data.id);
-        if (!removePlayer) {
-            return;
+    function onDisconnect(client, data) {
+        // leave all rooms
+        for (var i = 0; i < client.rooms.length; i++) {
+            client.leave(client.rooms[i]);
         }
-        players.splice(players.indexOf(removePlayer), 1);
+        var currentPlayer = Player.getPlayer(client.id);
+        currentPlayer.removePlayer();
+        console.log("current players are: " + JSON.stringify(Player.getAllPlayers()));
     }
 
-    function onNewPlayer(data) {
-        var newPlayer = new Player(data.id);
-        console.log(players);
-        players.push(newPlayer);
+    function onNewPlayer(client, data) {
+        var newPlayer = new Player(client.id, data.name);
+        console.log("new Player created: " + newPlayer);
+        console.log("current players are: " + JSON.stringify(Player.getAllPlayers()));
     }
 
     function onJoinRoom(client, roomName) {
         client.join(roomName, function() {
             client.emit("room", {
-                room: roomName
+                room: roomName,
+                clientIsInRooms: client.rooms
             });
         });
     }
@@ -55,19 +60,10 @@
     function onLeaveRoom(client, roomName) {
         client.leave(roomName, function() {
             client.emit("room", {
-                room: roomName
+                room: roomName,
+                clientIsInRooms: client.rooms
             });
         });
-    }
-
-    function playerById(id) {
-        var i;
-        for (i = 0; i < players.length; i++) {
-            if (players[i].id === id) {
-                return players[i];
-            }
-        }
-        return null;
     }
 
     init();

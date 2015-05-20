@@ -21,11 +21,12 @@ import java.net.URISyntaxException;
 
 public class TestConnectionActivity extends ActionBarActivity implements View.OnClickListener {
 
-    public static final String SERVER_ADDRESS = "192.168.178.85";
+    public static final String SERVER_ADDRESS = "192.168.1.104";
     public static final int PORT_NUMBER = 1337;
 
     Socket socket;
     Button connect;
+    Button disconnect;
     Button join;
     Button leave;
     EditText roomName;
@@ -45,6 +46,9 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
 
         connect = (Button) findViewById(R.id.button_connect);
         connect.setOnClickListener(this);
+
+        disconnect = (Button) findViewById(R.id.button_disconnect);
+        disconnect.setOnClickListener(this);
 
         join = (Button) findViewById(R.id.button_join);
         join.setOnClickListener(this);
@@ -84,6 +88,13 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
                 System.out.println("pressed connect button");
                 if (socket == null || !socket.connected()) {
                     connect();
+                }
+                break;
+            case R.id.button_disconnect:
+                System.out.println("pressed disconnect button");
+                if (socket != null) {
+                    socket.emit("disconnection");
+                    socket.disconnect();
                 }
                 break;
             case R.id.button_join:
@@ -134,6 +145,7 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
         @Override
         public void call(Object... args) {
             System.out.println("ERROR!");
+            System.out.println(args[0].toString());
         }
     };
 
@@ -157,6 +169,7 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
         @Override
         public void call(Object... args) {
             System.out.println("Disconnected!");
+
         }
     };
 
