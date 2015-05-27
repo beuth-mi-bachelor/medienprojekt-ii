@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="de.beuth.s768078.example.duygu.myapplication.PlayAlone">
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+
+            <TextView
+                android:id="@+id/player_two"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/create"
+                android:background="#ff52c942"
+                android:gravity="center"
+                android:text="playerTwo.getName()"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffffff" />
+
+            <TextView
+                android:id="@+id/create"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="#ff4c9a3c"
+                android:gravity="center"
+                android:text="playerOne.getName()"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffffff" />
+
+            <TextView
+                android:id="@+id/player_four"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_alignLeft="@+id/create"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/create"
+                android:background="#ff66b3ff"
+                android:gravity="center"
+                android:text="playerFour.getName()"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffffff" />
+
+            <TextView
+                android:id="@+id/player_three"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_above="@+id/player_four"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="#ff5b80c2"
+                android:gravity="center"
+                android:text="playerThree.getName()"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffffff" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
