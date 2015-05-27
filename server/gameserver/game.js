@@ -2,7 +2,8 @@
     "use strict";
 
     var io = require("socket.io"),
-        Player = require("./Player").Player;
+        Player = require("./models/Player").Player,
+        Room = require("./models/Player").Room;
 
     var socket;
 
@@ -39,13 +40,13 @@
         }
         var currentPlayer = Player.getPlayer(client.id);
         currentPlayer.removePlayer();
-        console.log("current players are: " + JSON.stringify(Player.getAllPlayers()));
+        console.log("current players are: " + JSON.stringify(Player.getAllPlayersAsObject()));
     }
 
     function onNewPlayer(client, data) {
         var newPlayer = new Player(client.id, data.name);
         console.log("new Player created: " + newPlayer);
-        console.log("current players are: " + JSON.stringify(Player.getAllPlayers()));
+        console.log("current players are: " + JSON.stringify(Player.getAllPlayersAsObject()));
     }
 
     function onJoinRoom(client, roomName) {

@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 
 public class TestConnectionActivity extends ActionBarActivity implements View.OnClickListener {
 
-    public static final String SERVER_ADDRESS = "192.168.1.104";
+    public static final String SERVER_ADDRESS = "192.168.1.102";
     public static final int PORT_NUMBER = 1337;
 
     Socket socket;
