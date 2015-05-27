@@ -94,6 +94,7 @@ public class PlayerActivity extends Activity implements PlayerEventListener {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         controller.show(5000);
+        dataFragment.mPlayer.start();
         return super.onTouchEvent(event);
     }
 
