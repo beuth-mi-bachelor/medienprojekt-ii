@@ -1,4 +1,4 @@
-package net.nanocosmos.nanoStream.util;
+package de.schabuu.sendingapp.util;
 
 public enum PreferenceEnum {
 	PREF_FPS_KEY("prefFPS"), 

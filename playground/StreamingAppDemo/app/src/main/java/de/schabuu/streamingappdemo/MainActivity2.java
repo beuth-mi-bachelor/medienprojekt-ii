@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import net.nanocosmos.nanoStream.streamer.AdaptiveBitrateControlSettings;
 import net.nanocosmos.nanoStream.streamer.NanostreamEventListener;
+import net.nanocosmos.nanoStream.streamer.NanostreamException;
 import net.nanocosmos.nanoStream.streamer.nanoStream;
 
 import java.util.prefs.PreferenceChangeListener;
@@ -42,7 +43,7 @@ public class MainActivity2 extends ActionBarActivity implements NanostreamEventL
     private String authPass = "";
     private AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.DISABLED;
 
-    net.nanocosmos.nanoStream.util.VideoCamera mVideoCam = null;
+    VideoCamera mVideoCam = null;
     nanoStream.VideoSourceType vsType = nanoStream.VideoSourceType.EXTERNAL;
 
 

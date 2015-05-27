@@ -1,4 +1,4 @@
-package net.nanocosmos.nanoStream.util;
+package de.schabuu.streamingappdemo;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
