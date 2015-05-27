@@ -33,25 +33,38 @@
         });
     }
 
-    function onDisconnect(client, data) {
+    function onDisconnect(client) {
         // leave all rooms
         for (var i = 0; i < client.rooms.length; i++) {
             client.leave(client.rooms[i]);
         }
         var currentPlayer = Player.getPlayer(client.id);
         currentPlayer.removePlayer();
-        console.log("current players are: " + JSON.stringify(Player.getAllPlayersAsObject()));
+        /**
+         * Success callback
+         */
+        client.emit('success_disconnection', {
+            message: "removed player",
+            player: currentPlayer,
+            players: Player.getAllPlayersAsObject()
+        });
     }
 
     function onNewPlayer(client, data) {
-        var newPlayer = new Player(client.id, data.name);
-        console.log("new Player created: " + newPlayer);
-        console.log("current players are: " + JSON.stringify(Player.getAllPlayersAsObject()));
+        var newPlayer = new Player(client.id, data.name, client);
+        /**
+         * Success callback
+         */
+        client.emit('success_new_player', {
+            message: "added player",
+            player: newPlayer,
+            players: Player.getAllPlayersAsObject()
+        });
     }
 
     function onJoinRoom(client, roomName) {
         client.join(roomName, function() {
-            client.emit("room", {
+            client.emit("success_join_room", {
                 room: roomName,
                 clientIsInRooms: client.rooms
             });

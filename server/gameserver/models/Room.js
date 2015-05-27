@@ -40,12 +40,14 @@
         return Object.keys(Room.rooms).length;
     };
 
-    /**
-     * displays a readable string of a room instance
-     * @returns {{String}} representation of this room
-     */
-    Room.prototype.toString = function() {
-        return JSON.stringify(this);
+    Room.prototype = {
+        /**
+         * displays a readable string of a room instance
+         * @returns {{String}} representation of this room
+         */
+        toString: function() {
+            return JSON.stringify(this);
+        }
     };
 
     exports.Room = Room;

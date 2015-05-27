@@ -3,17 +3,17 @@
 
     /**
      * constructor for instantiation
-     * @param id {String} a unique identifier for a player
+     * @param clientID {String} a unique identifier for a player
      * @param name {String} represents the player
      * @constructor
      */
-    function Player(id, name) {
+    function Player(clientID, name) {
         if (!Player.players) {
             Player.players = {};
         }
-        this.id = id;
+        this.id = clientID;
         this.name = name;
-        Player.players[id] = this;
+        Player.players[clientID] = this;
     }
 
     /**
@@ -54,21 +54,22 @@
         return Player.players[id];
     };
 
-    /**
-     * removes the current player
-     */
-    Player.prototype.removePlayer = function() {
-        if (Player.players.hasOwnProperty(this.id)) {
-            delete Player.players[this.id];
+    Player.prototype = {
+        /**
+         * removes the current player
+         */
+        removePlayer: function () {
+            if (Player.players.hasOwnProperty(this.id)) {
+                delete Player.players[this.id];
+            }
+        },
+        /**
+         * displays a readable string of a player instance
+         * @returns {{String}} representation of this player
+         */
+        toString: function () {
+            return JSON.stringify(this);
         }
-    };
-
-    /**
-     * displays a readable string of a player instance
-     * @returns {{String}} representation of this player
-     */
-    Player.prototype.toString = function() {
-        return JSON.stringify(this);
     };
 
     exports.Player = Player;
