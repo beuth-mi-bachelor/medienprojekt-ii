@@ -2,6 +2,20 @@ var io = require('socket.io-client'),
     assert = require("assert"),
     expect = require('expect.js');
 
+var myReporter = {
+    jasmineStarted: function(suiteInfo) {
+        console.log('Running suite with ' + suiteInfo.totalSpecsDefined + " tests:");
+    },
+    suiteStarted: function(result) {
+        console.log('  ' + result.description);
+    },
+    specStarted: function(result) {
+        console.log('    ' + result.description);
+    }
+};
+
+jasmine.getEnv().addReporter(myReporter);
+
 describe('Suite for testing game logic', function () {
     "use strict";
     var socket,
