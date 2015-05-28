@@ -31,16 +31,15 @@
     }
 
     function onDisconnect(client) {
-        // leave all rooms
-        for (var i = 0; i < client.rooms.length; i++) {
-            client.leave(client.rooms[i]);
-        }
-        var currentPlayer = Player.getPlayer(client.id);
-        currentPlayer.removePlayer();
-        client.emit('success_disconnection', {
-            message: "removed player",
-            player: currentPlayer,
-            players: Player.getAllPlayersAsObject()
+        Room.leaveAllRooms(client, function() {
+            var currentPlayer = Player.getPlayer(client.id);
+            currentPlayer.removePlayer();
+
+            client.emit('success_disconnection', {
+                message: "removed player",
+                player: currentPlayer,
+                players: Player.getAllPlayersAsObject()
+            });
         });
     }
 

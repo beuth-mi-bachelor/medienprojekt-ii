@@ -1,7 +1,12 @@
 (function() {
     "use strict";
 
-    Room.rooms = {};
+    /**
+     * global room list
+     */
+    if (!Room.rooms) {
+        Room.rooms = {};
+    }
 
     /**
      * constructor for instantiation
@@ -9,9 +14,6 @@
      * @constructor
      */
     function Room(name) {
-        if (!Room.rooms) {
-            Room.rooms = {};
-        }
         this.name = name;
         Room.rooms[name] = this;
     }
@@ -54,6 +56,11 @@
         return Room.rooms[name];
     };
 
+    /**
+     * leaves all rooms - normally a player can only be in one room
+     * @param client {{id: String}} reference to the socket
+     * @param callback {Function} callback fn
+     */
     Room.leaveAllRooms = function(client, callback) {
         for (var i = 0; i < client.rooms.length; i++) {
             if (i === client.rooms.length-1) {
@@ -69,24 +76,49 @@
         }
     };
 
+    /**
+     * switches a player between rooms
+     * @param client {{id: String}} reference to the socket
+     * @param room {Room} the room to join
+     * @param callback1 callback fn
+     * @param callback2 callback fn
+     */
+    Room.switchRoom = function(client, room, callback1, callback2) {
+        Room.leaveAllRooms(client, function() {
+            room.joinRoom(client, callback1, callback2);
+        });
+    };
+
     Room.prototype = {
-        switchRoom: function(client, room, callback) {
-            console.log(room, callback);
-            Room.leaveAllRooms(client, function() {
-                room.joinRoom(client, callback);
-            });
-        },
-        leaveRoom: function(client, callback) {
+        /**
+         * a client leaves a room
+         * @param client {{id: String}} reference to the socket
+         * @param callback1 callback fn
+         * @param callback2 callback fn
+         */
+        leaveRoom: function(client, callback1, callback2) {
             client.leave(this.name, function() {
-                if (callback) {
-                    callback();
+                if (callback1) {
+                    callback1();
+                }
+                if (callback2) {
+                    callback2();
                 }
             });
         },
-        joinRoom: function(client, callback) {
+        /**
+         * a client joins a room
+         * @param client {{id: String}} reference to the socket
+         * @param callback1 callback fn
+         * @param callback2 callback fn
+         */
+        joinRoom: function(client, callback1, callback2) {
             client.join(this.name, function() {
-                if (callback) {
-                    callback();
+                if (callback1) {
+                    callback1();
+                }
+                if (callback2) {
+                    callback2();
                 }
             });
         },
@@ -99,6 +131,10 @@
         }
     };
 
+    /**
+     * node export
+     * @type {Room}
+     */
     exports.Room = Room;
 
 }());
