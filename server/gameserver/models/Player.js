@@ -1,9 +1,15 @@
 (function() {
     "use strict";
 
+    // imports
     var Room = require("./Room").Room;
 
-    Player.players = {};
+    /**
+     * global player list
+     */
+    if (!Player.players) {
+        Player.players = {};
+    }
 
     /**
      * constructor for instantiation
@@ -12,11 +18,9 @@
      * @constructor
      */
     function Player(clientID, name) {
-        if (!Player.players) {
-            Player.players = {};
-        }
         this.id = clientID;
         this.name = name;
+        this.room = null;
         Player.players[clientID] = this;
     }
 
@@ -67,12 +71,21 @@
                 delete Player.players[this.id];
             }
         },
+        /**
+         * switches the current room
+         * @param client {{id: String}} reference to the socket
+         * @param roomName {String} name of the room
+         * @param callback {Function} callback fn
+         */
         switchRoom: function(client, roomName, callback) {
+            var self = this;
             var room = Room.getRoom(roomName);
             if (!room) {
                 room = new Room(roomName);
             }
-            room.switchRoom(client, room, callback);
+            Room.switchRoom(client, this, room, function() {
+                self.room = room;
+            }, callback);
         },
         /**
          * displays a readable string of a player instance
@@ -83,6 +96,10 @@
         }
     };
 
+    /**
+     * node export
+     * @type {Player}
+     */
     exports.Player = Player;
 
 }());

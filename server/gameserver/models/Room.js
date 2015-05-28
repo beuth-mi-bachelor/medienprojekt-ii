@@ -1,18 +1,23 @@
 (function() {
     "use strict";
 
-    Room.rooms = {};
+    /**
+     * global room list
+     */
+    if (!Room.rooms) {
+        Room.rooms = {};
+    }
 
     /**
      * constructor for instantiation
      * @param name {String} a unique name for the room
+     * @param maxPlayers {Number} number of players for this room
      * @constructor
      */
-    function Room(name) {
-        if (!Room.rooms) {
-            Room.rooms = {};
-        }
+    function Room(name, maxPlayers) {
         this.name = name;
+        this.players = {};
+        this.maxPlayers = maxPlayers || 4;
         Room.rooms[name] = this;
     }
 
@@ -54,41 +59,93 @@
         return Room.rooms[name];
     };
 
-    Room.leaveAllRooms = function(client, callback) {
+    /**
+     * leaves all rooms - normally a player can only be in one room
+     * @param client {{id: String}} reference to the socket
+     * @param player {Player} the player joining the room
+     * @param callback {Function} callback fn
+     */
+    Room.leaveAllRooms = function(client, player, callback) {
         for (var i = 0; i < client.rooms.length; i++) {
+            var currentRoom = Room.getRoom(client.rooms[i]);
+            console.log(currentRoom);
             if (i === client.rooms.length-1) {
-                client.leave(client.rooms[i], function() {
-                    if (callback) {
-                        callback();
-                    }
-                });
+                currentRoom.leaveRoom(client, player, callback, null);
             } else {
-                client.leave(client.rooms[i]);
+                currentRoom.leaveRoom(client, player, callback, null);
             }
-
         }
     };
 
+    /**
+     * switches a player between rooms
+     * @param client {{id: String}} reference to the socket
+     * @param player {Player} the player joining the room
+     * @param room {Room} the room to join
+     * @param callback1 callback fn
+     * @param callback2 callback fn
+     */
+    Room.switchRoom = function(client, player, room, callback1, callback2) {
+        Room.leaveAllRooms(client, player, function() {
+            room.joinRoom(client, player, callback1, callback2);
+        });
+    };
+
     Room.prototype = {
-        switchRoom: function(client, room, callback) {
-            console.log(room, callback);
-            Room.leaveAllRooms(client, function() {
-                room.joinRoom(client, callback);
-            });
-        },
-        leaveRoom: function(client, callback) {
+        /**
+         * a client leaves a room
+         * @param client {{id: String}} reference to the socket
+         * @param player {Player} the player joining the room
+         * @param callback1 callback fn
+         * @param callback2 callback fn
+         */
+        leaveRoom: function(client, player, callback1, callback2) {
+            var self = this;
             client.leave(this.name, function() {
-                if (callback) {
-                    callback();
+                delete self.players[player.id];
+                if (callback1) {
+                    callback1(self);
+                }
+                if (callback2) {
+                    callback2(self);
                 }
             });
         },
-        joinRoom: function(client, callback) {
+        /**
+         * a client joins a room
+         * @param client {{id: String}} reference to the socket
+         * @param player {Player} the player joining the room
+         * @param callback1 callback fn
+         * @param callback2 callback fn
+         */
+        joinRoom: function(client, player, callback1, callback2) {
+            var self = this;
             client.join(this.name, function() {
-                if (callback) {
-                    callback();
+                self.players[player.id] = true;
+                if (callback1) {
+                    callback1(self);
+                }
+                if (callback2) {
+                    callback2(self);
                 }
             });
+        },
+        /**
+         * get the number of players currently in this room
+         * @returns {Number} of players between 0 and maxPlayers for this room
+         */
+        getNumberOfPlayersInRoom: function() {
+            return Object.keys(this.players).length;
+        },
+        /**
+         * checks if the room is full with players
+         * @returns {boolean} checks if maxPlayers is exceeded
+         */
+        roomIsFull: function() {
+            if (this.name === "lobby") {
+                return false;
+            }
+            return (Object.keys(this.players).length < this.maxPlayers);
         },
         /**
          * displays a readable string of a room instance
@@ -99,6 +156,10 @@
         }
     };
 
+    /**
+     * node export
+     * @type {Room}
+     */
     exports.Room = Room;
 
 }());

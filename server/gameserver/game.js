@@ -31,20 +31,19 @@
     }
 
     function onDisconnect(client) {
-        // leave all rooms
-        for (var i = 0; i < client.rooms.length; i++) {
-            client.leave(client.rooms[i]);
-        }
         var currentPlayer = Player.getPlayer(client.id);
-        currentPlayer.removePlayer();
-        client.emit('success_disconnection', {
-            message: "removed player",
-            player: currentPlayer,
-            players: Player.getAllPlayersAsObject()
+        Room.leaveAllRooms(client, currentPlayer, function() {
+            currentPlayer.removePlayer();
+            client.emit('success_disconnection', {
+                message: "removed player",
+                player: currentPlayer,
+                players: Player.getAllPlayersAsObject()
+            });
         });
     }
 
     function onNewPlayer(client, data) {
+        var defaultRoom = new Room(client.rooms[0]);
         var newPlayer = new Player(client.id, data.name);
 
         newPlayer.switchRoom(client, "lobby", function() {
@@ -58,10 +57,9 @@
 
     function onSwitchRoom(client, room) {
         var currentPlayer = Player.getPlayer(client.id);
-        currentPlayer.switchRoom(client, room.name, function() {
+        currentPlayer.switchRoom(client, room.name, function(roomData) {
             client.emit("success_switch_room", {
-                room: room.name,
-                clientIsInRooms: client.rooms
+                room: roomData
             });
         });
     }
