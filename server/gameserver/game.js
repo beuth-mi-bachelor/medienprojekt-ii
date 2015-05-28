@@ -3,7 +3,7 @@
 
     var io = require("socket.io"),
         Player = require("./models/Player").Player,
-        Room = require("./models/Player").Room;
+        Room = require("./models/Room").Room;
 
     var socket;
 
@@ -25,11 +25,8 @@
         client.on("new_player", function(data) {
             onNewPlayer(this, data);
         });
-        client.on("join_room", function(data) {
-            onJoinRoom(this, data);
-        });
-        client.on("leave_room", function(data) {
-            onLeaveRoom(this, data);
+        client.on("switch_room", function(data) {
+            onSwitchRoom(this, data);
         });
     }
 
@@ -40,9 +37,6 @@
         }
         var currentPlayer = Player.getPlayer(client.id);
         currentPlayer.removePlayer();
-        /**
-         * Success callback
-         */
         client.emit('success_disconnection', {
             message: "removed player",
             player: currentPlayer,
@@ -51,30 +45,22 @@
     }
 
     function onNewPlayer(client, data) {
-        var newPlayer = new Player(client.id, data.name, client);
-        /**
-         * Success callback
-         */
-        client.emit('success_new_player', {
-            message: "added player",
-            player: newPlayer,
-            players: Player.getAllPlayersAsObject()
-        });
-    }
+        var newPlayer = new Player(client.id, data.name);
 
-    function onJoinRoom(client, roomName) {
-        client.join(roomName, function() {
-            client.emit("success_join_room", {
-                room: roomName,
-                clientIsInRooms: client.rooms
+        newPlayer.switchRoom(client, "lobby", function() {
+            client.emit('success_new_player', {
+                message: "added player",
+                player: newPlayer,
+                players: Player.getAllPlayersAsObject()
             });
         });
     }
 
-    function onLeaveRoom(client, roomName) {
-        client.leave(roomName, function() {
-            client.emit("room", {
-                room: roomName,
+    function onSwitchRoom(client, room) {
+        var currentPlayer = Player.getPlayer(client.id);
+        currentPlayer.switchRoom(client, room.name, function() {
+            client.emit("success_switch_room", {
+                room: room.name,
                 clientIsInRooms: client.rooms
             });
         });

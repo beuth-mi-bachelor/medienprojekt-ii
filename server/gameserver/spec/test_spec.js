@@ -43,14 +43,14 @@ describe('Suite for testing game logic', function () {
 
         });
 
-        it('joining new room', function (done) {
+        it('switching the room', function (done) {
             var room = {
                 name: "testroom"
             };
 
-            socket.emit("join_room", room);
-            socket.on('success_join_room', function (data) {
-                assert.equal(data.room.name, room.name, "room is not equal");
+            socket.emit("switch_room", room);
+            socket.on('success_switch_room', function (data) {
+                assert.equal(data.room, room.name, "room is not equal");
                 done();
             });
 

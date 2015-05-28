@@ -1,6 +1,10 @@
 (function() {
     "use strict";
 
+    var Room = require("./Room").Room;
+
+    Player.players = {};
+
     /**
      * constructor for instantiation
      * @param clientID {String} a unique identifier for a player
@@ -62,6 +66,13 @@
             if (Player.players.hasOwnProperty(this.id)) {
                 delete Player.players[this.id];
             }
+        },
+        switchRoom: function(client, roomName, callback) {
+            var room = Room.getRoom(roomName);
+            if (!room) {
+                room = new Room(roomName);
+            }
+            room.switchRoom(client, room, callback);
         },
         /**
          * displays a readable string of a player instance

@@ -1,6 +1,8 @@
 (function() {
     "use strict";
 
+    Room.rooms = {};
+
     /**
      * constructor for instantiation
      * @param name {String} a unique name for the room
@@ -40,7 +42,54 @@
         return Object.keys(Room.rooms).length;
     };
 
+    /**
+     * get a specific room by name
+     * @param name {String} unique name of room
+     * @returns {Room} an instance of the room or null if not found
+     */
+    Room.getRoom = function(name) {
+        if (!Room.rooms.hasOwnProperty(name)) {
+            return null;
+        }
+        return Room.rooms[name];
+    };
+
+    Room.leaveAllRooms = function(client, callback) {
+        for (var i = 0; i < client.rooms.length; i++) {
+            if (i === client.rooms.length-1) {
+                client.leave(client.rooms[i], function() {
+                    if (callback) {
+                        callback();
+                    }
+                });
+            } else {
+                client.leave(client.rooms[i]);
+            }
+
+        }
+    };
+
     Room.prototype = {
+        switchRoom: function(client, room, callback) {
+            console.log(room, callback);
+            Room.leaveAllRooms(client, function() {
+                room.joinRoom(client, callback);
+            });
+        },
+        leaveRoom: function(client, callback) {
+            client.leave(this.name, function() {
+                if (callback) {
+                    callback();
+                }
+            });
+        },
+        joinRoom: function(client, callback) {
+            client.join(this.name, function() {
+                if (callback) {
+                    callback();
+                }
+            });
+        },
         /**
          * displays a readable string of a room instance
          * @returns {{String}} representation of this room
