@@ -6,5 +6,6 @@
     <string name="action_320x240">320x240</string>
     <string name="action_640x360">640x360</string>
     <string name="action_640x480">640x480</string>
+    <string name="stream_button">Stream</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package net.nanocosmos.PlayerActivity;
+package net.nanocosmos.PlayerActivity.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
