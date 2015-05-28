@@ -1,64 +1,47 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="de.beuth.s768078.example.duygu.myapplication.PlayWithFriends">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="de.beuth.s768078.example.duygu.myapplication.PlayAlone"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:layout_weight="10.0"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/create"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="#ff4c9a3c"
+        android:text="Create"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffffff"
+        android:gravity="center"
+        android:layout_weight="2.5"/>
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5">
+        <TextView
+            android:id="@+id/join"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent">
+            android:background="#ff5b80c2"
+            android:gravity="center"
+            android:text="Join"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffffff"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/back_button"/>
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/join"
-                android:layout_width="match_parent"
-                android:layout_height="255dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="#ff4c9a3c"
-                android:gravity="center"
-                android:text="JOIN"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffffff"
-                android:textSize="@android:dimen/app_icon_size" />
-
-            <TextView
-                android:id="@+id/create"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:background="#ff5b80c2"
-                android:gravity="center"
-                android:text="CREATE"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffffff"
-                android:textSize="@android:dimen/app_icon_size" />
-
-            <Button
-                android:id="@+id/back_button"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:background="#ffe6c78e"
-                android:gravity="center"
-                android:text="back"
-                android:textColor="#ffffffff"
-                android:textSize="30sp" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
