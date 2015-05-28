@@ -83,9 +83,9 @@
             if (!room) {
                 room = new Room(roomName);
             }
-            Room.switchRoom(client, room, callback, function() {
+            Room.switchRoom(client, this, room, function() {
                 self.room = room;
-            });
+            }, callback);
         },
         /**
          * displays a readable string of a player instance
