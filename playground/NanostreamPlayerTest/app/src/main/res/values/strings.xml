@@ -14,6 +14,8 @@
     <string name="play_w_friends">PLAY WITH FRIENDS</string>
     <string name="play_alone">PLAY</string>
 
+    <string name="player_name">Player Name</string>
+
     <string name="title_activity_gamesreen_activity_av">GamesreenActivityAV</string>
     <string name="title_activity_game_screen_guesser">GameScreenGuesser</string>
 
