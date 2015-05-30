@@ -284,8 +284,7 @@
             android:layout_weight="1.0"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:padding="2dp"
-            android:weightSum="7">
+            android:padding="2dp">
 
             <Button
                 android:id="@+id/buttonRenew"
