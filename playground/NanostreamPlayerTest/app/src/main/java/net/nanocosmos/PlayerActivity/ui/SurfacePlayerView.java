@@ -28,8 +28,8 @@ public class SurfacePlayerView extends SurfaceView {
         int viewHeight = MeasureSpec.getSize(heightMeasureSpec);
 
         // TODO: Get aspect ratio from stream
-        int videoWidth = 16;
-        int videoHeight = 9;
+        int videoWidth = 20;
+        int videoHeight = 18;
         double aspectScreen = (double) viewWidth / (double) viewHeight;
         double aspectVideo = (double) videoWidth / (double) videoHeight;
 
