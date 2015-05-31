@@ -51,9 +51,8 @@ describe('Suite for testing game logic', function () {
 
             client1.emit("switch_room", room);
 
-            client1.on('success_switch_room', function (data) {
-                console.log(data);
-                assert.equal(data.room.name, room.name, "room is not equal");
+            client1.on('update_room', function (newRoom) {
+                assert.equal(newRoom.name, room.name, "room is not equal");
                 done();
             });
 
@@ -84,13 +83,31 @@ describe('Suite for testing game logic', function () {
                 name: "testroom"
             };
 
+            var allBroadcasted = {
+                first: false,
+                second: false
+            };
+
             client2.emit("switch_room", room);
 
-            client2.on('success_switch_room', function (data) {
+            client1.on('update_room', function (data) {
                 console.log(data);
-                assert.equal(data.room.name, room.name, "room is not equal");
-                done();
+                // ONLY FOR ASYNC TESTING
+                allBroadcasted.first = true;
             });
+
+            client2.on('update_room', function (data) {
+                console.log(data);
+                // ONLY FOR ASYNC TESTING
+                allBroadcasted.second = true;
+            });
+
+            var check = setInterval(function() {
+                if (allBroadcasted.first && allBroadcasted.second) {
+                    clearInterval(check);
+                    done();
+                }
+            }, 10);
 
         });
 

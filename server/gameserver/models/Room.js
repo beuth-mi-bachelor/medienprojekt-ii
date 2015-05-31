@@ -145,7 +145,7 @@
             if (this.name === "lobby") {
                 return false;
             }
-            return (Object.keys(this.players).length < this.maxPlayers);
+            return (this.getNumberOfPlayersInRoom() < this.maxPlayers);
         },
         /**
          * displays a readable string of a room instance
