@@ -110,7 +110,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_a"
                 android:textColor="@drawable/lettercolor" />
 
@@ -120,7 +119,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_s"
                 android:textColor="@drawable/lettercolor" />
 
@@ -130,7 +128,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_d"
                 android:textColor="@drawable/lettercolor" />
 
@@ -140,7 +137,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_f"
                 android:textColor="@drawable/lettercolor" />
 
@@ -150,7 +146,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_g"
                 android:textColor="@drawable/lettercolor" />
 
@@ -160,7 +155,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_h"
                 android:textColor="@drawable/lettercolor" />
 
@@ -170,7 +164,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_j"
                 android:textColor="@drawable/lettercolor" />
 
@@ -180,7 +173,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_k"
                 android:textColor="@drawable/lettercolor" />
 
@@ -190,7 +182,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_l"
                 android:textColor="@drawable/lettercolor" />
         </LinearLayout>
@@ -211,7 +202,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_y"
                 android:textColor="@drawable/lettercolor" />
 
@@ -221,7 +211,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_x"
                 android:textColor="@drawable/lettercolor" />
 
@@ -231,7 +220,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_c"
                 android:textColor="@drawable/lettercolor" />
 
@@ -241,7 +229,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_v"
                 android:textColor="@drawable/lettercolor" />
 
@@ -261,7 +248,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_n"
                 android:textColor="@drawable/lettercolor" />
 
@@ -271,7 +257,6 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buttoncolor1"
-                android:onClick="clickLetter"
                 android:text="@string/button_letter_m"
                 android:textColor="@drawable/lettercolor" />
 
@@ -294,7 +279,6 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
                 android:background="@drawable/buttonrenew"
-                android:onClick="deleteAllLetters"
                 android:text="@string/Renew"
                 android:textColor="@drawable/lettercolor" />
 
@@ -306,7 +290,6 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginLeft="2dp"
                 android:background="@drawable/buttondelete"
-                android:onClick="deleteLastLetter"
                 android:text="@string/Delete"
                 android:textColor="@drawable/lettercolor" />
         </LinearLayout>

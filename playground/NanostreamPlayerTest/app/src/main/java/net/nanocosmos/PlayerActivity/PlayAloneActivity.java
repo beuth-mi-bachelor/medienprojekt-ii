@@ -18,26 +18,19 @@ public class PlayAloneActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_alone);
 
-        View playAloneView= findViewById(R.id.back_button);
-        playAloneView.setOnClickListener(new View.OnClickListener() {
+        View backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(PlayAloneActivity.this, MainMenuActivity.class));
             }
         });
 
-        Thread timerThread = new Thread(){
-            public void run(){
-                try{
-                    sleep(3000);
-                }catch(InterruptedException e){
-                    e.printStackTrace();
-                }finally{
-                    Intent i = new Intent("net.nanocosmos.PlayerActivity.GameActivity");
-                    startActivity(i);
-                }
+        View playAloneView = findViewById(R.id.play_alone_screen);
+        playAloneView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(PlayAloneActivity.this, GameActivity.class));
             }
-        };
-        timerThread.start();
+        });
     }
 
     @Override
