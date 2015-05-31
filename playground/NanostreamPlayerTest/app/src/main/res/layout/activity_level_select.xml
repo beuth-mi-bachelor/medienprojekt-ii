@@ -1,54 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:weightSum="1"
-    android:id="@+id/levelLayout">
-
+    android:layout_width="fill_parent"
+    android:layout_weight="10.0"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/choose_Level"
         android:id="@+id/chooseLevel"
-        android:layout_weight="0.24"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:background="#ff4c9a3c"
-        android:textColor="@drawable/lettercolor"
-        android:textSize="@android:dimen/app_icon_size"
-        android:gravity="center" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffffff"
+        android:layout_weight="2.5"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/level_easy"
         android:id="@+id/level_easy"
-        android:layout_weight="0.24"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="#ff5b80c2"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffffff"
         android:gravity="center"
-        android:background="#fffedfa5"
-        android:textStyle="bold" />
+        android:layout_weight="2.5"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/level_middle"
         android:id="@+id/level_middle"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.24"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:background="#87728bcd"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="383dp"
-        android:layout_height="wrap_content"
+        android:background="#fffedfa5"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/level_heavy"
-        android:id="@+id/level_heavy"
-        android:layout_gravity="right"
-        android:layout_weight="0.24"
-        android:gravity="center"
-        android:background="#fffe6a33"
-        android:textStyle="bold" />
+        android:textColor="#ffffffff"
+        android:layout_weight="2.5"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5">
+        <TextView
+            android:id="@+id/level_heavy"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="#fffe6a33"
+            android:gravity="center"
+            android:text="@string/level_heavy"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffffff"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/back_button"/>
+    </RelativeLayout>
 </LinearLayout>
