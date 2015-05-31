@@ -103,6 +103,8 @@
             var self = this;
             client.leave(this.name, function() {
                 delete self.players[player.id];
+                console.log("**************");
+                console.log(self);
                 if (callback1) {
                     callback1(self);
                 }
@@ -121,7 +123,7 @@
         joinRoom: function(client, player, callback1, callback2) {
             var self = this;
             client.join(this.name, function() {
-                self.players[player.id] = true;
+                self.players[player.id] = player.name;
                 if (callback1) {
                     callback1(self);
                 }

@@ -55,8 +55,13 @@
 
     function onSwitchRoom(client, room) {
         var currentPlayer = Player.getPlayer(client.id);
+        var oldRoom = currentPlayer.room;
         currentPlayer.switchRoom(client, room.name, function(roomData) {
             socket.sockets.in(room.name).emit('update_room', roomData);
+            console.log("-------------------");
+            console.log(oldRoom);
+            socket.sockets.in(oldRoom.name).emit('update_room', oldRoom);
+
         });
     }
 
