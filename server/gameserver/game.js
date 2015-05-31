@@ -36,8 +36,7 @@
             currentPlayer.removePlayer();
             client.emit('success_disconnection', {
                 message: "removed player",
-                player: currentPlayer,
-                players: Player.getAllPlayersAsObject()
+                player: currentPlayer
             });
         });
     }
@@ -49,8 +48,7 @@
         newPlayer.switchRoom(client, "lobby", function() {
             client.emit('success_new_player', {
                 message: "added player",
-                player: newPlayer,
-                players: Player.getAllPlayersAsObject()
+                player: newPlayer
             });
         });
     }

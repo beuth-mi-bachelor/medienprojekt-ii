@@ -156,7 +156,7 @@ describe('Suite for testing game logic', function () {
             console.log('disconnecting...');
             client1.emit("disconnection");
             client1.on('success_disconnection', function (data) {
-                console.log("removed player: " + JSON.stringify(data.player.name) + "\nplayers online: " + JSON.stringify(data.players));
+                console.log("removed player: " + JSON.stringify(data.player));
                 client1.disconnect();
                 done();
             });
@@ -171,7 +171,7 @@ describe('Suite for testing game logic', function () {
             console.log('disconnecting...');
             client2.emit("disconnection");
             client2.on('success_disconnection', function (data) {
-                console.log("removed player: " + JSON.stringify(data.player.name) + "\nplayers online: " + JSON.stringify(data.players));
+                console.log("removed player: " + JSON.stringify(data.player));
                 client2.disconnect();
                 done();
             });
