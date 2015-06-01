@@ -1,4 +1,4 @@
-package net.nanocosmos.PlayerActivity;
+package net.nanocosmos.PlayerActivity.activitys;
 
 import android.app.Activity;
 import android.content.Intent;

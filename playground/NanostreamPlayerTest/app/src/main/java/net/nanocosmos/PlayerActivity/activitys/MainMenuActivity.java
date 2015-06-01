@@ -1,4 +1,4 @@
-package net.nanocosmos.PlayerActivity;
+package net.nanocosmos.PlayerActivity.activitys;
 
 /**
  * Created by angi on 31.05.15.
@@ -36,7 +36,7 @@ public class MainMenuActivity extends Activity {
         View settingsView= findViewById(R.id.settings);
         settingsView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, SettingsView.class));
+                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
             }
         });
 

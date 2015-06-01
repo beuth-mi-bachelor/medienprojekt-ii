@@ -1,4 +1,4 @@
-package net.nanocosmos.PlayerActivity;
+package net.nanocosmos.PlayerActivity.activitys;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
