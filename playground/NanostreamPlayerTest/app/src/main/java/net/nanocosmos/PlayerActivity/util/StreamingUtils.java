@@ -1,8 +1,9 @@
 package net.nanocosmos.PlayerActivity.util;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
-import android.view.SurfaceHolder;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -10,14 +11,16 @@ import android.widget.Toast;
 import net.nanocosmos.PlayerActivity.ui.SurfacePlayerView;
 import net.nanocosmos.nanoStream.streamer.AdaptiveBitrateControlSettings;
 import net.nanocosmos.nanoStream.streamer.Logging;
+import net.nanocosmos.nanoStream.streamer.NanostreamEvent;
+import net.nanocosmos.nanoStream.streamer.NanostreamEventListener;
 import net.nanocosmos.nanoStream.streamer.NanostreamException;
 import net.nanocosmos.nanoStream.streamer.nanoStream;
 
 /**
  * Created by Sprotte on 01.06.15.
  */
-public class StreamingUtils {
-    private RecievingUtils.RetainedFragment dataFragment;
+public class StreamingUtils extends Activity implements NanostreamEventListener {
+    private RecievingUtils.RetainedFragment dataFragment ;
     //Sending Attributes
     private nanoStream streamLib;
     private int width = 640;
@@ -31,12 +34,13 @@ public class StreamingUtils {
     private VideoCamera mVideoCam = null;
     private nanoStream.VideoSourceType vsType = nanoStream.VideoSourceType.EXTERNAL;
     private SharedPreferences getPrefs;
+    private Context context;
 
     private static final String LOG_TAG = "StreamingUtilsActivity";
 
-    public StreamingUtils(RecievingUtils.RetainedFragment dataFragment,String license,String authUser,String authPass,SurfacePlayerView surface) {
+    public StreamingUtils(RecievingUtils.RetainedFragment dataFragment,String license,String authUser,String authPass,SurfacePlayerView surfacePlayerView,Context context) {
         this.dataFragment = dataFragment;
-
+        this.context = context;
         loadPreferences();
 
         AdaptiveBitrateControlSettings abcSettings = new AdaptiveBitrateControlSettings(abcMode);
@@ -44,14 +48,14 @@ public class StreamingUtils {
 
         try
         {
-            streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surface.getHolder(), 2, license, serverUrl, streamName, authUser, authPass,
-                    this, abcSettings, logSettings);
-            mVideoCam = new VideoCamera(width, height, FRAME_RATE, surface.getHolder());
+            streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surfacePlayerView.getHolder(), 2, license, serverUrl, streamName, authUser, authPass,
+                    (net.nanocosmos.nanoStream.streamer.NanostreamEventListener) this, abcSettings, logSettings);
+            mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
             mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
             streamLib.setVideoSource(mVideoCam);
         } catch (NanostreamException en)
         {
-            Toast.makeText(getApplicationContext(), en.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, en.toString(), Toast.LENGTH_LONG).show();
         }
         try
         {
@@ -61,7 +65,7 @@ public class StreamingUtils {
             }
         } catch (NanostreamException en)
         {
-            Toast.makeText(getApplicationContext(), en.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, en.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -97,4 +101,28 @@ public class StreamingUtils {
 
 
     }
+
+    @Override
+    public void onNanostreamEvent(NanostreamEvent nanostreamEvent) {
+        this.runOnUiThread(new NotificationRunable(nanostreamEvent));
+    }
+    private class NotificationRunable implements Runnable
+    {
+        private NanostreamEvent m_event;
+
+        public NotificationRunable(NanostreamEvent event)
+        {
+            m_event = event;
+        }
+
+        @Override
+        public void run()
+        {
+            if (m_event.GetType() != NanostreamEvent.TYPE_RTMP_QUALITY)
+            {
+                Toast.makeText(context, m_event.GetDescription(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }
