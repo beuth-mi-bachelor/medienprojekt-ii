@@ -39,6 +39,6 @@ public class GameActivity extends Activity  {
         surfaceView.getHolder().addCallback(utils.GetPlayer());
         utils.StartPlayer();
         */
-        StreamingUtils blub = new StreamingUtils(license_stream,authUser,authPass,(SurfacePlayerView) findViewById(R.id.view),getApplicationContext());
+        StreamingUtils blub = new StreamingUtils(serverUrl,streamName,license_stream,authUser,authPass,(SurfacePlayerView) findViewById(R.id.view),getApplicationContext());
     }
 }
