@@ -1,7 +1,5 @@
 package de.beuth.schabuu.socketioclient;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,19 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.net.URISyntaxException;
 import java.util.Iterator;
-import java.util.Objects;
-
 
 public class TestConnectionActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -94,21 +86,18 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
             case R.id.button_disconnect:
                 System.out.println("pressed disconnect button");
                 if (socket != null) {
-                    socket.emit("disconnection");
+                    sEmit("disconnection", null);
                     socket.disconnect();
                 }
                 break;
             case R.id.button_join:
-                if (socket == null || !socket.connected()) {
-                    connect();
+                JSONObject room = new JSONObject();
+                try {
+                    room.put("name", roomName.getText());
+                } catch(JSONException ex) {
+                    System.err.println(ex.getMessage());
                 }
-                    JSONObject room = new JSONObject();
-                    try {
-                        room.put("name", roomName.getText());
-                    } catch(JSONException ex) {
-                        System.err.println(ex.getMessage());
-                    }
-                socket.emit("switch_room", room);
+                sEmit("switch_room", room);
                 break;
         }
     }
@@ -188,7 +177,7 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
             } catch (JSONException e) {
                 System.err.println(e.getMessage());
             }
-            socket.emit("new_player", playerData);
+            sEmit("new_player", playerData);
         }
     };
 
@@ -208,6 +197,12 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
                 text.append(value);
             }
         });
+    }
+
+    public static void sEmit(String event, JSONObject obj){
+        if(socket.connected()){
+            socket.emit(event, obj);
+        }
     }
 
 }

@@ -1,0 +1,16 @@
+<h1>Rooms</h1>
+{{#each rooms}}
+    <div>
+        <h2>{{this.name}}</h2>
+        <ul>
+        {{#each this.players}}
+            <li>{{this}}</li>
+        {{/each}}
+        </ul>
+    </div>
+{{/each}}
+<script>
+    window.setInterval(function() {
+        location.reload();
+    }, 1000);
+</script>

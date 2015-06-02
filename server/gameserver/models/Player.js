@@ -83,6 +83,11 @@
             if (!room) {
                 room = new Room(roomName);
             }
+            if (room.isFull()) {
+                console.log("room was full");
+                client.emit("room_full", room);
+                return;
+            }
             Room.switchRoom(client, this, room, function() {
                 self.room = room;
             }, callback);

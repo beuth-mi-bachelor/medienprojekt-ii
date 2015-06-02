@@ -68,7 +68,6 @@
     Room.leaveAllRooms = function(client, player, callback) {
         for (var i = 0; i < client.rooms.length; i++) {
             var currentRoom = Room.getRoom(client.rooms[i]);
-            console.log(currentRoom);
             if (i === client.rooms.length-1) {
                 currentRoom.leaveRoom(client, player, callback, null);
             } else {
@@ -103,8 +102,9 @@
             var self = this;
             client.leave(this.name, function() {
                 delete self.players[player.id];
-                console.log("**************");
-                console.log(self);
+                if (self.isEmpty()) {
+                    self.remove();
+                }
                 if (callback1) {
                     callback1(self);
                 }
@@ -143,11 +143,31 @@
          * checks if the room is full with players
          * @returns {boolean} checks if maxPlayers is exceeded
          */
-        roomIsFull: function() {
+        isFull: function() {
             if (this.name === "lobby") {
                 return false;
             }
-            return (this.getNumberOfPlayersInRoom() < this.maxPlayers);
+            return !(this.getNumberOfPlayersInRoom() < this.maxPlayers);
+        },
+        /**
+         * checks if the room is empty
+         * @returns {boolean} checks if currentPlayers is zero
+         */
+        isEmpty: function() {
+            if (this.name === "lobby") {
+                return false;
+            }
+            return !this.getNumberOfPlayersInRoom();
+        },
+        /**
+         * removes given room
+         */
+        remove: function() {
+            if (this.name === "lobby") {
+                return;
+            }
+            Room.rooms[this.name] = {};
+            delete Room.rooms[this.name];
         },
         /**
          * displays a readable string of a room instance

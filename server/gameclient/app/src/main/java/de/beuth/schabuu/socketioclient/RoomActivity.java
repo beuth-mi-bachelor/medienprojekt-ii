@@ -7,33 +7,49 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class RoomActivity extends ActionBarActivity implements View.OnClickListener {
 
     Context context;
     Button lobby;
+    ListView playerView;
 
+    ArrayAdapter<String> adapter;
+    ArrayList<String> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rooms);
 
+        TestConnectionActivity.socket.on("room_list", onRoomList);
+        TestConnectionActivity.sEmit("get_rooms", null);
+
         lobby = (Button) findViewById(R.id.lobby);
         lobby.setOnClickListener(this);
+
+        playerView = (ListView) findViewById(R.id.listView);
+        arrayList = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList);
+        playerView.setAdapter(adapter);
 
         context = this.getApplicationContext();
 
@@ -70,6 +86,32 @@ public class RoomActivity extends ActionBarActivity implements View.OnClickListe
     }
 
 
+    private Emitter.Listener onRoomList = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+
+            JSONObject rooms = (JSONObject) args[0];
+
+            try {
+                Iterator x = rooms.keys();
+                while (x.hasNext()) {
+                    String key = (String) x.next();
+                    JSONObject currentRoom = (JSONObject) rooms.get(key);
+                    arrayList.add((String) currentRoom.get("name"));
+                }
+            } catch (JSONException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+    };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -102,7 +144,7 @@ public class RoomActivity extends ActionBarActivity implements View.OnClickListe
                 } catch(JSONException ex) {
                     System.err.println(ex.getMessage());
                 }
-                TestConnectionActivity.socket.emit("switch_room", room);
+                TestConnectionActivity.sEmit("switch_room", room);
                 System.out.println(room.toString());
                 Intent intent = new Intent(RoomActivity.this, TestConnectionActivity.class);
                 RoomActivity.this.startActivity(intent);

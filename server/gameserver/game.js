@@ -2,15 +2,31 @@
     "use strict";
 
     var io = require("socket.io"),
+        express = require("express"),
+        expressHbs = require('express3-handlebars'),
         Player = require("./models/Player").Player,
         Room = require("./models/Room").Room;
 
-    var socket;
+    var socket,
+        app = express();
+
+    app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'room.hbs'}));
+    app.set('view engine', 'hbs');
+    app.locals.layout = false;
 
     var PORT = 1337;
 
+    app.get('/debug', function (req, res) {
+        var allRooms = Room.getAllRoomsAsArray();
+        res.render('room', {
+            rooms: allRooms
+        });
+    });
+
     function init() {
         socket = io.listen(PORT);
+        // TODO: Disable logging when done
+        app.listen(8888);
         setEventHandlers();
     }
 
@@ -27,6 +43,9 @@
         });
         client.on("switch_room", function(data) {
             onSwitchRoom(this, data);
+        });
+        client.on("get_rooms", function() {
+            onGetRooms(this);
         });
     }
 
@@ -58,11 +77,12 @@
         var oldRoom = currentPlayer.room;
         currentPlayer.switchRoom(client, room.name, function(roomData) {
             socket.sockets.in(room.name).emit('update_room', roomData);
-            console.log("-------------------");
-            console.log(oldRoom);
             socket.sockets.in(oldRoom.name).emit('update_room', oldRoom);
-
         });
+    }
+
+    function onGetRooms(client) {
+        client.emit("room_list", Room.getAllRoomsAsObject());
     }
 
     init();
