@@ -20,5 +20,6 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.github.nkzawa:socket.io-client:0.5.0'
     compile files('libs/net.nanocosmos.nanoStream.jar')
 }

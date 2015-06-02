@@ -5,24 +5,45 @@ package de.beuth_hochschule.Schabuu.activitys;
  */
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+import java.util.Iterator;
 
 import de.beuth_hochschule.Schabuu.R;
 
 public class MainMenuActivity extends Activity {
 
+    //Server config
+    public static final String SERVER_ADDRESS = "192.168.1.101";
+    public static final int PORT_NUMBER = 1337;
+
+    public static com.github.nkzawa.socketio.client.Socket socket;
+
+    String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+
+        getUserNameAlert();
+
         setContentView(R.layout.activity_main_menu);
 
         View playAloneView= findViewById(R.id.play_alone);
         playAloneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, PlayAloneActivity.class));
+                startActivity(new Intent(MainMenuActivity.this, RoomActivity.class));
             }
         });
 
@@ -44,9 +65,128 @@ public class MainMenuActivity extends Activity {
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         finish();
+    }
+
+
+    private void connectToServer() {
+
+        if (socket == null) {
+            try {
+                socket = IO.socket("http://" + SERVER_ADDRESS + ":" + PORT_NUMBER);
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT, onConnect);
+        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT_ERROR, onConnectError);
+        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_DISCONNECT, onDisconnect);
+        socket.on("update_room", onRoomEvent);
+        socket.connect();
+    }
+
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Connected!");
+            JSONObject playerData = new JSONObject();
+            try {
+                playerData.put("name", username);
+            } catch (JSONException e) {
+                System.err.println(e.getMessage());
+            }
+            sEmit("new_player", playerData);
+        }
+    };
+
+    private Emitter.Listener onConnectError = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            System.out.println("ERROR!");
+            System.out.println(args[0].toString());
+        }
+    };
+
+    private Emitter.Listener onDisconnect = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            System.out.println("Disconnected!");
+
+        }
+    };
+
+    public static void sEmit(String event, JSONObject obj){
+        if(socket.connected()){
+            socket.emit(event, obj);
+        }
+    }
+
+    private Emitter.Listener onRoomEvent = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            JSONObject roomData = (JSONObject) args[0];
+            JSONObject players;
+
+            try {
+                players = (JSONObject) roomData.get("players");
+                Iterator x = players.keys();
+                int i = 0;
+
+                String roomName = (String) roomData.get("name");
+
+                if (!roomName.equals("lobby")) {
+                    Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
+                    while (x.hasNext()) {
+                        String key = (String) x.next();
+
+                        i++;
+                        intent.putExtra(("player" + i), (String) players.get(key));
+                    }
+                    intent.putExtra(("roomName"), roomName);
+                    MainMenuActivity.this.startActivity(intent);
+                }
+
+            } catch (JSONException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+        }
+    };
+
+    private void getUserNameAlert(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Set Name");
+        alert.setMessage("Please enter your name");
+
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                username = input.getText().toString();
+                if (socket == null || !socket.connected()) {
+                    connectToServer();
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //TO DO random name generator or cant play without name
+                username = "Random";
+                if (socket == null || !socket.connected()) {
+                    connectToServer();
+                }
+            }
+        });
+
+        alert.show();
     }
 
 }

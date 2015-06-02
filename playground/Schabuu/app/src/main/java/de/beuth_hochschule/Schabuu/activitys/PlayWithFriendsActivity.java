@@ -63,11 +63,11 @@ public class PlayWithFriendsActivity extends Activity {
                 switch (type){
                     case CREATE:
                         //TO DO CREATE ROOM LOGIC
-                        startActivity(new Intent(PlayWithFriendsActivity.this, PlayAloneActivity.class));
+                        startActivity(new Intent(PlayWithFriendsActivity.this, RoomActivity.class));
                         break;
                     case JOIN:
                         //TO DO ADD FIND ROOM LOGIC
-                        startActivity(new Intent(PlayWithFriendsActivity.this, PlayAloneActivity.class));
+                        startActivity(new Intent(PlayWithFriendsActivity.this, RoomActivity.class));
                         break;
                 }
 

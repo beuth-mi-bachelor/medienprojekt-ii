@@ -38,7 +38,7 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name="de.beuth_hochschule.Schabuu.activitys.PlayAloneActivity"
+        <activity android:name=".activitys.RoomActivity"
                   android:label="@string/app_name" >
         </activity>
         <activity android:name="de.beuth_hochschule.Schabuu.activitys.PlayWithFriendsActivity"
