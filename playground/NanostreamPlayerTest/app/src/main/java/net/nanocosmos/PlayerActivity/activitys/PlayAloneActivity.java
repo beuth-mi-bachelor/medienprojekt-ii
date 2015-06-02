@@ -25,10 +25,17 @@ public class PlayAloneActivity extends Activity {
             }
         });
 
-        View playAloneView = findViewById(R.id.play_alone_screen);
-        playAloneView.setOnClickListener(new View.OnClickListener() {
+        View playerOneView = findViewById(R.id.player_one);
+        playerOneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(PlayAloneActivity.this, GameActivity.class));
+            }
+        });
+
+        View playerTwoView = findViewById(R.id.player_two);
+        playerTwoView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(PlayAloneActivity.this, GameAvActivity.class));
             }
         });
     }
