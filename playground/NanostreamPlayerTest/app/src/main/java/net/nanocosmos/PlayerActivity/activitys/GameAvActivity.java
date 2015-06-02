@@ -7,6 +7,7 @@ import android.view.WindowManager;
 import net.nanocosmos.NanostreamPlayerTest.R;
 import net.nanocosmos.PlayerActivity.ui.SurfacePlayerView;
 import net.nanocosmos.PlayerActivity.util.RecievingUtils;
+import net.nanocosmos.PlayerActivity.util.StreamingUtils;
 
 public class GameAvActivity extends Activity  {
 
@@ -28,10 +29,8 @@ public class GameAvActivity extends Activity  {
 
         setContentView(R.layout.activity_game_screen_guesser);
 
-        RecievingUtils utils = new RecievingUtils(this,license,strStreamUrl,strStreamname,authUser,authPass);
-        SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
-        surfaceView.getHolder().addCallback(utils.GetPlayer());
-        utils.StartPlayer();
+
+        StreamingUtils utils = new StreamingUtils(license,authUser,authPass,null,getApplicationContext());
 
     }
 }
