@@ -30,7 +30,9 @@ public class GameAvActivity extends Activity  {
         setContentView(R.layout.activity_gamescreen_av);
 
 
-        StreamingUtils blub = new StreamingUtils(serverUrl,streamName,license_stream,authUser,authPass,(SurfacePlayerView) findViewById(R.id.view),getApplicationContext());
-
+        StreamingUtils utils = new StreamingUtils(serverUrl,streamName,license_stream,authUser,authPass,(SurfacePlayerView) findViewById(R.id.view),getApplicationContext());
+        utils.toggleStreaming();
     }
+
+
 }
