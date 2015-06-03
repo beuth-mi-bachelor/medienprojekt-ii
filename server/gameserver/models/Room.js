@@ -66,14 +66,20 @@
      * @returns {String} an room not filled yet or a generated name
      */
     Room.getRandomRoomName = function() {
-        var allRooms = Room.getAllNonFilledRooms(),
-            randomIndex = Math.floor(Math.random() * allRooms.length);
+        var allRooms = Room.getAllNonFilledRooms();
+
+        // sort by number of players in room
+        allRooms.sort(function(a, b){
+            return Object.keys(a.players).length > Object.keys(b.players).length;
+        });
+
+        console.log(allRooms);
 
         // if no rooms found: create one
         if (allRooms.length === 0) {
             return "room-" + new Date().getTime();
         }
-        return allRooms[randomIndex].name;
+        return allRooms[0].name;
     };
 
     /**
@@ -86,7 +92,7 @@
         delete allRooms["lobby"];
         for (var room in allRooms) {
             if (allRooms.hasOwnProperty(room)) {
-                var currentRoom = allRooms[room];
+                var currentRoom = Room.getRoom(allRooms[room].name);
                 if (!currentRoom.isFull()) {
                     allEmptyRooms.push(currentRoom);
                 }
