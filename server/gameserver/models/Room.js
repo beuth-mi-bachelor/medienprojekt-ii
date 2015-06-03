@@ -12,10 +12,12 @@
      * constructor for instantiation
      * @param name {String} a unique name for the room
      * @param maxPlayers {Number} number of players for this room
+     * @param password {String} for accessing the room
      * @constructor
      */
-    function Room(name, maxPlayers) {
+    function Room(name, maxPlayers, password) {
         this.name = name;
+        this.password = password || "";
         this.players = {};
         this.maxPlayers = maxPlayers || 4;
         Room.rooms[name] = this;
