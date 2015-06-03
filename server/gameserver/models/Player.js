@@ -80,6 +80,8 @@
         switchRoom: function(client, roomName, callback) {
             var self = this;
             var room = Room.getRoom(roomName);
+
+            console.log(room);
             if (!room) {
                 room = new Room(roomName);
             }

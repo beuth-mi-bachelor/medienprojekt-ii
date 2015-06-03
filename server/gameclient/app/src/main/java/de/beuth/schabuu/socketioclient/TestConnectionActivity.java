@@ -3,6 +3,7 @@ package de.beuth.schabuu.socketioclient;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,13 +20,14 @@ import java.util.Iterator;
 
 public class TestConnectionActivity extends ActionBarActivity implements View.OnClickListener {
 
-    public static final String SERVER_ADDRESS = "141.64.162.140";
+    public static final String SERVER_ADDRESS = "192.168.1.102";
     public static final int PORT_NUMBER = 1337;
 
     public static Socket socket;
     Button connect;
     Button disconnect;
     Button goToRoom;
+    Button randRoom;
     EditText roomName;
     EditText name;
     TextView log;
@@ -39,6 +41,7 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
         name = (EditText) findViewById(R.id.input_name);
 
         log = (TextView) findViewById(R.id.text_view);
+        log.setMovementMethod(new ScrollingMovementMethod());
 
         connect = (Button) findViewById(R.id.button_connect);
         connect.setOnClickListener(this);
@@ -48,6 +51,9 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
 
         goToRoom = (Button) findViewById(R.id.button_join);
         goToRoom.setOnClickListener(this);
+
+        randRoom = (Button) findViewById(R.id.button_rand_room);
+        randRoom.setOnClickListener(this);
 
     }
 
@@ -99,6 +105,10 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
                 }
                 sEmit("switch_room", room);
                 break;
+            case R.id.button_rand_room:
+                sEmit("get_random_room", null);
+
+                break;
         }
     }
 
@@ -117,6 +127,7 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         socket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         socket.on("update_room", onRoomEvent);
+        socket.on("receive_random_room", onRandRoomEvent);
 
         socket.connect();
     }
@@ -153,6 +164,24 @@ public class TestConnectionActivity extends ActionBarActivity implements View.On
             } catch (JSONException ex) {
                 System.err.println(ex.getMessage());
             }
+
+        }
+    };
+
+    private Emitter.Listener onRandRoomEvent = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            setText(log, "room received!\n");
+
+            final String roomData = (String) args[0];
+            setText(log, roomData + "\n");
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    roomName.setText(roomData);
+                }
+            });
 
         }
     };

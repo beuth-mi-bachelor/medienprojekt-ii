@@ -62,6 +62,40 @@
     };
 
     /**
+     * get a random room name, which is not full
+     * @returns {String} an room not filled yet or a generated name
+     */
+    Room.getRandomRoomName = function() {
+        var allRooms = Room.getAllNonFilledRooms(),
+            randomIndex = Math.floor(Math.random() * allRooms.length);
+
+        // if no rooms found: create one
+        if (allRooms.length === 0) {
+            return "room-" + new Date().getTime();
+        }
+        return allRooms[randomIndex].name;
+    };
+
+    /**
+     * get all rooms that are not filled yet
+     * @returns {[Room]} a list of rooms
+     */
+    Room.getAllNonFilledRooms = function() {
+        var allRooms = JSON.parse( JSON.stringify( Room.getAllRoomsAsObject() ) ),
+            allEmptyRooms = [];
+        delete allRooms["lobby"];
+        for (var room in allRooms) {
+            if (allRooms.hasOwnProperty(room)) {
+                var currentRoom = allRooms[room];
+                if (!currentRoom.isFull()) {
+                    allEmptyRooms.push(currentRoom);
+                }
+            }
+        }
+        return allEmptyRooms;
+    };
+
+    /**
      * leaves all rooms - normally a player can only be in one room
      * @param client {{id: String}} reference to the socket
      * @param player {Player} the player joining the room

@@ -47,6 +47,9 @@
         client.on("get_rooms", function() {
             onGetRooms(this);
         });
+        client.on("get_random_room", function() {
+            onGetRandomRoom(this);
+        });
     }
 
     function onDisconnect(client) {
@@ -70,6 +73,10 @@
                 player: newPlayer
             });
         });
+    }
+
+    function onGetRandomRoom(client) {
+        client.emit("receive_random_room", Room.getRandomRoomName());
     }
 
     function onSwitchRoom(client, room) {

@@ -62,21 +62,31 @@
             android:layout_below="@+id/input_roomname"
             android:layout_toStartOf="@+id/text_view" />
 
-        Button
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_button_leave"
-            android:id="@+id/button_leave"
-            android:layout_below="@+id/input_roomname"
-            android:layout_toEndOf="@+id/text_view" />
+            android:text="Get Random Room"
+            android:id="@+id/button_rand_room" />
+
     </LinearLayout>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/text_view"
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
         android:layout_below="@+id/joinLeaveLayout"
-        android:layout_centerHorizontal="true"
-        android:background="#fffff6a2" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="#fffff6a2">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:fillViewport="true"
+            android:id="@+id/text_view"
+             />
+    </ScrollView>
 
 </RelativeLayout>
