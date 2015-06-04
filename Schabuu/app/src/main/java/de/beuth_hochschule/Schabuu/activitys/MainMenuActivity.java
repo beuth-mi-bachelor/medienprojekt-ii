@@ -26,12 +26,15 @@ import de.beuth_hochschule.Schabuu.R;
 public class MainMenuActivity extends Activity {
 
     //Server config
-    public static final String SERVER_ADDRESS = "192.168.1.101";
+    public static final String SERVER_ADDRESS = "192.168.1.3";
     public static final int PORT_NUMBER = 1337;
 
     public static com.github.nkzawa.socketio.client.Socket socket;
 
-    String username;
+    String username="RandomUser";
+    String roomName="bla";
+    StringBuffer stringBuffer = new StringBuffer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,15 @@ public class MainMenuActivity extends Activity {
         View playAloneView= findViewById(R.id.play_alone);
         playAloneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, RoomActivity.class));
+                sEmit("get_random_room", null);
+                JSONObject room = new JSONObject();
+                try {
+                    room.put("name", roomName);
+                } catch(JSONException ex) {
+                    System.err.println(ex.getMessage());
+                }
+                sEmit("switch_room", room);
+               // startActivity(new Intent(MainMenuActivity.this, RoomActivity.class));
             }
         });
 
@@ -70,7 +81,7 @@ public class MainMenuActivity extends Activity {
     }
 
 
-    private void connectToServer() {
+    private void connectServer() {
 
         if (socket == null) {
             try {
@@ -84,7 +95,9 @@ public class MainMenuActivity extends Activity {
         socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT_ERROR, onConnectError);
         socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_DISCONNECT, onDisconnect);
+        socket.on("receive_random_room", onRandRoomEvent);
         socket.on("update_room", onRoomEvent);
+
         socket.connect();
     }
 
@@ -99,6 +112,24 @@ public class MainMenuActivity extends Activity {
                 System.err.println(e.getMessage());
             }
             sEmit("new_player", playerData);
+        }
+    };
+
+    private Emitter.Listener onRandRoomEvent = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            setText(roomName, "room received!\n");
+
+            final String roomData = (String) args[0];
+            setText(roomName, roomData + "\n");
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(roomData);
+                }
+            });
+
         }
     };
 
@@ -158,6 +189,7 @@ public class MainMenuActivity extends Activity {
         }
     };
 
+
     private void getUserNameAlert(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -171,7 +203,7 @@ public class MainMenuActivity extends Activity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 username = input.getText().toString();
                 if (socket == null || !socket.connected()) {
-                    connectToServer();
+                    connectServer();
                 }
             }
         });
@@ -181,12 +213,22 @@ public class MainMenuActivity extends Activity {
                 //TO DO random name generator or cant play without name
                 username = "Random";
                 if (socket == null || !socket.connected()) {
-                    connectToServer();
+                    connectServer();
                 }
             }
         });
-
         alert.show();
+    }
+    private void setText(final String roomNameOld, final String value){
+        stringBuffer.append(roomNameOld);
+        stringBuffer.append(value);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                roomName = stringBuffer.toString();
+            }
+        });
+        System.out.println(stringBuffer.toString());
     }
 
 }

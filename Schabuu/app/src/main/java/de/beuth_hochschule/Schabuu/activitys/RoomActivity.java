@@ -55,13 +55,13 @@ public class RoomActivity extends Activity {
                 player1View.setText(p1);
             }
             if (p2 != null) {
-                player1View.setText(p2);
+                player2View.setText(p2);
             }
             if (p3 != null) {
-                player1View.setText(p3);
+                player3View.setText(p3);
             }
             if (p4 != null) {
-                player1View.setText(p4);
+                player4View.setText(p4);
             }
         }
 
@@ -71,6 +71,10 @@ public class RoomActivity extends Activity {
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(RoomActivity.this, MainMenuActivity.class));
+                if (MainMenuActivity.socket != null) {
+                    MainMenuActivity.sEmit("disconnection", null);
+                    MainMenuActivity.socket.disconnect();
+                }
             }
         });
 
