@@ -31,11 +31,11 @@
     }
 
     var setEventHandlers = function() {
-        socket.sockets.on("connection", onConnect);
+        socket.sockets.on("connect", onConnect);
     };
 
     function onConnect(client) {
-        client.on("disconnection", function(data) {
+        client.on("disconnect", function(data) {
             onDisconnect(this, data);
         });
         client.on("new_player", function(data) {
@@ -47,7 +47,7 @@
         client.on("get_rooms", function() {
             onGetRooms(this);
         });
-        client.on("get_random_room", function() {
+        client.on("random_room", function() {
             onGetRandomRoom(this);
         });
     }
@@ -56,10 +56,6 @@
         var currentPlayer = Player.getPlayer(client.id);
         Room.leaveAllRooms(client, currentPlayer, function() {
             currentPlayer.removePlayer();
-            client.emit('success_disconnection', {
-                message: "removed player",
-                player: currentPlayer
-            });
         });
     }
 
@@ -68,23 +64,25 @@
         var newPlayer = new Player(client.id, data.name);
 
         newPlayer.switchRoom(client, "lobby", function() {
-            client.emit('success_new_player', {
-                message: "added player",
-                player: newPlayer
+            client.emit('new_player_callback', {
+                playerId: newPlayer.id,
+                room: defaultRoom.name
             });
         });
     }
 
     function onGetRandomRoom(client) {
-        client.emit("receive_random_room", Room.getRandomRoomName());
+        client.emit("random_room_callback", Room.getRandomRoomName());
     }
 
     function onSwitchRoom(client, room) {
         var currentPlayer = Player.getPlayer(client.id);
         var oldRoom = currentPlayer.room;
+        console.log(oldRoom);
         currentPlayer.switchRoom(client, room.name, function(roomData) {
             socket.sockets.in(room.name).emit('update_room', roomData);
             socket.sockets.in(oldRoom.name).emit('update_room', oldRoom);
+            socket.emit("switch_room_callback", room);
         });
     }
 

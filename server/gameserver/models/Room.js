@@ -108,12 +108,16 @@
      * @param callback {Function} callback fn
      */
     Room.leaveAllRooms = function(client, player, callback) {
-        for (var i = 0; i < client.rooms.length; i++) {
-            var currentRoom = Room.getRoom(client.rooms[i]);
-            if (i === client.rooms.length-1) {
-                currentRoom.leaveRoom(client, player, callback, null);
-            } else {
-                currentRoom.leaveRoom(client, player, callback, null);
+        if (client.rooms.length === 0) {
+            player.room.leaveRoom(client, player, callback, null);
+        } else {
+            for (var i = 0; i < client.rooms.length; i++) {
+                var currentRoom = Room.getRoom(client.rooms[i]);
+                if (i === client.rooms.length-1) {
+                    currentRoom.leaveRoom(client, player, callback, null);
+                } else {
+                    currentRoom.leaveRoom(client, player, null, null);
+                }
             }
         }
     };

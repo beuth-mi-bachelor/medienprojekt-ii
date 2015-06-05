@@ -58,5 +58,6 @@
     <string name="level_easy">LEICHT</string>
     <string name="level_middle">MITTEL</string>
     <string name="level_heavy">SCHWER</string>
+    <string name="title_activity_server_demo">ServerDemo</string>
 
 </resources>
