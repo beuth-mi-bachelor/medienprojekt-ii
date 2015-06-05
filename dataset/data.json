@@ -1,18 +1,90 @@
 {
-  "Zu eratender Begriff 1": [
-    "Begriff der nicht genannt werden darf 1",
-    "Begriff der nicht genannt werden darf 2",
-    "Begriff der nicht genannt werden darf 3",
-    "Begriff der nicht genannt werden darf 4",
-    "Begriff der nicht genannt werden darf 5",
-    "Begriff der nicht genannt werden darf 6"
+  "Motor": [
+    "Auto",
+    "Maschine",
+    "Motorrad",
+    "Fahrzeug",
+    "Wagen",
+    "Leistung"
   ],
-  "Zu eratender Begriff 2": [
-    "Begriff der nicht genannt werden darf 1",
-    "Begriff der nicht genannt werden darf 2",
-    "Begriff der nicht genannt werden darf 3",
-    "Begriff der nicht genannt werden darf 4",
-    "Begriff der nicht genannt werden darf 5",
-    "Begriff der nicht genannt werden darf 6"
+  "Grußkarte": [
+    "Urlaub",
+    "Reise",
+    "Post",
+    "Abschied",
+    "Briefmarke",
+    "Brief"
+  ],
+  "Barista": [
+    "Zubereitung",
+    "Kaffee",
+    "Italien",
+    "Mahlen",
+    "Bohnen",
+    "Trinken"
+  ],
+  "Sparschwein": [
+    "Geld",
+    "Füllen",
+    "Münzen",
+    "Behälter",
+    "Tier",
+    "Anschaffung"
+  ],
+  "Spaghetti": [
+    "Nudeln",
+    "Italien",
+    "Pasta",
+    "Hackfleisch",
+    "Tomatensoße",
+    "Essen"
+  ],
+  "Milchstraße": [
+    "Sterne",
+    "Weltall",
+    "Planeten",
+    "Sonne",
+    "Universum",
+    "Erde"
+  ],
+  "Ferien": [
+    "Frei",
+    "Sommer",
+    "Urlaub",
+    "Schule",
+    "Kinder",
+    "Feiertage"
+  ],
+  "Kino": [
+    "Film",
+    "Fernsehen",
+    "Leinwand",
+    "Popcorn",
+    "Sehen",
+    "Date"
+  ],
+  "Haus": [
+    "Wohnung",
+    "Leben",
+    "Schlafen",
+    "Drinnen",
+    "Heim",
+    "Familie"
+  ],
+  "Berlin": [
+    "Hauptstadt",
+    "Deutschland",
+    "Brandenburger Tor",
+    "Stadt",
+    "Spree",
+    "Osten"
+  ],
+  "Computer": [
+    "Rechner",
+    "Spielen",
+    "Informatik",
+    "Arbeiten",
+    "Intenet",
+    "Programm"
   ]
 }
