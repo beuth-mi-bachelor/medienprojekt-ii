@@ -26,6 +26,8 @@ public class ServerDemo extends Activity {
     Button getRandomRoom;
     Button switchRoomToTestroom;
     Button switchRoomToTadaroom;
+    Button switchRoomToLobby;
+    Button switchRoomToRandomRoom;
 
 
     private ServerConnector _server;
@@ -102,7 +104,7 @@ public class ServerDemo extends Activity {
         /**
          * EXAMPLE: Switching Room to TestRoom
          */
-        switchRoomToTestroom = (Button) findViewById(R.id.button_switch_room);
+        switchRoomToTestroom = (Button) findViewById(R.id.button_switch_testroom);
         switchRoomToTestroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +129,7 @@ public class ServerDemo extends Activity {
         /**
          * EXAMPLE: Switching Room to TadaRoom
          */
-        switchRoomToTadaroom = (Button) findViewById(R.id.button_switch_to_tada);
+        switchRoomToTadaroom = (Button) findViewById(R.id.button_switch_tadaroom);
         switchRoomToTadaroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,10 +151,67 @@ public class ServerDemo extends Activity {
             }
         });
 
+        /**
+         * EXAMPLE: Switching Room back to Lobby
+         */
+        switchRoomToLobby = (Button) findViewById(R.id.button_switch_lobby);
+        switchRoomToLobby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _server.switchRoom("lobby", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+
+                        // just to display it on device for debugging
+                        System.out.println("room was switched: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        /**
+         * EXAMPLE: Switching Room to a random room
+         */
+        switchRoomToRandomRoom = (Button) findViewById(R.id.button_switch_randomroom);
+        switchRoomToRandomRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _server.joinRandomRoom(new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+
+                        // just to display it on device for debugging
+                        System.out.println("room was switched: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
     }
 
-    public void initDone(JSONObject data) {
+    public void initDone(final JSONObject data) {
+        // Only for debugging
         System.out.println(data.toString());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "Connected successfully: " + data.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -122,7 +122,15 @@ public class ServerConnectorImplementation implements ServerConnector {
     }
 
     @Override
-    public void joinRandomRoom(Emitter.Listener joinCallback) {
+    public void joinRandomRoom(final Emitter.Listener joinCallback) {
+
+        this.getRandomRoom(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                String roomName = (String) args[0];
+                ServerConnectorImplementation.this.switchRoom(roomName, joinCallback);
+            }
+        });
 
     }
 
