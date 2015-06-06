@@ -39,8 +39,7 @@ public class RoomActivity extends Activity {
         player3View = (TextView) findViewById(R.id.player_three);
         player4View = (TextView) findViewById(R.id.player_four);
 
-        MainMenuActivity.socket.on("room_list",onRoomList);
-        MainMenuActivity.sEmit("get_rooms", null);
+
 
         arrayList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList);
@@ -70,11 +69,7 @@ public class RoomActivity extends Activity {
         View backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(RoomActivity.this, MainMenuActivity.class));
-                if (MainMenuActivity.socket != null) {
-                    MainMenuActivity.sEmit("disconnection", null);
-                    MainMenuActivity.socket.disconnect();
-                }
+
             }
         });
 
