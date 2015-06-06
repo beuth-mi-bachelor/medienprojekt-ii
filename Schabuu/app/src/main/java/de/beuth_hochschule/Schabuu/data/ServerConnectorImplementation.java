@@ -157,6 +157,11 @@ public class ServerConnectorImplementation implements ServerConnector {
     }
 
     @Override
+    public void addListener(String event, Emitter.Listener callback) {
+        socket.on(event, callback);
+    }
+
+    @Override
     public void connectToServer(Emitter.Listener connectCallback, Emitter.Listener connectError) {
         socket.on(Socket.EVENT_CONNECT, connectCallback);
         socket.on(Socket.EVENT_CONNECT_ERROR, connectCallback);

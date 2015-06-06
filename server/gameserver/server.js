@@ -5,7 +5,8 @@
         express = require("express"),
         expressHbs = require('express3-handlebars'),
         Player = require("./models/Player").Player,
-        Room = require("./models/Room").Room;
+        Room = require("./models/Room").Room,
+        Game = require("./models/Game").Game;
 
     var socket,
         app = express();
@@ -59,6 +60,9 @@
         client.on("player_active", function() {
             onPlayerActive(this);
         });
+        client.on("player_ready", function() {
+            onPlayerReady(this);
+        });
     }
 
     function onDisconnect(client) {
@@ -103,7 +107,14 @@
             }
 
         }
+    }
 
+    function onPlayerReady(client) {
+        var player = Player.getPlayer(client.id);
+        if (player.room) {
+            var currentRoom = Room.getRoom(player.room.name);
+            currentRoom.playerIsReady();
+        }
     }
 
     function onGetPlayer(client, data) {

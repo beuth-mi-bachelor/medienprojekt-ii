@@ -12,6 +12,7 @@ import com.github.nkzawa.emitter.Emitter;
 
 import org.json.JSONObject;
 
+import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
@@ -29,6 +30,7 @@ public class ServerDemo extends Activity {
     Button switchRoomToLobby;
     Button switchRoomToRandomRoom;
     Button getListOfRooms;
+    Button readyToPlay;
 
     private ServerConnector _server;
 
@@ -247,21 +249,6 @@ public class ServerDemo extends Activity {
                                     }
                                 });
 
-                                _server.clientIsReady(new Emitter.Listener() {
-                                    @Override
-                                    public void call(Object... args) {
-                                        // no args supplied
-
-                                        // just to display it on device for debugging
-                                        System.out.println("game started");
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Toast.makeText(getApplicationContext(), "game started", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    }
-                                });
                             }
                         }
                 );
@@ -286,6 +273,43 @@ public class ServerDemo extends Activity {
                             @Override
                             public void run() {
                                 Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        readyToPlay = (Button) findViewById(R.id.button_ready);
+        readyToPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _server.clientIsReady(new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        // no args supplied
+
+                        _server.addListener(Events.GAME_TIME_UPDATE, new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                final Integer time = (Integer) args[0];
+                                // just to display it on device for debugging
+                                System.out.println("gametime is: " + time);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "gametime is: " + time, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+
+                        // just to display it on device for debugging
+                        System.out.println("game started");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "game started", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

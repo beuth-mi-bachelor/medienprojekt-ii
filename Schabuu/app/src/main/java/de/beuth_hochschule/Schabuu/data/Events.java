@@ -14,4 +14,5 @@ public class Events {
     public static final String PLAYER_ACTIVE = "player_active";
     public static final String PLAYER_INACTIVE = "player_inactive";
     public static final String PLAYER_READY = "player_ready";
+    public static final String GAME_TIME_UPDATE = "game_time_update";
 }

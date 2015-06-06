@@ -3,6 +3,7 @@
 
     // imports
     var Player = require("./Player").Player;
+    var Game = require("./Game").Game;
 
     /**
      * global room list
@@ -24,6 +25,8 @@
         this.players = {};
         this.maxPlayers = maxPlayers || 4;
         Room.rooms[name] = this;
+        this.gameReady = 0;
+        this.game = null;
     }
 
     /**
@@ -183,6 +186,7 @@
                 if (self.isFull()) {
                     if (self.checkActivity()) {
                         socket.sockets.in(self.name).emit('game_ready');
+                        self.game = new Game(socket, self, 30);
                     }
                 }
                 if (callback1) {
@@ -253,6 +257,15 @@
             }
             Room.rooms[this.name] = {};
             delete Room.rooms[this.name];
+        },
+        /**
+         * fired upon game is launched, to init game
+         */
+        playerIsReady: function() {
+            this.gameReady += 1;
+            if (this.gameReady === this.maxPlayers) {
+                this.game.start();
+            }
         },
         /**
          * displays a readable string of a room instance
