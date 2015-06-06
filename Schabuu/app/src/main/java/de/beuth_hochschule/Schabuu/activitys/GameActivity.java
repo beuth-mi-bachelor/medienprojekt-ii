@@ -6,6 +6,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.ServerConnector;
+import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
 import de.beuth_hochschule.Schabuu.util.RecievingUtils;
 
@@ -22,9 +24,13 @@ public class GameActivity extends Activity  {
 
     private static final String LOG_TAG = "GameActivity";
 
+    private ServerConnector _server;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        _server = ServerConnectorImplementation.getInstance();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -35,5 +41,18 @@ public class GameActivity extends Activity  {
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
         utils.StartPlayer();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        _server.setPlayerInActive();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        _server.setPlayerActive();
     }
 }

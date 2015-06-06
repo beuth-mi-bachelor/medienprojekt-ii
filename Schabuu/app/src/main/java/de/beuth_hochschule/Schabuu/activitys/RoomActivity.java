@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.ServerConnector;
+import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
 /**
  * Created by angi on 31.05.15.
@@ -27,6 +30,8 @@ public class RoomActivity extends Activity {
     TextView player3View;
     TextView player4View;
 
+    private ServerConnector _server;
+
     ArrayAdapter<String> adapter;
     ArrayList<String> arrayList;
 
@@ -34,6 +39,42 @@ public class RoomActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+        _server = ServerConnectorImplementation.getInstance();
+
+        _server.joinRandomRoom(
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+
+                        // just to display it on device for debugging
+                        System.out.println("room was switched: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                },
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        // no args supplied
+
+                        // just to display it on device for debugging
+                        System.out.println("game is ready");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                }
+        );
+
         player1View = (TextView) findViewById(R.id.player_one);
         player2View = (TextView) findViewById(R.id.player_two);
         player3View = (TextView) findViewById(R.id.player_three);
@@ -88,12 +129,6 @@ public class RoomActivity extends Activity {
         });
     }
 
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        finish();
-    }
     private Emitter.Listener onRoomList = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -119,5 +154,17 @@ public class RoomActivity extends Activity {
             });
         }
     };
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        _server.setPlayerInActive();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        _server.setPlayerActive();
+    }
 
 }

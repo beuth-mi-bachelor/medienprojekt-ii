@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.ServerConnector;
+import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
 import de.beuth_hochschule.Schabuu.util.StreamingUtils;
 
@@ -19,9 +21,13 @@ public class GameAvActivity extends Activity  {
 
     private static final String LOG_TAG = "GameAvActivity";
 
+    private ServerConnector _server;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        _server = ServerConnectorImplementation.getInstance();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -31,6 +37,18 @@ public class GameAvActivity extends Activity  {
 
         StreamingUtils utils = new StreamingUtils(serverUrl,streamName,license_stream,authUser,authPass,(SurfacePlayerView) findViewById(R.id.view),getApplicationContext());
         utils.toggleStreaming();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        _server.setPlayerInActive();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        _server.setPlayerActive();
     }
 
 
