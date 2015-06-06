@@ -180,6 +180,17 @@ public class ServerConnectorImplementation implements ServerConnector {
     }
 
     @Override
+    public void getRoomList(final Emitter.Listener roomListCallback) {
+        this.emit(Events.ROOM_LIST, null);
+        socket.on(Events.ROOM_LIST_CALLBACK, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                socket.off(Events.ROOM_LIST_CALLBACK);
+                roomListCallback.call(args);
+            }
+        });    }
+
+    @Override
     public String toString() {
         return "ServerConnectorImplementation{" +
                 "ip='" + ip + '\'' +

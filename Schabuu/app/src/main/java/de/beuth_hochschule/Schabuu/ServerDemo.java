@@ -28,6 +28,8 @@ public class ServerDemo extends Activity {
     Button switchRoomToTadaroom;
     Button switchRoomToLobby;
     Button switchRoomToRandomRoom;
+    Button getListOfRooms;
+
 
 
     private ServerConnector _server;
@@ -184,6 +186,31 @@ public class ServerDemo extends Activity {
             @Override
             public void onClick(View v) {
                 _server.joinRandomRoom(new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+
+                        // just to display it on device for debugging
+                        System.out.println("room was switched: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        /**
+         * EXAMPLE: get list of all rooms
+         */
+        getListOfRooms = (Button) findViewById(R.id.button_list_rooms);
+        getListOfRooms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _server.getRoomList(new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];

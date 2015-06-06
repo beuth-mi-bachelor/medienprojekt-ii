@@ -91,5 +91,12 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="get room list"
+            android:id="@+id/button_list_rooms"
+            android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 </RelativeLayout>

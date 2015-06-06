@@ -44,7 +44,7 @@
         client.on("switch_room", function(data) {
             onSwitchRoom(this, data);
         });
-        client.on("get_rooms", function() {
+        client.on("room_list", function() {
             onGetRooms(this);
         });
         client.on("random_room", function() {
@@ -78,7 +78,6 @@
     function onSwitchRoom(client, room) {
         var currentPlayer = Player.getPlayer(client.id);
         var oldRoom = currentPlayer.room;
-        console.log(oldRoom);
         currentPlayer.switchRoom(client, room.name, function(roomData) {
             socket.sockets.in(room.name).emit('update_room', roomData);
             socket.sockets.in(oldRoom.name).emit('update_room', oldRoom);
@@ -87,7 +86,7 @@
     }
 
     function onGetRooms(client) {
-        client.emit("room_list", Room.getAllRoomsAsObject());
+        client.emit("room_list_callback", Room.getAllRoomsAsObject());
     }
 
     init();
