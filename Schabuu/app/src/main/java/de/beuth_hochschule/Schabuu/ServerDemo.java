@@ -140,6 +140,21 @@ public class ServerDemo extends Activity {
                                     }
                                 });
                             }
+                        },
+                        new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+
+                                // just to display it on device for debugging
+                                System.out.println("room updated: " + data.toString());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
                 );
             }
@@ -179,6 +194,21 @@ public class ServerDemo extends Activity {
                                     @Override
                                     public void run() {
                                         Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        },
+                        new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+
+                                // just to display it on device for debugging
+                                System.out.println("room updated: " + data.toString());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -249,6 +279,21 @@ public class ServerDemo extends Activity {
                                     }
                                 });
 
+                            }
+                        },
+                        new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+
+                                // just to display it on device for debugging
+                                System.out.println("room updated: " + data.toString());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         }
                 );

@@ -18,13 +18,13 @@ public interface ServerConnector {
 
     public void getRoomList(Emitter.Listener roomListCallback);
 
-    public void switchRoom(String roomName, Emitter.Listener switchedCallback, Emitter.Listener gameReadyCallback);
+    public void switchRoom(String roomName, Emitter.Listener switchedCallback, Emitter.Listener gameReadyCallback, Emitter.Listener roomUpdateCallback);
 
     public void goBackToLobby(Emitter.Listener switchedCallback);
 
     public void getRandomRoom(Emitter.Listener getRoomCallback);
 
-    public void joinRandomRoom(Emitter.Listener joinCallback, Emitter.Listener gameReadyCallback);
+    public void joinRandomRoom(Emitter.Listener joinCallback, Emitter.Listener gameReadyCallback, Emitter.Listener roomUpdateCallback);
 
     public void connectToServer(Emitter.Listener connectCallback, Emitter.Listener connectError);
 
