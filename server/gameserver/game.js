@@ -50,6 +50,15 @@
         client.on("random_room", function() {
             onGetRandomRoom(this);
         });
+        client.on("get_player", function(data) {
+            onGetPlayer(this, data);
+        });
+        client.on("player_inactive", function() {
+            onPlayerInactive(this);
+        });
+        client.on("player_active", function() {
+            onPlayerActive(this);
+        });
     }
 
     function onDisconnect(client) {
@@ -63,12 +72,43 @@
         var defaultRoom = new Room(client.rooms[0]);
         var newPlayer = new Player(client.id, data.name);
 
-        newPlayer.switchRoom(client, "lobby", function() {
+        newPlayer.switchRoom(socket, client, "lobby", function() {
             client.emit('new_player_callback', {
                 playerId: newPlayer.id,
                 room: defaultRoom.name
             });
         });
+    }
+
+    function onPlayerInactive(client) {
+        var player = Player.getPlayer(client.id);
+        player.setActivitiy(false);
+        if (player.room) {
+            var currentRoom = Room.getRoom(player.room.name);
+            currentRoom.players[player.id].isActive = player.isActive;
+        }
+    }
+
+    function onPlayerActive(client) {
+        var player = Player.getPlayer(client.id);
+        player.setActivitiy(true);
+        if (player.room) {
+            var currentRoom = Room.getRoom(player.room.name);
+            currentRoom.players[player.id].isActive = player.isActive;
+
+            if (currentRoom.isFull()) {
+                if (currentRoom.checkActivity()) {
+                    socket.sockets.in(currentRoom.name).emit('game_ready');
+                }
+            }
+
+        }
+
+    }
+
+    function onGetPlayer(client, data) {
+        var player = Player.getPlayer(data.id);
+        client.emit('get_player_callback', player);
     }
 
     function onGetRandomRoom(client) {
@@ -78,7 +118,7 @@
     function onSwitchRoom(client, room) {
         var currentPlayer = Player.getPlayer(client.id);
         var oldRoom = currentPlayer.room;
-        currentPlayer.switchRoom(client, room.name, function(roomData) {
+        currentPlayer.switchRoom(socket, client, room.name, function(roomData) {
             socket.sockets.in(room.name).emit('update_room', roomData);
             socket.sockets.in(oldRoom.name).emit('update_room', oldRoom);
             socket.emit("switch_room_callback", room);

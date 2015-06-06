@@ -20,6 +20,7 @@
     function Player(clientID, name) {
         this.id = clientID;
         this.name = name;
+        this.isActive = true;
         this.room = null;
         Player.players[clientID] = this;
     }
@@ -73,15 +74,15 @@
         },
         /**
          * switches the current room
+         * @param socket {{}} socket
          * @param client {{id: String}} reference to the socket
          * @param roomName {String} name of the room
          * @param callback {Function} callback fn
          */
-        switchRoom: function(client, roomName, callback) {
+        switchRoom: function(socket, client, roomName, callback) {
             var self = this;
             var room = Room.getRoom(roomName);
 
-            console.log(room);
             if (!room) {
                 room = new Room(roomName);
             }
@@ -90,9 +91,16 @@
                 client.emit("room_full", room);
                 return;
             }
-            Room.switchRoom(client, this, room, function() {
+            Room.switchRoom(socket, client, this, room, function() {
                 self.room = room;
             }, callback);
+        },
+        /**
+         * if player minized the app
+         * @param newValue {boolean} false, if player is not in game, else true
+         */
+        setActivitiy: function(newValue) {
+            this.isActive = newValue;
         },
         /**
          * displays a readable string of a player instance

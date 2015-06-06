@@ -73,8 +73,6 @@
             return Object.keys(a.players).length > Object.keys(b.players).length;
         });
 
-        console.log(allRooms);
-
         // if no rooms found: create one
         if (allRooms.length === 0) {
             return "room-" + new Date().getTime();
@@ -108,15 +106,19 @@
      * @param callback {Function} callback fn
      */
     Room.leaveAllRooms = function(client, player, callback) {
-        if (client.rooms.length === 0) {
+        if (client.rooms.length === 0 && player.room) {
             player.room.leaveRoom(client, player, callback, null);
         } else {
             for (var i = 0; i < client.rooms.length; i++) {
                 var currentRoom = Room.getRoom(client.rooms[i]);
                 if (i === client.rooms.length-1) {
-                    currentRoom.leaveRoom(client, player, callback, null);
+                    if (currentRoom !== null) {
+                        currentRoom.leaveRoom(client, player, callback, null);
+                    }
                 } else {
-                    currentRoom.leaveRoom(client, player, null, null);
+                    if (currentRoom !== null) {
+                        currentRoom.leaveRoom(client, player, null, null);
+                    }
                 }
             }
         }
@@ -124,15 +126,16 @@
 
     /**
      * switches a player between rooms
+     * @param socket {{}} socket
      * @param client {{id: String}} reference to the socket
      * @param player {Player} the player joining the room
      * @param room {Room} the room to join
      * @param callback1 callback fn
      * @param callback2 callback fn
      */
-    Room.switchRoom = function(client, player, room, callback1, callback2) {
+    Room.switchRoom = function(socket, client, player, room, callback1, callback2) {
         Room.leaveAllRooms(client, player, function() {
-            room.joinRoom(client, player, callback1, callback2);
+            room.joinRoom(socket, client, player, callback1, callback2);
         });
     };
 
@@ -161,15 +164,24 @@
         },
         /**
          * a client joins a room
+         * @param socket {{}} socket
          * @param client {{id: String}} reference to the socket
          * @param player {Player} the player joining the room
          * @param callback1 callback fn
          * @param callback2 callback fn
          */
-        joinRoom: function(client, player, callback1, callback2) {
+        joinRoom: function(socket, client, player, callback1, callback2) {
             var self = this;
             client.join(this.name, function() {
-                self.players[player.id] = player.name;
+                self.players[player.id] = {
+                    name: player.name,
+                    isActive: player.isActive
+                };
+                if (self.isFull()) {
+                    if (self.checkActivity()) {
+                        socket.sockets.in(self.name).emit('game_ready');
+                    }
+                }
                 if (callback1) {
                     callback1(self);
                 }
@@ -184,6 +196,14 @@
          */
         getNumberOfPlayersInRoom: function() {
             return Object.keys(this.players).length;
+        },
+        checkActivity: function() {
+            for (var player in this.players) {
+                if (this.players.hasOwnProperty(player) && !this.players[player].isActive) {
+                    return false;
+                }
+            }
+            return true;
         },
         /**
          * checks if the room is full with players

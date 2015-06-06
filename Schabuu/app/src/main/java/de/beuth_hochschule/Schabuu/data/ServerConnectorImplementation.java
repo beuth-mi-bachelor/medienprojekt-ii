@@ -90,9 +90,31 @@ public class ServerConnectorImplementation implements ServerConnector {
     }
 
     @Override
-    public void switchRoom(String roomName, final Emitter.Listener switchedCallback) {
+    public void switchRoom(String roomName, final Emitter.Listener switchedCallback, final Emitter.Listener gameReadyCallback) {
         HashMap<String, String> items = new HashMap<String, String>();
         items.put("name", roomName);
+        JSONObject data = this.jsonObjectHelper(items);
+        this.emit(Events.SWITCH_ROOM, data);
+        socket.on(Events.SWITCH_ROOM_CALLBACK, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                socket.off(Events.SWITCH_ROOM_CALLBACK);
+                switchedCallback.call(args);
+            }
+        });
+        socket.on(Events.GAME_READY, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                socket.off(Events.GAME_READY);
+                gameReadyCallback.call(args);
+            }
+        });
+    }
+
+    @Override
+    public void goBackToLobby(final Emitter.Listener switchedCallback) {
+        HashMap<String, String> items = new HashMap<String, String>();
+        items.put("name", "lobby");
         JSONObject data = this.jsonObjectHelper(items);
         this.emit(Events.SWITCH_ROOM, data);
         socket.on(Events.SWITCH_ROOM_CALLBACK, new Emitter.Listener() {
@@ -122,13 +144,13 @@ public class ServerConnectorImplementation implements ServerConnector {
     }
 
     @Override
-    public void joinRandomRoom(final Emitter.Listener joinCallback) {
+    public void joinRandomRoom(final Emitter.Listener joinCallback, final Emitter.Listener gameReadyCallback) {
 
         this.getRandomRoom(new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 String roomName = (String) args[0];
-                ServerConnectorImplementation.this.switchRoom(roomName, joinCallback);
+                ServerConnectorImplementation.this.switchRoom(roomName, joinCallback, gameReadyCallback);
             }
         });
 
@@ -165,6 +187,16 @@ public class ServerConnectorImplementation implements ServerConnector {
                 initDone.call(args);
             }
         });
+    }
+
+    @Override
+    public void setPlayerActive() {
+        this.emit(Events.PLAYER_ACTIVE, null);
+    }
+
+    @Override
+    public void setPlayerInActive() {
+        this.emit(Events.PLAYER_INACTIVE, null);
     }
 
     public JSONObject jsonObjectHelper(HashMap<String, String> input) {

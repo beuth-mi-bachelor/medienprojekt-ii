@@ -30,8 +30,6 @@ public class ServerDemo extends Activity {
     Button switchRoomToRandomRoom;
     Button getListOfRooms;
 
-
-
     private ServerConnector _server;
 
     @Override
@@ -110,21 +108,38 @@ public class ServerDemo extends Activity {
         switchRoomToTestroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _server.switchRoom("testroom", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        final JSONObject data = (JSONObject) args[0];
-
-                        // just to display it on device for debugging
-                        System.out.println("room was switched: " + data.toString());
-                        runOnUiThread(new Runnable() {
+                _server.switchRoom("testroom",
+                        new Emitter.Listener() {
                             @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+
+                                // just to display it on device for debugging
+                                System.out.println("room was switched: " + data.toString());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
-                    }
-                });
+                        },
+                        new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                // no args supplied
+
+                                // just to display it on device for debugging
+                                System.out.println("game is ready");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                );
             }
         });
 
@@ -135,21 +150,38 @@ public class ServerDemo extends Activity {
         switchRoomToTadaroom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _server.switchRoom("tadaroom", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        final JSONObject data = (JSONObject) args[0];
-
-                        // just to display it on device for debugging
-                        System.out.println("room was switched: " + data.toString());
-                        runOnUiThread(new Runnable() {
+                _server.switchRoom("tadaroom",
+                        new Emitter.Listener() {
                             @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+
+                                // just to display it on device for debugging
+                                System.out.println("room was switched: " + data.toString());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
-                    }
-                });
+                        },
+                        new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                // no args supplied
+
+                                // just to display it on device for debugging
+                                System.out.println("game is ready");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                );
             }
         });
 
@@ -160,7 +192,7 @@ public class ServerDemo extends Activity {
         switchRoomToLobby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _server.switchRoom("lobby", new Emitter.Listener() {
+                _server.goBackToLobby(new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
@@ -185,21 +217,38 @@ public class ServerDemo extends Activity {
         switchRoomToRandomRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _server.joinRandomRoom(new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        final JSONObject data = (JSONObject) args[0];
-
-                        // just to display it on device for debugging
-                        System.out.println("room was switched: " + data.toString());
-                        runOnUiThread(new Runnable() {
+                _server.joinRandomRoom(
+                        new Emitter.Listener() {
                             @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+
+                                // just to display it on device for debugging
+                                System.out.println("room was switched: " + data.toString());
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
-                    }
-                });
+                        },
+                        new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                // no args supplied
+
+                                // just to display it on device for debugging
+                                System.out.println("game is ready");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                );
             }
         });
 
@@ -228,6 +277,18 @@ public class ServerDemo extends Activity {
             }
         });
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        _server.setPlayerInActive();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        _server.setPlayerActive();
     }
 
     public void initDone(final JSONObject data) {
