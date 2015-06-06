@@ -1,6 +1,9 @@
 (function() {
     "use strict";
 
+    // imports
+    var Player = require("./Player").Player;
+
     /**
      * global room list
      */
@@ -204,6 +207,22 @@
                 }
             }
             return true;
+        },
+        /**
+         * gets all players in currentRoom as an array
+         * @returns {Array} all players
+         */
+        getAllPlayersAsArray: function() {
+            var players = [];
+            for (var player in this.players) {
+                if (this.players.hasOwnProperty(player)) {
+                    var currentPlayer = Player.getPlayer(this.players[player].id);
+                    if (currentPlayer) {
+                        players.push(currentPlayer);
+                    }
+                }
+            }
+            return players;
         },
         /**
          * checks if the room is full with players

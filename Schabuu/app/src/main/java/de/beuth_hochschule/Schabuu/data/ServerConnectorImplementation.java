@@ -199,6 +199,18 @@ public class ServerConnectorImplementation implements ServerConnector {
         this.emit(Events.PLAYER_INACTIVE, null);
     }
 
+    @Override
+    public void clientIsReady(final Emitter.Listener gameStartedCallback) {
+        this.emit(Events.PLAYER_READY, null);
+        socket.on(Events.GAME_START, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                socket.off(Events.GAME_START);
+                gameStartedCallback.call(args);
+            }
+        });
+    }
+
     public JSONObject jsonObjectHelper(HashMap<String, String> input) {
         JSONObject data = new JSONObject();
         try {

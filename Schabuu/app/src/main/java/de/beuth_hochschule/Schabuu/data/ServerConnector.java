@@ -33,4 +33,6 @@ public interface ServerConnector {
     public void setPlayerActive();
 
     public void setPlayerInActive();
+
+    public void clientIsReady(Emitter.Listener gameStartedCallback);
 }

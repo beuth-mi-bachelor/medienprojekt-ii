@@ -246,6 +246,22 @@ public class ServerDemo extends Activity {
                                         Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
+                                _server.clientIsReady(new Emitter.Listener() {
+                                    @Override
+                                    public void call(Object... args) {
+                                        // no args supplied
+
+                                        // just to display it on device for debugging
+                                        System.out.println("game started");
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getApplicationContext(), "game started", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         }
                 );
