@@ -3,7 +3,6 @@
 
     // imports
     var Player = require("./Player").Player;
-    var Game = require("./Game").Game;
 
     /**
      * global room list
@@ -76,7 +75,7 @@
 
         // sort by number of players in room
         allRooms.sort(function(a, b){
-            return Object.keys(a.players).length > Object.keys(b.players).length;
+            return Object.keys(a.players).length < Object.keys(b.players).length;
         });
 
         // if no rooms found: create one
@@ -186,7 +185,6 @@
                 if (self.isFull()) {
                     if (self.checkActivity()) {
                         socket.sockets.in(self.name).emit('game_ready');
-                        self.game = new Game(socket, self, 30);
                     }
                 }
                 if (callback1) {
@@ -264,8 +262,9 @@
         playerIsReady: function() {
             this.gameReady += 1;
             if (this.gameReady === this.maxPlayers) {
-                this.game.start();
+                return true;
             }
+            return false;
         },
         /**
          * displays a readable string of a room instance
