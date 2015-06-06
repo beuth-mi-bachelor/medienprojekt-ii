@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -27,6 +28,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.util.Iterator;
@@ -34,46 +37,18 @@ import java.util.Iterator;
 import de.beuth_hochschule.Schabuu.R;
 
 public class MainMenuActivity extends Activity {
-/*String FILENAME = "username";
-        String string = "hello world!";
 
-
-        try {
-            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            fos.write(string.getBytes());
-            fos.close();
-
-            FileInputStream foo = openFileInput(FILENAME);
-
-            byte[] b = new byte[1];
-            foo.read(b);
-            fos.close();
-            String message = new String(b);
-            System.out.print("!!!!!"+message);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    //Server config
-    public static final String SERVER_ADDRESS = "192.168.1.3";
-    public static final int PORT_NUMBER = 1337;
-
-    public static com.github.nkzawa.socketio.client.Socket socket;
+   public static com.github.nkzawa.socketio.client.Socket socket;
 
     String username;
-    String roomName="bla";
-    StringBuffer stringBuffer = new StringBuffer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadUser();
-        System.out.println("!!!!!!!!!!!!!!!!!!"+ username);
+        loadUserNameFromStoarge("username",getApplicationContext());
 
-
+        System.out.println("!!!! Username:"+username);
 
         setContentView(R.layout.activity_main_menu);
 
@@ -107,35 +82,7 @@ public class MainMenuActivity extends Activity {
         finish();
     }
 
-    private void loadUser(){
-        File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/textfile.txt");
-        if(!myFile.exists()){
-            System.out.println("1");
-            getUserNameAlert("Set Name","Please enter your name");
-            return;
-        }
-        System.out.println("2");
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(myFile));
-            StringBuilder sb = new StringBuilder();
-            String line  = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            if(line == null){
-                getUserNameAlert("Set Name","Please enter your name");
-                return;
-            }
-            System.out.println("3");
-            username = line;
-
-        }
-        catch (IOException e) {
-            //You'll need to add proper error handling here
-            return;
-        }
-  }
 
     private void getUserNameAlert(String title,String msg){
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -153,7 +100,6 @@ public class MainMenuActivity extends Activity {
                    getUserNameAlert("Set Name","Please enter a valid name");
                     return;
                 }
-                System.out.println("HUHUHUHU"+username);
                 saveUserNameInStoarge(username);
 
 
@@ -163,17 +109,52 @@ public class MainMenuActivity extends Activity {
         alert.create().show();
     }
     public void saveUserNameInStoarge(String username){
-        System.out.println("SAVED");
-        try {
-            File myFile = new File(Environment.getExternalStorageDirectory().getPath()+"/textfile.txt");
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.write(username);
-            myOutWriter.close();
-            fOut.close();
+       try {
+            FileOutputStream fos = getApplicationContext().openFileOutput("username",Context.MODE_PRIVATE);
+            fos.write(username.getBytes());
+            fos.flush();
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public String loadUserNameFromStoarge(String fileName, Context context)
+    {
+        String stringToReturn = " ";
+
+
+        try
+        {
+            String sfilename = fileName;
+                InputStream inputStream = context.openFileInput(sfilename);
+
+                if ( inputStream != null )
+                {
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String receiveString = "";
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    while ( (receiveString = bufferedReader.readLine()) != null )
+                    {
+                        stringBuilder.append(receiveString);
+                    }
+                    inputStream.close();
+                    stringToReturn = stringBuilder.toString();
+                }
+
+        }
+        catch (FileNotFoundException e)
+        {
+            Log.e("TAG", "File not found: " + e.toString());
+        }
+        catch (IOException e)
+        {
+            Log.e("TAG", "Can not read file: " + e.toString());
+        }
+
+        return stringToReturn;
+    }
+
 }

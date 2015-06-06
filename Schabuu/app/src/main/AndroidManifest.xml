@@ -37,6 +37,10 @@
         <activity
             android:name=".activitys.MainMenuActivity"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -62,10 +66,7 @@
         <activity
             android:name=".ServerDemo"
             android:label="@string/title_activity_server_demo" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 
