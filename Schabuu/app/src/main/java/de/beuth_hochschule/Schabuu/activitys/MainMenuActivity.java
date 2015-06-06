@@ -10,29 +10,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URISyntaxException;
-import java.util.Iterator;
 
 import de.beuth_hochschule.Schabuu.R;
 
@@ -46,7 +33,7 @@ public class MainMenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadUserNameFromStoarge("username",getApplicationContext());
+        username = loadUserNameFromStoarge("username",getApplicationContext());
 
         System.out.println("!!!! Username:"+username);
 
@@ -147,6 +134,7 @@ public class MainMenuActivity extends Activity {
         }
         catch (FileNotFoundException e)
         {
+            getUserNameAlert("Set Name","Please enter a valid name");
             Log.e("TAG", "File not found: " + e.toString());
         }
         catch (IOException e)
