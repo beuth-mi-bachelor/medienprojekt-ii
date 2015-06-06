@@ -5,8 +5,7 @@
         express = require("express"),
         expressHbs = require('express3-handlebars'),
         Player = require("./models/Player").Player,
-        Room = require("./models/Room").Room,
-        Game = require("./models/Game").Game;
+        Room = require("./models/Room").Room;
 
     var socket,
         app = express();
@@ -113,8 +112,16 @@
         var player = Player.getPlayer(client.id);
         if (player.room) {
             var currentRoom = Room.getRoom(player.room.name);
-            currentRoom.playerIsReady();
+            var rdy = currentRoom.playerIsReady();
+            if (rdy) {
+                socket.sockets.in(currentRoom.name).emit('game_start');
+                startGame(30);
+            }
         }
+    }
+
+    function startGame(time) {
+                
     }
 
     function onGetPlayer(client, data) {
