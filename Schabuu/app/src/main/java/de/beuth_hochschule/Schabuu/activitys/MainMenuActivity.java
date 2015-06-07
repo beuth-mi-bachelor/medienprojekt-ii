@@ -84,8 +84,9 @@ public class MainMenuActivity extends Activity {
         View playAloneView= findViewById(R.id.play_alone);
         playAloneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, RoomActivity.class));
-
+                Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
+                intent.putExtra("ROOM_MODE", "Random Room");
+                startActivity(intent);
             }
         });
 

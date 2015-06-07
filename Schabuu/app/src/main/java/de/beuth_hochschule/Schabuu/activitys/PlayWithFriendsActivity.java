@@ -70,14 +70,20 @@ public class PlayWithFriendsActivity extends Activity {
                 switch (type){
                     case CREATE:
                         //TO DO CREATE ROOM LOGIC
-                        startActivity(new Intent(PlayWithFriendsActivity.this, RoomActivity.class));
+                        Intent intent = new Intent(PlayWithFriendsActivity.this, RoomActivity.class);
+                        intent.putExtra("ROOM_NAME", value.toString());
+                        intent.putExtra("ROOM_MODE", "PlayWithFriendsActivity");
+                        startActivity(intent);
+
                         break;
                     case JOIN:
                         //TO DO ADD FIND ROOM LOGIC
-                        startActivity(new Intent(PlayWithFriendsActivity.this, RoomActivity.class));
+                        Intent intent2 = new Intent(PlayWithFriendsActivity.this, RoomActivity.class);
+                        intent2.putExtra("ROOM_NAME", value.toString());
+                        intent2.putExtra("ROOM_MODE", "PlayWithFriendsActivity");
+                        startActivity(intent2);
                         break;
                 }
-
             }
         });
 

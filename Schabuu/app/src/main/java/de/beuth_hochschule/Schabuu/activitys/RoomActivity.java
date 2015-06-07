@@ -24,28 +24,71 @@ import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
  */
 public class RoomActivity extends Activity {
 
-    TextView player1View;
-    TextView player2View;
-    TextView player3View;
-    TextView player4View;
-
     private ServerConnector _server;
+    private ArrayList<TextView> views = new ArrayList<TextView>();
+    private ArrayList<String> playerArray;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playerArray = new ArrayList<String>();
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("ROOM_NAME");
+
+        System.out.println("Paul ist doof" + message);
         setContentView(R.layout.activity_room);
+
         _server = ServerConnectorImplementation.getInstance();
 
-        final ArrayList<String> playerArray = new ArrayList<String>();
-
-        final ArrayList<TextView> views = new ArrayList<TextView>();
         views.add((TextView) findViewById(R.id.player_one));
         views.add((TextView) findViewById(R.id.player_two));
         views.add((TextView) findViewById(R.id.player_three));
         views.add((TextView) findViewById(R.id.player_four));
 
+        if (intent.getStringExtra("ROOM_MODE").equals("Random Room"))
+            randomRoomSetup();
+        else newRoomSetup(intent.getStringExtra("ROOM_NAME"));
+
+        View backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _server.goBackToLobby(new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+
+                        // just to display it on device for debugging
+                        System.out.println("room was switched: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        View playerOneView = findViewById(R.id.player_one);
+        playerOneView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(RoomActivity.this, GameActivity.class));
+            }
+        });
+
+        View playerTwoView = findViewById(R.id.player_two);
+        playerTwoView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(RoomActivity.this, GameAvActivity.class));
+            }
+        });
+
+    }
+
+    public void randomRoomSetup() {
         _server.joinRandomRoom(
                 new Emitter.Listener() {
                     @Override
@@ -94,9 +137,6 @@ public class RoomActivity extends Activity {
                                 playerArray.add(name);
                             }
 
-                            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + playerArray);
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -107,7 +147,6 @@ public class RoomActivity extends Activity {
                             public void run() {
                                 for (int i=0;i < playerArray.size();i++) {
                                     (views.get(i)).setText(playerArray.get(i));
-                                    System.out.println("HALLLLLLLOOOOOOOOO");
                                 }
                                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
@@ -115,12 +154,11 @@ public class RoomActivity extends Activity {
                     }
                 }
         );
+    }
 
-        View backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _server.goBackToLobby(new Emitter.Listener() {
+    public void newRoomSetup(String roomName) {
+        _server.switchRoom(roomName,
+                new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
@@ -134,24 +172,57 @@ public class RoomActivity extends Activity {
                             }
                         });
                     }
-                });
-            }
-        });
+                },
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        // no args supplied
 
-        View playerOneView = findViewById(R.id.player_one);
-        playerOneView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(RoomActivity.this, GameActivity.class));
-            }
-        });
+                        // just to display it on device for debugging
+                        System.out.println("game is ready");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                },
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+                        try {
+                            final JSONObject players = (JSONObject) data.get("players");
+                            Iterator x = players.keys();
 
-        View playerTwoView = findViewById(R.id.player_two);
-        playerTwoView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(RoomActivity.this, GameAvActivity.class));
-            }
-        });
+
+                            while (x.hasNext()) {
+                                String key = (String) x.next();
+                                JSONObject player = (JSONObject) players.get(key);
+                                String name = (String) player.get("name");
+                                playerArray.add(name);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // just to display it on device for debugging
+                        System.out.println("room updated: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int i=0;i < playerArray.size();i++) {
+                                    (views.get(i)).setText(playerArray.get(i));
+                                }
+                                Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+        );
     }
+
 
     @Override
     public void onPause() {
