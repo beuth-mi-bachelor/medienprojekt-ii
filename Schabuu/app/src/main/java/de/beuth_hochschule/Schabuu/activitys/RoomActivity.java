@@ -32,7 +32,6 @@ public class RoomActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        playerArray = new ArrayList<String>();
         Intent intent = getIntent();
         String message = intent.getStringExtra("ROOM_NAME");
 
@@ -128,7 +127,7 @@ public class RoomActivity extends Activity {
                         try {
                             final JSONObject players = (JSONObject) data.get("players");
                             Iterator x = players.keys();
-
+                            playerArray = new ArrayList<String>();
 
                             while (x.hasNext()) {
                                 String key = (String) x.next();
@@ -145,7 +144,7 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i=0;i < playerArray.size();i++) {
+                                for (int i = playerArray.size();i > 0;i--) {
                                     (views.get(i)).setText(playerArray.get(i));
                                 }
                                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
@@ -195,7 +194,7 @@ public class RoomActivity extends Activity {
                         try {
                             final JSONObject players = (JSONObject) data.get("players");
                             Iterator x = players.keys();
-
+                            playerArray = new ArrayList<String>();
 
                             while (x.hasNext()) {
                                 String key = (String) x.next();
@@ -212,8 +211,9 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i=0;i < playerArray.size();i++) {
+                                for (int i = playerArray.size();i > 0;i--) {
                                     (views.get(i)).setText(playerArray.get(i));
+                                    System.out.println(playerArray.get(i) + "" + i);
                                 }
                                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
