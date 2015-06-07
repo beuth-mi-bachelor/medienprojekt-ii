@@ -93,11 +93,6 @@ public class RoomActivity extends Activity {
                                 String name = (String) player.get("name");
                                 playerArray.add(name);
                             }
-                            for (int i=0;i < playerArray.size();i++) {
-                                TextView view = views.get(i);
-                                view.setText(playerArray.get(i));
-                                System.out.println("HALLLLLLLOOOOOOOOO");
-                            }
 
                             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + playerArray);
 
@@ -110,6 +105,10 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                for (int i=0;i < playerArray.size();i++) {
+                                    (views.get(i)).setText(playerArray.get(i));
+                                    System.out.println("HALLLLLLLOOOOOOOOO");
+                                }
                                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -119,16 +118,19 @@ public class RoomActivity extends Activity {
 
         View backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                startActivity(new Intent(RoomActivity.this, MainMenuActivity.class));
                 _server.goBackToLobby(new Emitter.Listener() {
-
                     @Override
                     public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+
+                        // just to display it on device for debugging
+                        System.out.println("room was switched: " + data.toString());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "game is stopped", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
