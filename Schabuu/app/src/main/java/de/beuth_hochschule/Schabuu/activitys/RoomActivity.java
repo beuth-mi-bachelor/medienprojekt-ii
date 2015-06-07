@@ -94,6 +94,27 @@ public class RoomActivity extends Activity {
                                 playerArray.add(name);
                             }
                             System.out.println(playerArray);
+                            adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, playerArray);
+
+                            Bundle extras = getIntent().getExtras();
+                            if (extras != null) {
+                                String p1 = extras.getString("player1");
+                                String p2 = extras.getString("player2");
+                                String p3 = extras.getString("player3");
+                                String p4 = extras.getString("player4");
+                                if (p1 != null) {
+                                    player1View.setText(p1);
+                                }
+                                if (p2 != null) {
+                                    player2View.setText(p2);
+                                }
+                                if (p3 != null) {
+                                    player3View.setText(p3);
+                                }
+                                if (p4 != null) {
+                                    player4View.setText(p4);
+                                }
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -111,7 +132,7 @@ public class RoomActivity extends Activity {
         );
 
         arrayList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList);
+        /*adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -131,7 +152,7 @@ public class RoomActivity extends Activity {
             if (p4 != null) {
                 player4View.setText(p4);
             }
-        }
+        }*/
 
 
         View backButton = findViewById(R.id.back_button);
