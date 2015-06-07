@@ -41,6 +41,11 @@ public class RoomActivity extends Activity {
         setContentView(R.layout.activity_room);
         _server = ServerConnectorImplementation.getInstance();
 
+        player1View = (TextView) findViewById(R.id.player_one);
+        player2View = (TextView) findViewById(R.id.player_two);
+        player3View = (TextView) findViewById(R.id.player_three);
+        player4View = (TextView) findViewById(R.id.player_four);
+
         _server.joinRandomRoom(
                 new Emitter.Listener() {
                     @Override
@@ -72,15 +77,38 @@ public class RoomActivity extends Activity {
                         });
 
                     }
+                },
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+                        try {
+                            final JSONObject players = (JSONObject) data.get("players");
+                            Iterator x = players.keys();
+                            ArrayList<String> playerArray = new ArrayList<String>();
+
+                            while (x.hasNext()){
+                                String key = (String) x.next();
+                                JSONObject player = (JSONObject) players.get(key);
+                                String name = (String) player.get("name");
+                                playerArray.add(name);
+                            }
+                            System.out.println(playerArray);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // just to display it on device for debugging
+                        System.out.println("room updated: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
         );
-
-        player1View = (TextView) findViewById(R.id.player_one);
-        player2View = (TextView) findViewById(R.id.player_two);
-        player3View = (TextView) findViewById(R.id.player_three);
-        player4View = (TextView) findViewById(R.id.player_four);
-
-
 
         arrayList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, arrayList);
@@ -104,7 +132,6 @@ public class RoomActivity extends Activity {
                 player4View.setText(p4);
             }
         }
-
 
 
         View backButton = findViewById(R.id.back_button);
