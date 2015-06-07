@@ -6,55 +6,86 @@ package de.beuth_hochschule.Schabuu.activitys;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
-import java.util.Iterator;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.ServerConnector;
+import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
 public class MainMenuActivity extends Activity {
 
-    //Server config
-    public static final String SERVER_ADDRESS = "192.168.1.3";
-    public static final int PORT_NUMBER = 1337;
-
-    public static com.github.nkzawa.socketio.client.Socket socket;
-
-    String username="RandomUser";
-    String roomName="bla";
-    StringBuffer stringBuffer = new StringBuffer();
+    private ServerConnector _server;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getUserNameAlert();
+        username = loadUserNameFromStoarge("username",getApplicationContext());
+
+        System.out.println("!!!! Username:"+username);
 
         setContentView(R.layout.activity_main_menu);
+
+        _server = ServerConnectorImplementation.getInstance("192.168.1.3", 1337);
+        /**
+         * ESTABLISHING CONNECTION
+         */
+        // how to connect to Server
+        _server.connectToServer(
+                // callback for connection established successfully
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        // no arguments given
+
+                        /**
+                         * First thing after connection is established once
+                         * -> create Player on Server and move him to lobby
+                         */
+                        _server.initPlayer(username, new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                JSONObject data = (JSONObject) args[0];
+                                initDone(data);
+                            }
+                        });
+                        System.out.println("CONNECTED TO SERVER");
+                    }
+                },
+                // callback for connection error
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        // no arguments given
+                        System.err.println("a connection error occurred");
+                    }
+                }
+        );
 
         View playAloneView= findViewById(R.id.play_alone);
         playAloneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sEmit("get_random_room", null);
-                JSONObject room = new JSONObject();
-                try {
-                    room.put("name", roomName);
-                } catch(JSONException ex) {
-                    System.err.println(ex.getMessage());
-                }
-                sEmit("switch_room", room);
-               // startActivity(new Intent(MainMenuActivity.this, RoomActivity.class));
+                startActivity(new Intent(MainMenuActivity.this, RoomActivity.class));
+
             }
         });
 
@@ -74,127 +105,11 @@ public class MainMenuActivity extends Activity {
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
-    }
+    private void getUserNameAlert(String title,String msg){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-
-    private void connectServer() {
-
-        if (socket == null) {
-            try {
-                socket = IO.socket("http://" + SERVER_ADDRESS + ":" + PORT_NUMBER);
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT, onConnect);
-        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT_ERROR, onConnectError);
-        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        socket.on(com.github.nkzawa.socketio.client.Socket.EVENT_DISCONNECT, onDisconnect);
-        socket.on("receive_random_room", onRandRoomEvent);
-        socket.on("update_room", onRoomEvent);
-
-        socket.connect();
-    }
-
-    private Emitter.Listener onConnect = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            System.out.println("Connected!");
-            JSONObject playerData = new JSONObject();
-            try {
-                playerData.put("name", username);
-            } catch (JSONException e) {
-                System.err.println(e.getMessage());
-            }
-            sEmit("new_player", playerData);
-        }
-    };
-
-    private Emitter.Listener onRandRoomEvent = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            setText(roomName, "room received!\n");
-
-            final String roomData = (String) args[0];
-            setText(roomName, roomData + "\n");
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println(roomData);
-                }
-            });
-
-        }
-    };
-
-    private Emitter.Listener onConnectError = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            System.out.println("ERROR!");
-            System.out.println(args[0].toString());
-        }
-    };
-
-    private Emitter.Listener onDisconnect = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            System.out.println("Disconnected!");
-
-        }
-    };
-
-    public static void sEmit(String event, JSONObject obj){
-        if(socket.connected()){
-            socket.emit(event, obj);
-        }
-    }
-
-    private Emitter.Listener onRoomEvent = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            JSONObject roomData = (JSONObject) args[0];
-            JSONObject players;
-
-            try {
-                players = (JSONObject) roomData.get("players");
-                Iterator x = players.keys();
-                int i = 0;
-
-                String roomName = (String) roomData.get("name");
-
-                if (!roomName.equals("lobby")) {
-                    Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
-                    while (x.hasNext()) {
-                        String key = (String) x.next();
-
-                        i++;
-                        intent.putExtra(("player" + i), (String) players.get(key));
-                    }
-                    intent.putExtra(("roomName"), roomName);
-                    MainMenuActivity.this.startActivity(intent);
-                }
-
-            } catch (JSONException ex) {
-                System.err.println(ex.getMessage());
-            }
-
-        }
-    };
-
-
-    private void getUserNameAlert(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
-        alert.setTitle("Set Name");
-        alert.setMessage("Please enter your name");
+        alert.setTitle(title);
+        alert.setMessage(msg);
 
         final EditText input = new EditText(this);
         alert.setView(input);
@@ -202,33 +117,87 @@ public class MainMenuActivity extends Activity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 username = input.getText().toString();
-                if (socket == null || !socket.connected()) {
-                    connectServer();
+                if (username.equals("")){
+                   getUserNameAlert("Set Name","Please enter a valid name");
+                    return;
                 }
+                saveUserNameInStoarge(username);
             }
         });
-
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //TO DO random name generator or cant play without name
-                username = "Random";
-                if (socket == null || !socket.connected()) {
-                    connectServer();
-                }
-            }
-        });
-        alert.show();
+        alert.create().show();
     }
-    private void setText(final String roomNameOld, final String value){
-        stringBuffer.append(roomNameOld);
-        stringBuffer.append(value);
+
+    public void saveUserNameInStoarge(String username){
+       try {
+            FileOutputStream fos = getApplicationContext().openFileOutput("username",Context.MODE_PRIVATE);
+            fos.write(username.getBytes());
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String loadUserNameFromStoarge(String fileName, Context context)
+    {
+        String stringToReturn = " ";
+
+
+        try
+        {
+            String sfilename = fileName;
+                InputStream inputStream = context.openFileInput(sfilename);
+
+                if ( inputStream != null )
+                {
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String receiveString = "";
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    while ( (receiveString = bufferedReader.readLine()) != null )
+                    {
+                        stringBuilder.append(receiveString);
+                    }
+                    inputStream.close();
+                    stringToReturn = stringBuilder.toString();
+                }
+
+        }
+        catch (FileNotFoundException e)
+        {
+            getUserNameAlert("Set Name","Please enter a valid name");
+            Log.e("TAG", "File not found: " + e.toString());
+        }
+        catch (IOException e)
+        {
+            Log.e("TAG", "Can not read file: " + e.toString());
+        }
+
+        return stringToReturn;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        _server.setPlayerInActive();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        _server.setPlayerActive();
+    }
+
+    public void initDone(final JSONObject data) {
+        // Only for debugging
+        System.out.println(data.toString());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                roomName = stringBuffer.toString();
+                Toast.makeText(getApplicationContext(), "Connected successfully: " + data.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        System.out.println(stringBuffer.toString());
     }
 
 }
