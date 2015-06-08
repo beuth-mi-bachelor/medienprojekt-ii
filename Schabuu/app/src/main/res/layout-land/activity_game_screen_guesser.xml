@@ -58,7 +58,7 @@
                 android:layout_weight="1"
                 android:background="#ff4db75b"
                 android:gravity="center"
-                android:text="Score 1"
+                android:text="@string/score_team1"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffffff" />
 
@@ -69,7 +69,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="#ffff7464"
-                android:text="Time left"
+                android:text="@string/time_left"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffffff" />
 
@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:background="#ff4db75b"
                 android:gravity="center"
-                android:text="Score 2"
+                android:text="@string/score_team2"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffffff" />
         </LinearLayout>
@@ -96,7 +96,6 @@
                 android:layout_height="match_parent"
                 android:id="@+id/text_fill"
                 android:inputType="textCapCharacters"
-                android:editable="true"
                 android:gravity="center" />
         </LinearLayout>
 

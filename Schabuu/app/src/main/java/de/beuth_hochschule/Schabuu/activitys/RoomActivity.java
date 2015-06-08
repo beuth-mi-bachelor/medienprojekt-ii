@@ -139,10 +139,22 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i = playerArray.size() - 1; i >= 0; i--) {
-                                    (views.get(i)).setText(playerArray.get(i));
+                                Integer maxPlayers;
+                                try {
+                                    maxPlayers = (Integer) data.get("maxPlayers");
+                                } catch (JSONException e) {
+                                    maxPlayers = 4;
+                                    e.printStackTrace();
+                                }
+                                for (int i = 0; i < maxPlayers; i++) {
+                                    if (i < playerArray.size()) {
+                                        (views.get(i)).setText(playerArray.get(i));
+                                    } else {
+                                        (views.get(i)).setText(getString(R.string.waiting_for_player));
+                                    }
                                 }
                                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
+
                             }
                         });
                     }

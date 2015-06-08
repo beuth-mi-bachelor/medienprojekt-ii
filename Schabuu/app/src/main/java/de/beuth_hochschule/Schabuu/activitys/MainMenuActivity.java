@@ -41,7 +41,7 @@ public class MainMenuActivity extends Activity {
 
         setContentView(R.layout.activity_main_menu);
 
-        _server = ServerConnectorImplementation.getInstance("192.168.1.3", 1337);
+        _server = ServerConnectorImplementation.getInstance("192.168.1.102", 1337);
         /**
          * ESTABLISHING CONNECTION
          */
