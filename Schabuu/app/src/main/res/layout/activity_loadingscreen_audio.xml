@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/other_player"
-        android:id="@+id/player2"
+        android:id="@+id/player1"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.07"
         android:textStyle="bold"
