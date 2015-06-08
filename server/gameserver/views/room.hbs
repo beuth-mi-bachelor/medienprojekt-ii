@@ -4,7 +4,8 @@
         <h2>{{this.name}}</h2>
         <ul>
         {{#each this.players}}
-            <li>{{this}}</li>
+            <li>{{this.name}}: {{this.isActive}}</li>
+
         {{/each}}
         </ul>
     </div>

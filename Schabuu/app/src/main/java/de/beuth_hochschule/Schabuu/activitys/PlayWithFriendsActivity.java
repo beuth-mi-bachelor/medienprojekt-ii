@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.ServerConnector;
+import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
 /**
  * Created by angi on 31.05.15.
@@ -17,10 +19,15 @@ import de.beuth_hochschule.Schabuu.R;
 public class PlayWithFriendsActivity extends Activity {
 
     Editable value;
+    private ServerConnector _server;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+
+        _server = ServerConnectorImplementation.getInstance();
+
         setContentView(R.layout.activity_play_with_friends);
 
         View backButton = findViewById(R.id.back_button);
@@ -63,14 +70,20 @@ public class PlayWithFriendsActivity extends Activity {
                 switch (type){
                     case CREATE:
                         //TO DO CREATE ROOM LOGIC
-                        startActivity(new Intent(PlayWithFriendsActivity.this, RoomActivity.class));
+                        Intent intent = new Intent(PlayWithFriendsActivity.this, RoomActivity.class);
+                        intent.putExtra("ROOM_NAME", value.toString());
+                        intent.putExtra("ROOM_MODE", "PlayWithFriendsActivity");
+                        startActivity(intent);
+
                         break;
                     case JOIN:
                         //TO DO ADD FIND ROOM LOGIC
-                        startActivity(new Intent(PlayWithFriendsActivity.this, RoomActivity.class));
+                        Intent intent2 = new Intent(PlayWithFriendsActivity.this, RoomActivity.class);
+                        intent2.putExtra("ROOM_NAME", value.toString());
+                        intent2.putExtra("ROOM_MODE", "PlayWithFriendsActivity");
+                        startActivity(intent2);
                         break;
                 }
-
             }
         });
 
@@ -85,5 +98,19 @@ public class PlayWithFriendsActivity extends Activity {
     public enum AlertType {
         CREATE, JOIN
     }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        _server.setPlayerInActive();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        _server.setPlayerActive();
+    }
+
 }
 
