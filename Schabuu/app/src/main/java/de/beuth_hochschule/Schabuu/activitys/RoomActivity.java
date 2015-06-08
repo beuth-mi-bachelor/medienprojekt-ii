@@ -61,6 +61,7 @@ public class RoomActivity extends Activity {
                             @Override
                             public void run() {
                                 Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                                onBackPressed();
                             }
                         });
                     }
@@ -141,7 +142,7 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i = playerArray.size() - 1;i >= 0;i--) {
+                                for (int i = playerArray.size() - 1; i >= 0; i--) {
                                     (views.get(i)).setText(playerArray.get(i));
                                 }
                                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
@@ -208,7 +209,7 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i = playerArray.size() - 1;i >= 0;i--) {
+                                for (int i = playerArray.size() - 1; i >= 0; i--) {
                                     (views.get(i)).setText(playerArray.get(i));
                                     System.out.println(playerArray.get(i) + "" + i);
                                 }
