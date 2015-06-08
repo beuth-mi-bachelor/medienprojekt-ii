@@ -59,5 +59,9 @@
     <string name="level_middle">MITTEL</string>
     <string name="level_heavy">SCHWER</string>
     <string name="title_activity_server_demo">ServerDemo</string>
+    <string name="video_description"> Das Spiel wird nun geladen... Du bist in dieser Runde der Pantomime. Versuche durch Bewegungen vor der Kamera das Wort zu erklären! </string>
+    <string name="team_value">Du bist in einem Team mit...</string>
+    <string name="other_player">getPlayer</string>
+    <string name="audio_description">Das Spiel wird nun geladen... Du bist in dieser Runde der Erklärbär. Versuche zu das Wort zu erklären, ohne die Dir angzeigten Wörter zu verwenden!</string>
 
 </resources>
