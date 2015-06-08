@@ -33,9 +33,6 @@ public class RoomActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String message = intent.getStringExtra("ROOM_NAME");
-
-        System.out.println("Paul ist doof" + message);
         setContentView(R.layout.activity_room);
 
         _server = ServerConnectorImplementation.getInstance();
@@ -144,7 +141,7 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i = playerArray.size();i > 0;i--) {
+                                for (int i = playerArray.size() - 1;i >= 0;i--) {
                                     (views.get(i)).setText(playerArray.get(i));
                                 }
                                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
@@ -211,7 +208,7 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i = playerArray.size();i > 0;i--) {
+                                for (int i = playerArray.size() - 1;i >= 0;i--) {
                                     (views.get(i)).setText(playerArray.get(i));
                                     System.out.println(playerArray.get(i) + "" + i);
                                 }
