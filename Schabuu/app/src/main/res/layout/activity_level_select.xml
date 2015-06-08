@@ -14,7 +14,7 @@
         android:background="#ff4c9a3c"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
-        android:layout_weight="2.5"/>
+        android:layout_weight="2.5" />
 
     <TextView
         android:text="@string/level_easy"
@@ -25,7 +25,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
         android:gravity="center"
-        android:layout_weight="2.5"/>
+        android:layout_weight="2.5" />
 
     <TextView
         android:text="@string/level_middle"
@@ -36,12 +36,13 @@
         android:background="#fffedfa5"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
-        android:layout_weight="2.5"/>
+        android:layout_weight="2.5" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2.5">
+
         <TextView
             android:id="@+id/level_heavy"
             android:layout_width="fill_parent"
@@ -50,7 +51,8 @@
             android:gravity="center"
             android:text="@string/level_heavy"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffffff"/>
+            android:textColor="#ffffffff" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +60,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:id="@+id/back_button"/>
+            android:id="@+id/back_button" />
     </RelativeLayout>
 </LinearLayout>

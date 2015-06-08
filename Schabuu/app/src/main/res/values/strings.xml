@@ -63,5 +63,6 @@
     <string name="team_value">Du bist in einem Team mit...</string>
     <string name="other_player">getPlayer</string>
     <string name="audio_description">Das Spiel wird nun geladen... Du bist in dieser Runde der Erklärbär. Versuche zu das Wort zu erklären, ohne die Dir angzeigten Wörter zu verwenden!</string>
+    <string name="guesser_description">Das Spiel wird nun geladen... Du rätst in dieser Runde. Versuche durch die pantomimsche Darstellung und die Erklärung das Wort zu erraten!</string>
 
 </resources>

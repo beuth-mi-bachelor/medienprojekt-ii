@@ -61,30 +61,30 @@ public class ServerConnectorImplementation implements ServerConnector {
         }
     }
 
-    public static ServerConnectorImplementation getInstance () {
+    public static ServerConnectorImplementation getInstance() {
         if (ServerConnectorImplementation.instance == null) {
-            ServerConnectorImplementation.instance = new ServerConnectorImplementation ();
+            ServerConnectorImplementation.instance = new ServerConnectorImplementation();
         }
         return ServerConnectorImplementation.instance;
     }
 
-    public static ServerConnectorImplementation getInstance (String ip, int port) {
+    public static ServerConnectorImplementation getInstance(String ip, int port) {
         if (ServerConnectorImplementation.instance == null) {
-            ServerConnectorImplementation.instance = new ServerConnectorImplementation (ip, port);
+            ServerConnectorImplementation.instance = new ServerConnectorImplementation(ip, port);
         }
         return ServerConnectorImplementation.instance;
     }
 
-    public static ServerConnectorImplementation getInstance (String ip) {
+    public static ServerConnectorImplementation getInstance(String ip) {
         if (ServerConnectorImplementation.instance == null) {
-            ServerConnectorImplementation.instance = new ServerConnectorImplementation (ip);
+            ServerConnectorImplementation.instance = new ServerConnectorImplementation(ip);
         }
         return ServerConnectorImplementation.instance;
     }
 
-    public static ServerConnectorImplementation getInstance (int port) {
+    public static ServerConnectorImplementation getInstance(int port) {
         if (ServerConnectorImplementation.instance == null) {
-            ServerConnectorImplementation.instance = new ServerConnectorImplementation (port);
+            ServerConnectorImplementation.instance = new ServerConnectorImplementation(port);
         }
         return ServerConnectorImplementation.instance;
     }
@@ -243,7 +243,8 @@ public class ServerConnectorImplementation implements ServerConnector {
                 socket.off(Events.ROOM_LIST_CALLBACK);
                 roomListCallback.call(args);
             }
-        });    }
+        });
+    }
 
     @Override
     public String toString() {

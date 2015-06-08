@@ -9,9 +9,6 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
-/**
- * Created by angi on 31.05.15.
- */
 public class SettingsActivity extends Activity {
     private ServerConnector _server;
 
@@ -23,7 +20,7 @@ public class SettingsActivity extends Activity {
 
         _server = ServerConnectorImplementation.getInstance();
 
-        View playAloneView= findViewById(R.id.back_button);
+        View playAloneView = findViewById(R.id.back_button);
         playAloneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(SettingsActivity.this, MainMenuActivity.class));

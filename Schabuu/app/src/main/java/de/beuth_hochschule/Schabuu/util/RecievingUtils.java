@@ -5,13 +5,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+
 import net.nanocosmos.nanoStream.streamer.NanostreamPlayer;
 import net.nanocosmos.nanoStream.streamer.nanoStream;
 
-
-/**
- * Created by Sprotte on 01.06.15.
- */
 public class RecievingUtils {
     private RetainedFragment dataFragment;
     private NanostreamPlayer player;
@@ -44,10 +41,12 @@ public class RecievingUtils {
             player = dataFragment.getData();
         }
     }
-    public NanostreamPlayer GetPlayer(){
+
+    public NanostreamPlayer GetPlayer() {
         return player;
     }
-    public void StartPlayer(){
+
+    public void StartPlayer() {
         dataFragment.mPlayer.start();
     }
 

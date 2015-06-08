@@ -1,9 +1,5 @@
 package de.beuth_hochschule.Schabuu.activitys;
 
-/**
- * Created by angi on 31.05.15.
- */
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -39,9 +35,9 @@ public class MainMenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        username = loadUserNameFromStoarge("username",getApplicationContext());
+        username = loadUserNameFromStoarge("username", getApplicationContext());
 
-        System.out.println("!!!! Username:"+username);
+        System.out.println("!!!! Username:" + username);
 
         setContentView(R.layout.activity_main_menu);
 
@@ -81,7 +77,7 @@ public class MainMenuActivity extends Activity {
                 }
         );
 
-        View playAloneView= findViewById(R.id.play_alone);
+        View playAloneView = findViewById(R.id.play_alone);
         playAloneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
@@ -90,14 +86,14 @@ public class MainMenuActivity extends Activity {
             }
         });
 
-        View playWithFriendsView= findViewById(R.id.play_friends);
+        View playWithFriendsView = findViewById(R.id.play_friends);
         playWithFriendsView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(MainMenuActivity.this, PlayWithFriendsActivity.class));
             }
         });
 
-        View settingsView= findViewById(R.id.settings);
+        View settingsView = findViewById(R.id.settings);
         settingsView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
@@ -106,7 +102,7 @@ public class MainMenuActivity extends Activity {
 
     }
 
-    private void getUserNameAlert(String title,String msg){
+    private void getUserNameAlert(String title, String msg) {
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle(title);
@@ -118,8 +114,8 @@ public class MainMenuActivity extends Activity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 username = input.getText().toString();
-                if (username.equals("")){
-                   getUserNameAlert("Set Name","Please enter a valid name");
+                if (username.equals("")) {
+                    getUserNameAlert("Set Name", "Please enter a valid name");
                     return;
                 }
                 saveUserNameInStoarge(username);
@@ -128,9 +124,9 @@ public class MainMenuActivity extends Activity {
         alert.create().show();
     }
 
-    public void saveUserNameInStoarge(String username){
-       try {
-            FileOutputStream fos = getApplicationContext().openFileOutput("username",Context.MODE_PRIVATE);
+    public void saveUserNameInStoarge(String username) {
+        try {
+            FileOutputStream fos = getApplicationContext().openFileOutput("username", Context.MODE_PRIVATE);
             fos.write(username.getBytes());
             fos.flush();
             fos.close();
@@ -139,39 +135,31 @@ public class MainMenuActivity extends Activity {
         }
     }
 
-    public String loadUserNameFromStoarge(String fileName, Context context)
-    {
+    public String loadUserNameFromStoarge(String fileName, Context context) {
         String stringToReturn = " ";
 
 
-        try
-        {
+        try {
             String sfilename = fileName;
-                InputStream inputStream = context.openFileInput(sfilename);
+            InputStream inputStream = context.openFileInput(sfilename);
 
-                if ( inputStream != null )
-                {
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    String receiveString = "";
-                    StringBuilder stringBuilder = new StringBuilder();
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
 
-                    while ( (receiveString = bufferedReader.readLine()) != null )
-                    {
-                        stringBuilder.append(receiveString);
-                    }
-                    inputStream.close();
-                    stringToReturn = stringBuilder.toString();
+                while ((receiveString = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(receiveString);
                 }
+                inputStream.close();
+                stringToReturn = stringBuilder.toString();
+            }
 
-        }
-        catch (FileNotFoundException e)
-        {
-            getUserNameAlert("Set Name","Please enter a valid name");
+        } catch (FileNotFoundException e) {
+            getUserNameAlert("Set Name", "Please enter a valid name");
             Log.e("TAG", "File not found: " + e.toString());
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.e("TAG", "Can not read file: " + e.toString());
         }
 
