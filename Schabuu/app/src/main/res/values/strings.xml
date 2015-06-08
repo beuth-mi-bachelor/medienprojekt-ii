@@ -80,5 +80,6 @@
     <string name="other_player">Other Player</string>
     <string name="video_description">Das Spiel wird geladen... Du bist in dieser Runde der Pantomime. Versuche das Wort durch Bewegungen vor der Kamera darzustellen! </string>
     <string name="guesser_description">Das Spiel wird geladen... Du darfst in dieser Runde das dargestellte und erklärte Wort raten!</string>
+    <string name="save_settings_button">Save Settings</string>
 
 </resources>
