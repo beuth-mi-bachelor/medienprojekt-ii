@@ -75,9 +75,10 @@
     <string name="create_value">Create</string>
     <string name="join_value">Join</string>
     <string name="waiting_for_player">waiting ...</string>
-    <string name="audio_description">Audio Beschreibung</string>
-    <string name="team_value">Team Name</string>
+    <string name="audio_description">Das Spiel wird geladen... Du bist in dieser Runde der Erklärbär. Versuche das Wort zu erklären ohne die angegebenen Wörter zu verwenden!</string>
+    <string name="team_value">Du bist im Team mit...</string>
     <string name="other_player">Other Player</string>
-    <string name="video_description">Video Beschreibung</string>
+    <string name="video_description">Das Spiel wird geladen... Du bist in dieser Runde der Pantomime. Versuche das Wort durch Bewegungen vor der Kamera darzustellen! </string>
+    <string name="guesser_description">Das Spiel wird geladen... Du darfst in dieser Runde das dargestellte und erklärte Wort raten!</string>
 
 </resources>
