@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
+
 import net.nanocosmos.nanoStream.streamer.AdaptiveBitrateControlSettings;
 import net.nanocosmos.nanoStream.streamer.Logging;
 import net.nanocosmos.nanoStream.streamer.NanostreamEvent;
@@ -16,9 +17,6 @@ import net.nanocosmos.nanoStream.streamer.NanostreamEventListener;
 import net.nanocosmos.nanoStream.streamer.NanostreamException;
 import net.nanocosmos.nanoStream.streamer.nanoStream;
 
-/**
- * Created by Sprotte on 01.06.15.
- */
 public class StreamingUtils extends Activity implements NanostreamEventListener {
     //Sending Attributes
     private nanoStream streamLib;
@@ -33,33 +31,29 @@ public class StreamingUtils extends Activity implements NanostreamEventListener 
 
     private static final String LOG_TAG = "StreamingUtilsActivity";
 
-    public StreamingUtils(String serverUrl, String streamName, String license,String authUser,String authPass,SurfacePlayerView surfacePlayerView,Context context) {
+    public StreamingUtils(String serverUrl, String streamName, String license, String authUser, String authPass, SurfacePlayerView surfacePlayerView, Context context) {
         this.context = context;
 
         AdaptiveBitrateControlSettings abcSettings = new AdaptiveBitrateControlSettings(abcMode);
         Logging.LogSettings logSettings = new Logging.LogSettings(Logging.LogLevel.VERBOSE, 1);
 
-        try
-        {
-            streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surfacePlayerView.getHolder(), 2, license, serverUrl, streamName, authUser, authPass,this, abcSettings, logSettings);
+        try {
+            streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surfacePlayerView.getHolder(), 2, license, serverUrl, streamName, authUser, authPass, this, abcSettings, logSettings);
             mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
             mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
             streamLib.setVideoSource(mVideoCam);
-        } catch (NanostreamException en)
-        {
+        } catch (NanostreamException en) {
             Toast.makeText(context, en.toString(), Toast.LENGTH_LONG).show();
         }
-        try
-        {
-            if (streamLib != null)
-            {
+        try {
+            if (streamLib != null) {
                 streamLib.init();
             }
-        } catch (NanostreamException en)
-        {
+        } catch (NanostreamException en) {
             Toast.makeText(context, en.toString(), Toast.LENGTH_LONG).show();
         }
     }
+
     public void toggleStreaming() {
         if (streamLib == null) {
             Toast.makeText(getApplicationContext(), "nanoStream failed to initialize", Toast.LENGTH_LONG).show();
@@ -99,20 +93,15 @@ public class StreamingUtils extends Activity implements NanostreamEventListener 
         }
     }
 
-    public boolean isNetworkAvailable()
-    {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (connectivity != null)
-        {
+        if (connectivity != null) {
             NetworkInfo[] info = connectivity.getAllNetworkInfo();
 
-            if (info != null)
-            {
-                for (int i = 0; i < info.length; i++)
-                {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                    {
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
                 }
@@ -125,20 +114,17 @@ public class StreamingUtils extends Activity implements NanostreamEventListener 
     public void onNanostreamEvent(NanostreamEvent nanostreamEvent) {
         this.runOnUiThread(new NotificationRunable(nanostreamEvent));
     }
-    private class NotificationRunable implements Runnable
-    {
+
+    private class NotificationRunable implements Runnable {
         private NanostreamEvent m_event;
 
-        public NotificationRunable(NanostreamEvent event)
-        {
+        public NotificationRunable(NanostreamEvent event) {
             m_event = event;
         }
 
         @Override
-        public void run()
-        {
-            if (m_event.GetType() != NanostreamEvent.TYPE_RTMP_QUALITY)
-            {
+        public void run() {
+            if (m_event.GetType() != NanostreamEvent.TYPE_RTMP_QUALITY) {
                 Toast.makeText(context, m_event.GetDescription(), Toast.LENGTH_SHORT).show();
             }
         }

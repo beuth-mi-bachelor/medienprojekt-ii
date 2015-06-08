@@ -13,9 +13,6 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
-/**
- * Created by angi on 31.05.15.
- */
 public class PlayWithFriendsActivity extends Activity {
 
     Editable value;
@@ -40,21 +37,21 @@ public class PlayWithFriendsActivity extends Activity {
         View joinButton = findViewById(R.id.join);
         joinButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                alert("Join Room","Enter Roomname",AlertType.JOIN);
+                alert("Join Room", "Enter Roomname", AlertType.JOIN);
             }
         });
 
         View createButton = findViewById(R.id.create);
         createButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                alert("Create Room","Enter Roomname",AlertType.CREATE);
+                alert("Create Room", "Enter Roomname", AlertType.CREATE);
             }
         });
 
 
     }
 
-    private void alert(final String title, String msg, final AlertType type){
+    private void alert(final String title, String msg, final AlertType type) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle(title);
@@ -67,7 +64,7 @@ public class PlayWithFriendsActivity extends Activity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 value = input.getText();
 
-                switch (type){
+                switch (type) {
                     case CREATE:
                         //TO DO CREATE ROOM LOGIC
                         Intent intent = new Intent(PlayWithFriendsActivity.this, RoomActivity.class);
@@ -95,6 +92,7 @@ public class PlayWithFriendsActivity extends Activity {
 
         alert.show();
     }
+
     public enum AlertType {
         CREATE, JOIN
     }

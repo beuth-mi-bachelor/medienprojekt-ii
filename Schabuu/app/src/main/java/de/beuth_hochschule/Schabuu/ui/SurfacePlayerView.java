@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
-/**
- * Created by Sprotte on 27.05.15.
- */
 public class SurfacePlayerView extends SurfaceView {
 
 

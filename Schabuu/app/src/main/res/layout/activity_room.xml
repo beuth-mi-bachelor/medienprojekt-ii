@@ -16,7 +16,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
         android:gravity="center"
-        android:layout_weight="2.5"/>
+        android:layout_weight="2.5" />
 
     <TextView
         android:id="@+id/player_two"
@@ -27,7 +27,7 @@
         android:text="waiting ..."
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
-        android:layout_weight="2.5"/>
+        android:layout_weight="2.5" />
 
     <TextView
         android:id="@+id/player_three"
@@ -38,28 +38,31 @@
         android:text="waiting ..."
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
-        android:layout_weight="2.5"/>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="2.5">
-    <TextView
-        android:id="@+id/player_four"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:background="#ff66b3ff"
-        android:gravity="center"
-        android:text="waiting ..."
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/back_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/back_button"/>
-</RelativeLayout>
+        android:layout_weight="2.5" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5">
+
+        <TextView
+            android:id="@+id/player_four"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="#ff66b3ff"
+            android:gravity="center"
+            android:text="waiting ..."
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_button"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/back_button" />
+    </RelativeLayout>
 
 </LinearLayout>

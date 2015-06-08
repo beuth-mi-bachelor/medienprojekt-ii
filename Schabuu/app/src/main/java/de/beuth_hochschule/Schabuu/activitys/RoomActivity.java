@@ -19,9 +19,6 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
-/**
- * Created by angi on 31.05.15.
- */
 public class RoomActivity extends Activity {
 
     private ServerConnector _server;

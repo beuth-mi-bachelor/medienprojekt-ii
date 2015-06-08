@@ -11,7 +11,7 @@ import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
 import de.beuth_hochschule.Schabuu.util.RecievingUtils;
 
-public class GameActivity extends Activity  {
+public class GameActivity extends Activity {
 
     private static final String license = "nlic:1.2:LiveEnc:3.0:LvApp=1,LivePlg=1,H264DEC=1,H264ENC=1,RTMPsrc=1,RtmpMsg=1,RTMPx=3,NoMsg=1,Ic=0:adr,ios:20150409,20150707::0:0:smartfrog-431775-1:ncpt:90ddf42ffe204d9e1e6ac99e9df92aba";
     // rtmp://ws2.nanocosmos.net/live
@@ -37,7 +37,7 @@ public class GameActivity extends Activity  {
 
         setContentView(R.layout.activity_game_screen_guesser);
 
-        RecievingUtils utils = new RecievingUtils(this,license,strStreamUrl,strStreamname,authUser,authPass);
+        RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
         utils.StartPlayer();

@@ -24,6 +24,7 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
 import de.beuth_hochschule.Schabuu.util.PreferenceEnum;
 import de.beuth_hochschule.Schabuu.util.VideoCamera;
+
 import net.nanocosmos.nanoStream.streamer.AdaptiveBitrateControlSettings;
 import net.nanocosmos.nanoStream.streamer.Logging;
 import net.nanocosmos.nanoStream.streamer.NanostreamEvent;
@@ -35,7 +36,7 @@ import net.nanocosmos.nanoStream.streamer.NanostreamPlayer.PlayerSettings;
 import net.nanocosmos.nanoStream.streamer.NanostreamPlayerImpl;
 import net.nanocosmos.nanoStream.streamer.nanoStream;
 
-public class PlayerActivity extends Activity implements PlayerEventListener , NanostreamEventListener {
+public class PlayerActivity extends Activity implements PlayerEventListener, NanostreamEventListener {
 
     //Sending Attributes
     private nanoStream streamLib;
@@ -67,8 +68,6 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -143,20 +142,16 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
         this.runOnUiThread(new NotificationRunable(nanostreamEvent));
     }
 
-    private class NotificationRunable implements Runnable
-    {
+    private class NotificationRunable implements Runnable {
         private NanostreamEvent m_event;
 
-        public NotificationRunable(NanostreamEvent event)
-        {
+        public NotificationRunable(NanostreamEvent event) {
             m_event = event;
         }
 
         @Override
-        public void run()
-        {
-            if (m_event.GetType() != NanostreamEvent.TYPE_RTMP_QUALITY)
-            {
+        public void run() {
+            if (m_event.GetType() != NanostreamEvent.TYPE_RTMP_QUALITY) {
                 Toast.makeText(getApplicationContext(), m_event.GetDescription(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -244,22 +239,17 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
         }
     }
 
-    public boolean isNetworkAvailable()
-    {
+    public boolean isNetworkAvailable() {
         Context context = getApplicationContext();
 
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (connectivity != null)
-        {
+        if (connectivity != null) {
             NetworkInfo[] info = connectivity.getAllNetworkInfo();
 
-            if (info != null)
-            {
-                for (int i = 0; i < info.length; i++)
-                {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                    {
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
                 }
@@ -268,31 +258,26 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
         return false;
     }
 
-    public void createRecievingStuff(SurfacePlayerView surface){
+    public void createRecievingStuff(SurfacePlayerView surface) {
         loadPreferences();
 
         AdaptiveBitrateControlSettings abcSettings = new AdaptiveBitrateControlSettings(abcMode);
         Logging.LogSettings logSettings = new Logging.LogSettings(Logging.LogLevel.VERBOSE, 1);
 
-        try
-        {
+        try {
             streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surface.getHolder(), 2, license, serverUrl, streamName, authUser, authPass,
                     this, abcSettings, logSettings);
             mVideoCam = new VideoCamera(width, height, FRAME_RATE, surface.getHolder());
             mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
             streamLib.setVideoSource(mVideoCam);
-        } catch (NanostreamException en)
-        {
+        } catch (NanostreamException en) {
             Toast.makeText(getApplicationContext(), en.toString(), Toast.LENGTH_LONG).show();
         }
-        try
-        {
-            if (streamLib != null)
-            {
+        try {
+            if (streamLib != null) {
                 streamLib.init();
             }
-        } catch (NanostreamException en)
-        {
+        } catch (NanostreamException en) {
             Toast.makeText(getApplicationContext(), en.toString(), Toast.LENGTH_LONG).show();
         }
 
@@ -301,8 +286,7 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
     }
 
 
-    private void loadPreferences()
-    {
+    private void loadPreferences() {
         //SharedPreferences prefs = getPrefs;
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(nanoStreamApp.getAppContext());
         BIT_RATE = 500000;
@@ -313,7 +297,7 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
 
 
 		/*
-		 * abcMinBitrate = AdaptiveBitrateControlSettings.DEFAULT_MIN_BITRATE;
+         * abcMinBitrate = AdaptiveBitrateControlSettings.DEFAULT_MIN_BITRATE;
 		 * //
 		 * Integer.parseInt(prefs.getString(PreferenceEnum.PREF_ABC_MIN_BITRATE
 		 * .getValue(), String.valueOf(abcMinBitrate))); abcMinFramerate =
@@ -328,28 +312,23 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
 		 */
 
 
-                abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.QUALITY_DEGRADE_AND_FRAME_DROP;
-
+        abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.QUALITY_DEGRADE_AND_FRAME_DROP;
 
 
     }
 
-    private class PreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener
-    {
+    private class PreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
-        {
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
             Log.i(this.getClass().getName(), "Preference changed");
 
-            if (PreferenceEnum.PREF_RESOLUTION_KEY.equalsValue(key))
-            {
+            if (PreferenceEnum.PREF_RESOLUTION_KEY.equalsValue(key)) {
                 String size = sharedPreferences.getString(key, "640x480");
                 String[] sizes = size.split("x");
 
-                if (sizes.length > 2)
-                {
+                if (sizes.length > 2) {
                     throw new RuntimeException(new IllegalArgumentException("Wrong resolution value."));
                 }
 
@@ -357,34 +336,28 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
                 height = Integer.parseInt(sizes[1]);
             }
 
-            if (PreferenceEnum.PREF_BITRATE_KEY.equalsValue(key))
-            {
+            if (PreferenceEnum.PREF_BITRATE_KEY.equalsValue(key)) {
                 String value = sharedPreferences.getString(key, "500000");
                 BIT_RATE = Integer.parseInt(value);
             }
 
-            if (PreferenceEnum.PREF_FPS_KEY.equalsValue(key))
-            {
+            if (PreferenceEnum.PREF_FPS_KEY.equalsValue(key)) {
                 FRAME_RATE = Integer.parseInt(sharedPreferences.getString(key, "15"));
             }
 
-            if (PreferenceEnum.PREF_URI_KEY.equalsValue(key))
-            {
+            if (PreferenceEnum.PREF_URI_KEY.equalsValue(key)) {
                 serverUrl = sharedPreferences.getString(PreferenceEnum.PREF_URI_KEY.getValue(), serverUrl);
             }
 
-            if (PreferenceEnum.PREF_CODE_KEY.equalsValue(key))
-            {
+            if (PreferenceEnum.PREF_CODE_KEY.equalsValue(key)) {
                 streamName = sharedPreferences.getString(PreferenceEnum.PREF_CODE_KEY.getValue(), streamName);
             }
 
-            if (PreferenceEnum.PREF_AUTH_USER_KEY.equalsValue(key))
-            {
+            if (PreferenceEnum.PREF_AUTH_USER_KEY.equalsValue(key)) {
                 authUser = sharedPreferences.getString(PreferenceEnum.PREF_AUTH_USER_KEY.getValue(), authUser);
             }
 
-            if (PreferenceEnum.PREF_AUTH_PASS_KEY.equalsValue(key))
-            {
+            if (PreferenceEnum.PREF_AUTH_PASS_KEY.equalsValue(key)) {
                 authPass = sharedPreferences.getString(PreferenceEnum.PREF_AUTH_PASS_KEY.getValue(), authPass);
             }
 
@@ -408,32 +381,25 @@ public class PlayerActivity extends Activity implements PlayerEventListener , Na
 			 * String.valueOf(abcFlushBufferThreshold))); }
 			 */
 
-            if (PreferenceEnum.PREF_ABC_MODE.equalsValue(key))
-            {
-                switch (Integer.parseInt(sharedPreferences.getString(PreferenceEnum.PREF_ABC_MODE.getValue(), String.valueOf(0))))
-                {
-                    case 0:
-                    {
+            if (PreferenceEnum.PREF_ABC_MODE.equalsValue(key)) {
+                switch (Integer.parseInt(sharedPreferences.getString(PreferenceEnum.PREF_ABC_MODE.getValue(), String.valueOf(0)))) {
+                    case 0: {
                         abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.DISABLED;
                         break;
                     }
-                    case 1:
-                    {
+                    case 1: {
                         abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.QUALITY_DEGRADE;
                         break;
                     }
-                    case 2:
-                    {
+                    case 2: {
                         abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.FRAME_DROP;
                         break;
                     }
-                    case 3:
-                    {
+                    case 3: {
                         abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.QUALITY_DEGRADE_AND_FRAME_DROP;
                         break;
                     }
-                    default:
-                    {
+                    default: {
                         abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.DISABLED;
                         break;
                     }
