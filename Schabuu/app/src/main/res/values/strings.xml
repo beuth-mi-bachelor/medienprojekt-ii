@@ -75,5 +75,9 @@
     <string name="create_value">Create</string>
     <string name="join_value">Join</string>
     <string name="waiting_for_player">waiting ...</string>
+    <string name="audio_description">Audio Beschreibung</string>
+    <string name="team_value">Team Name</string>
+    <string name="other_player">Other Player</string>
+    <string name="video_description">Video Beschreibung</string>
 
 </resources>
