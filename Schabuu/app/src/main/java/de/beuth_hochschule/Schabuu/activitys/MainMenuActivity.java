@@ -37,10 +37,34 @@ public class MainMenuActivity extends Activity {
 
         username = loadUserNameFromStoarge("username", getApplicationContext());
 
-        System.out.println("!!!! Username:" + username);
-
         setContentView(R.layout.activity_main_menu);
 
+        View playAloneView = findViewById(R.id.play_alone);
+        playAloneView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
+                intent.putExtra("ROOM_MODE", "Random Room");
+                startActivity(intent);
+            }
+        });
+
+        View playWithFriendsView = findViewById(R.id.play_friends);
+        playWithFriendsView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenuActivity.this, PlayWithFriendsActivity.class));
+            }
+        });
+
+        View settingsView = findViewById(R.id.settings);
+        settingsView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
+            }
+        });
+
+    }
+
+    private void connectToServer() {
         _server = ServerConnectorImplementation.getInstance("192.168.1.102", 1337);
         /**
          * ESTABLISHING CONNECTION
@@ -76,30 +100,6 @@ public class MainMenuActivity extends Activity {
                     }
                 }
         );
-
-        View playAloneView = findViewById(R.id.play_alone);
-        playAloneView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
-                intent.putExtra("ROOM_MODE", "Random Room");
-                startActivity(intent);
-            }
-        });
-
-        View playWithFriendsView = findViewById(R.id.play_friends);
-        playWithFriendsView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, PlayWithFriendsActivity.class));
-            }
-        });
-
-        View settingsView = findViewById(R.id.settings);
-        settingsView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
-            }
-        });
-
     }
 
     private void getUserNameAlert(String title, String msg) {
@@ -130,6 +130,8 @@ public class MainMenuActivity extends Activity {
             fos.write(username.getBytes());
             fos.flush();
             fos.close();
+            loadUserNameFromStoarge("username", getApplicationContext());
+            MainMenuActivity.this.connectToServer();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,10 +140,8 @@ public class MainMenuActivity extends Activity {
     public String loadUserNameFromStoarge(String fileName, Context context) {
         String stringToReturn = " ";
 
-
         try {
-            String sfilename = fileName;
-            InputStream inputStream = context.openFileInput(sfilename);
+            InputStream inputStream = context.openFileInput(fileName);
 
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -156,8 +156,10 @@ public class MainMenuActivity extends Activity {
                 stringToReturn = stringBuilder.toString();
             }
 
+            MainMenuActivity.this.connectToServer();
+
         } catch (FileNotFoundException e) {
-            getUserNameAlert("Set Name", "Please enter a valid name");
+            getUserNameAlert("Set Name", "Please enter a your displayed name");
             Log.e("TAG", "File not found: " + e.toString());
         } catch (IOException e) {
             Log.e("TAG", "Can not read file: " + e.toString());
@@ -169,13 +171,17 @@ public class MainMenuActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();  // Always call the superclass method first
-        _server.setPlayerInActive();
+        if (_server != null) {
+            _server.setPlayerInActive();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-        _server.setPlayerActive();
+        if (_server != null) {
+            _server.setPlayerActive();
+        }
     }
 
     public void initDone(final JSONObject data) {

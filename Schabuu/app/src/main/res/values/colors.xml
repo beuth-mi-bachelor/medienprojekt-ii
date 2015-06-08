@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="schabuu_red">#ff6666</color>
+    <color name="schabuu_blue">#8f8fff</color>
+    <color name="schabuu_yellow">#fffc83</color>
+    <color name="schabuu_green">#85ff85</color>
+    <color name="schabuu_grey">#a4a4a4</color>
+</resources>

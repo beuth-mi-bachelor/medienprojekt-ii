@@ -79,5 +79,6 @@
     <string name="team_value">Team Name</string>
     <string name="other_player">Other Player</string>
     <string name="video_description">Video Beschreibung</string>
+    <string name="save_settings_button">Save</string>
 
 </resources>

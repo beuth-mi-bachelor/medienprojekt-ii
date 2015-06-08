@@ -5,52 +5,34 @@
     android:layout_weight="10.0"
     android:orientation="vertical">
 
-    <TextView
-        android:text="@string/choose_Level"
-        android:id="@+id/chooseLevel"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:background="#ff4c9a3c"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
-        android:layout_weight="2.5" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:text="@string/player_name" />
 
     <TextView
-        android:text="@string/level_easy"
-        android:id="@+id/level_easy"
+        android:id="@+id/textView3"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:background="#ff5b80c2"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
+        android:background="@color/schabuu_red"
         android:gravity="center"
-        android:layout_weight="2.5" />
-
-    <TextView
-        android:text="@string/level_middle"
-        android:id="@+id/level_middle"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:background="#fffedfa5"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
-        android:layout_weight="2.5" />
+        android:layout_weight="8" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.5">
+        android:layout_weight="1.5">
 
-        <TextView
-            android:id="@+id/level_heavy"
+        <Button
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:background="#fffe6a33"
-            android:gravity="center"
-            android:text="@string/level_heavy"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_height="fill_parent"
+            android:text="@string/save_settings_button"
+            android:id="@+id/button"
+            android:layout_alignParentStart="false"
+            android:background="@color/schabuu_blue"
             android:textColor="#ffffffff" />
 
         <Button
@@ -61,5 +43,6 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:id="@+id/back_button" />
+
     </RelativeLayout>
 </LinearLayout>
