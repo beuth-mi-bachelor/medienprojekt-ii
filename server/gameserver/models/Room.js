@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
 
     // imports
@@ -32,7 +32,7 @@
      * get all rooms as an object
      * @returns {{Room}} a JSON-Object containing all rooms
      */
-    Room.getAllRoomsAsObject = function() {
+    Room.getAllRoomsAsObject = function () {
         return Room.rooms;
     };
 
@@ -40,7 +40,7 @@
      * get all rooms as an array
      * @returns {[Room]} an array containing all rooms
      */
-    Room.getAllRoomsAsArray = function() {
+    Room.getAllRoomsAsArray = function () {
         return Object.keys(Room.rooms).map(function (key) {
             return Room.rooms[key];
         });
@@ -50,7 +50,7 @@
      * shows how many rooms are registered
      * @returns {Number} a number between zero and infinite
      */
-    Room.getNumberOfRooms = function() {
+    Room.getNumberOfRooms = function () {
         return Object.keys(Room.rooms).length;
     };
 
@@ -59,7 +59,7 @@
      * @param name {String} unique name of room
      * @returns {Room} an instance of the room or null if not found
      */
-    Room.getRoom = function(name) {
+    Room.getRoom = function (name) {
         if (!Room.rooms.hasOwnProperty(name)) {
             return null;
         }
@@ -70,11 +70,11 @@
      * get a random room name, which is not full
      * @returns {String} an room not filled yet or a generated name
      */
-    Room.getRandomRoomName = function() {
+    Room.getRandomRoomName = function () {
         var allRooms = Room.getAllNonFilledRooms();
 
         // sort by number of players in room
-        allRooms.sort(function(a, b){
+        allRooms.sort(function (a, b) {
             return Object.keys(a.players).length < Object.keys(b.players).length;
         });
 
@@ -89,8 +89,8 @@
      * get all rooms that are not filled yet
      * @returns {[Room]} a list of rooms
      */
-    Room.getAllNonFilledRooms = function() {
-        var allRooms = JSON.parse( JSON.stringify( Room.getAllRoomsAsObject() ) ),
+    Room.getAllNonFilledRooms = function () {
+        var allRooms = JSON.parse(JSON.stringify(Room.getAllRoomsAsObject())),
             allEmptyRooms = [];
         delete allRooms["lobby"];
         for (var room in allRooms) {
@@ -110,13 +110,13 @@
      * @param player {Player} the player joining the room
      * @param callback {Function} callback fn
      */
-    Room.leaveAllRooms = function(client, player, callback) {
+    Room.leaveAllRooms = function (client, player, callback) {
         if (client.rooms.length === 0 && player && player.room) {
             player.room.leaveRoom(client, player, callback, null);
         } else {
             for (var i = 0; i < client.rooms.length; i++) {
                 var currentRoom = Room.getRoom(client.rooms[i]);
-                if (i === client.rooms.length-1) {
+                if (i === client.rooms.length - 1) {
                     if (currentRoom !== null) {
                         currentRoom.leaveRoom(client, player, callback, null);
                     }
@@ -138,141 +138,148 @@
      * @param callback1 callback fn
      * @param callback2 callback fn
      */
-    Room.switchRoom = function(socket, client, player, room, callback1, callback2) {
-        Room.leaveAllRooms(client, player, function() {
+    Room.switchRoom = function (socket, client, player, room, callback1, callback2) {
+        Room.leaveAllRooms(client, player, function () {
             room.joinRoom(socket, client, player, callback1, callback2);
         });
     };
 
-    Room.prototype = {
-        /**
-         * a client leaves a room
-         * @param client {{id: String}} reference to the socket
-         * @param player {Player} the player joining the room
-         * @param callback1 callback fn
-         * @param callback2 callback fn
-         */
-        leaveRoom: function(client, player, callback1, callback2) {
-            var self = this;
-            client.leave(this.name, function() {
-                delete self.players[player.id];
-                if (self.isEmpty()) {
-                    self.remove();
-                }
-                if (callback1) {
-                    callback1(self);
-                }
-                if (callback2) {
-                    callback2(self);
-                }
-            });
-        },
-        /**
-         * a client joins a room
-         * @param socket {{}} socket
-         * @param client {{id: String}} reference to the socket
-         * @param player {Player} the player joining the room
-         * @param callback1 callback fn
-         * @param callback2 callback fn
-         */
-        joinRoom: function(socket, client, player, callback1, callback2) {
-            var self = this;
-            client.join(this.name, function() {
-                self.players[player.id] = {
-                    name: player.name,
-                    isActive: player.isActive
-                };
-                if (self.isFull()) {
-                    if (self.checkActivity()) {
-                        socket.sockets.in(self.name).emit('game_ready');
-                    }
-                }
-                if (callback1) {
-                    callback1(self);
-                }
-                if (callback2) {
-                    callback2(self);
-                }
-            });
-        },
-        /**
-         * get the number of players currently in this room
-         * @returns {Number} of players between 0 and maxPlayers for this room
-         */
-        getNumberOfPlayersInRoom: function() {
-            return Object.keys(this.players).length;
-        },
-        checkActivity: function() {
-            for (var player in this.players) {
-                if (this.players.hasOwnProperty(player) && !this.players[player].isActive) {
-                    return false;
+    /**
+     * a client leaves a room
+     * @param client {{id: String}} reference to the socket
+     * @param player {Player} the player joining the room
+     * @param callback1 callback fn
+     * @param callback2 callback fn
+     */
+    Room.prototype.leaveRoom = function (client, player, callback1, callback2) {
+        var self = this;
+        client.leave(this.name, function () {
+            delete self.players[player.id];
+            if (self.isEmpty()) {
+                self.remove();
+            }
+            if (callback1) {
+                callback1(self);
+            }
+            if (callback2) {
+                callback2(self);
+            }
+        });
+    };
+
+    /**
+     * a client joins a room
+     * @param socket {{}} socket
+     * @param client {{id: String}} reference to the socket
+     * @param player {Player} the player joining the room
+     * @param callback1 callback fn
+     * @param callback2 callback fn
+     */
+    Room.prototype.joinRoom = function (socket, client, player, callback1, callback2) {
+        var self = this;
+        client.join(this.name, function () {
+            self.players[player.id] = {
+                name: player.name,
+                isActive: player.isActive
+            };
+            if (self.isFull()) {
+                if (self.checkActivity()) {
+                    socket.sockets.in(self.name).emit('game_ready');
                 }
             }
-            return true;
-        },
-        /**
-         * gets all players in currentRoom as an array
-         * @returns {Array} all players
-         */
-        getAllPlayersAsArray: function() {
-            var players = [];
-            for (var player in this.players) {
-                if (this.players.hasOwnProperty(player)) {
-                    var currentPlayer = Player.getPlayer(this.players[player].id);
-                    if (currentPlayer) {
-                        players.push(currentPlayer);
-                    }
-                }
+            if (callback1) {
+                callback1(self);
             }
-            return players;
-        },
-        /**
-         * checks if the room is full with players
-         * @returns {boolean} checks if maxPlayers is exceeded
-         */
-        isFull: function() {
-            if (this.name === "lobby") {
+            if (callback2) {
+                callback2(self);
+            }
+        });
+    };
+
+    /**
+     * get the number of players currently in this room
+     * @returns {Number} of players between 0 and maxPlayers for this room
+     */
+    Room.prototype.getNumberOfPlayersInRoom = function () {
+        return Object.keys(this.players).length;
+    };
+
+    Room.prototype.checkActivity = function () {
+        for (var player in this.players) {
+            if (this.players.hasOwnProperty(player) && !this.players[player].isActive) {
                 return false;
             }
-            return !(this.getNumberOfPlayersInRoom() < this.maxPlayers);
-        },
-        /**
-         * checks if the room is empty
-         * @returns {boolean} checks if currentPlayers is zero
-         */
-        isEmpty: function() {
-            if (this.name === "lobby") {
-                return false;
-            }
-            return !this.getNumberOfPlayersInRoom();
-        },
-        /**
-         * removes given room
-         */
-        remove: function() {
-            if (this.name === "lobby") {
-                return;
-            }
-            Room.rooms[this.name] = {};
-            delete Room.rooms[this.name];
-        },
-        /**
-         * fired upon game is launched, to init game
-         */
-        playerIsReady: function() {
-            this.gameReady += 1;
-            if (this.gameReady === this.maxPlayers) {
-                return true;
-            }
-            return false;
-        },
-        /**
-         * displays a readable string of a room instance
-         * @returns {{String}} representation of this room
-         */
-        toString: function() {
-            return JSON.stringify(this);
         }
+        return true;
+    };
+
+    /**
+     * gets all players in currentRoom as an array
+     * @returns {Array} all players
+     */
+    Room.prototype.getAllPlayersAsArray = function () {
+        var players = [];
+        for (var player in this.players) {
+            if (this.players.hasOwnProperty(player)) {
+                var currentPlayer = Player.getPlayer(this.players[player].id);
+                if (currentPlayer) {
+                    players.push(currentPlayer);
+                }
+            }
+        }
+        return players;
+    };
+
+    /**
+     * checks if the room is full with players
+     * @returns {boolean} checks if maxPlayers is exceeded
+     */
+    Room.prototype.isFull = function () {
+        if (this.name === "lobby") {
+            return false;
+        }
+        return !(this.getNumberOfPlayersInRoom() < this.maxPlayers);
+    };
+    /**
+     * checks if the room is empty
+     * @returns {boolean} checks if currentPlayers is zero
+     */
+
+    Room.prototype.isEmpty = function () {
+        if (this.name === "lobby") {
+            return false;
+        }
+        return !this.getNumberOfPlayersInRoom();
+    };
+
+    /**
+     * removes given room
+     */
+    Room.prototype.remove = function () {
+        if (this.name === "lobby") {
+            return;
+        }
+        Room.rooms[this.name] = {};
+        delete Room.rooms[this.name];
+    };
+
+    /**
+     * fired upon game is launched, to init game
+     */
+    Room.prototype.playerIsReady = function () {
+        this.gameReady += 1;
+        if (this.gameReady === this.maxPlayers) {
+            return true;
+        }
+        return false;
+    };
+
+    /**
+     * displays a readable string of a room instance
+     * @returns {{String}} representation of this room
+     */
+    Room.prototype.toString = function () {
+        return JSON.stringify(this);
     };
 
     /**
