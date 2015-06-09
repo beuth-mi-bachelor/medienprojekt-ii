@@ -22,11 +22,13 @@ public class GameActivity extends Activity {
     private static final String license = "nlic:1.2:LiveEnc:3.0:LvApp=1,LivePlg=1,H264DEC=1,H264ENC=1,RTMPsrc=1,RtmpMsg=1,RTMPx=3,NoMsg=1,Ic=0:adr,ios:20150409,20150707::0:0:smartfrog-431775-1:ncpt:90ddf42ffe204d9e1e6ac99e9df92aba";
     // rtmp://ws2.nanocosmos.net/live
     // rtmps://55087e44b8b38.streamlock.net/vod
-    private static final String strStreamUrl = "rtmp://ws2.nanocosmos.net/live";
-    private static final String strStreamname = "Schabuu2";
+    private static final String strStreamUrl = "rtmps://55087e44b8b38.streamlock.net/vod";
+    private static final String strStreamname = "mp4:sync.mp4";
 
     private static String authUser = "";
     private static String authPass = "";
+
+    private TextView textView;
 
     private static final String LOG_TAG = "GameActivity";
 
@@ -44,7 +46,19 @@ public class GameActivity extends Activity {
 
         setContentView(R.layout.activity_game_screen_guesser);
 
+        textView = (TextView) findViewById(R.id.text_fill);
+
         getLetters("KATZE", 10);
+
+        Button deleteButton = (Button) findViewById(R.id.buttonDelete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = textView.getText().toString();
+                textView.setText(text.substring(0, text.length() - 1));
+            }
+        });
+
 
         RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
@@ -117,7 +131,6 @@ public class GameActivity extends Activity {
             public void onClick(View v) {
                 Button b = (Button) v;
                 String buttonText = b.getText().toString();
-                TextView textView = (TextView) findViewById(R.id.text_fill);
                 textView.append(buttonText);
             }
         });
