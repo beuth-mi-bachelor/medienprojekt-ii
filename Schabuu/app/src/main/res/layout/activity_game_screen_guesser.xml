@@ -9,7 +9,9 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
 
         <view
             android:layout_width="wrap_content"
@@ -43,7 +45,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.0"
+        android:layout_weight="0.5"
         android:orientation="horizontal"
         android:weightSum="3">
 
@@ -84,7 +86,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:orientation="vertical">
 
         <EditText
@@ -96,176 +98,18 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/button_panel"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:weightSum="10">
-
-        <Button
-            android:id="@+id/buttonA"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_a"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonS"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor"
-            android:text="@string/button_letter_s"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonD"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_d"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonF"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor"
-            android:text="@string/button_letter_f"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonG"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_g"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonH"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor"
-            android:text="@string/button_letter_h"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonJ"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_j"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonK"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor"
-            android:text="@string/button_letter_k"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonL"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_l"
-            android:textColor="@drawable/lettercolor" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:padding="0.5dp"
-        android:textSize="22sp"
-        android:weightSum="10">
-
-        <Button
-            android:id="@+id/buttonY"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_y"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonX"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor"
-            android:text="@string/button_letter_x"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonC"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_c"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonV"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor"
-            android:text="@string/button_letter_v"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonB"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:onClick="clickLetter"
-            android:text="@string/button_letter_b"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonN"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor"
-            android:text="@string/button_letter_n"
-            android:textColor="@drawable/lettercolor" />
-
-        <Button
-            android:id="@+id/buttonM"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/buttoncolor1"
-            android:text="@string/button_letter_m"
-            android:textColor="@drawable/lettercolor" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.0"
+        android:layout_weight="0.5"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:padding="2dp">

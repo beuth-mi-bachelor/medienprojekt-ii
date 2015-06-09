@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
@@ -32,10 +34,27 @@ public class GameActivity extends Activity {
 
         _server = ServerConnectorImplementation.getInstance();
 
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game_screen_guesser);
+
+        this.createButton("A");
+        this.createButton("B");
+        this.createButton("C");
+        this.createButton("D");
+        this.createButton("E");
+        this.createButton("F");
+        this.createButton("G");
+        this.createButton("H");
+        this.createButton("I");
+        this.createButton("J");
+        this.createButton("K");
+        this.createButton("K");
+        this.createButton("K");
+        this.createButton("K");
+
 
         RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
@@ -54,5 +73,19 @@ public class GameActivity extends Activity {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
         _server.setPlayerActive();
+    }
+
+    public void createButton(String letter) {
+        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+        Button btn = new Button(this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+        params.weight = 1.0f;
+        params.width = 0;
+        params.setMargins(1,1,1,1);
+        btn.setLayoutParams(params);
+        btn.setBackgroundResource(R.drawable.buttoncolor1);
+        btn.setText(letter);
+        buttonLayout.addView(btn);
     }
 }
