@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import de.beuth_hochschule.Schabuu.R;
@@ -66,14 +65,16 @@ public class GameActivity extends Activity {
         _server.setPlayerActive();
     }
 
+    //gets the word to be described and the maximum number of the buttons to be shown
+    //creates then a new button in our game screen layout guesser
     public void getLetters(String word, int numberOfMaximumLetters) {
-        String [] letters = new String[word.length()];
-        for (int i = 0; i < word.length();i++) {
-           letters[i] = Character.toString(word.charAt(i));
+        String[] letters = new String[word.length()];
+        for (int i = 0; i < word.length(); i++) {
+            letters[i] = Character.toString(word.charAt(i));
         }
         int numberFillLetters = numberOfMaximumLetters - letters.length;
-        String [] randomLetters = getRandomLetters(numberFillLetters);
-        String result[] = new String[randomLetters.length+letters.length];
+        String[] randomLetters = getRandomLetters(numberFillLetters);
+        String result[] = new String[randomLetters.length + letters.length];
         for (int i = 0, j = 0; j < result.length; ++i) {
             if (i < randomLetters.length) {
                 result[j++] = randomLetters[i];
@@ -81,14 +82,14 @@ public class GameActivity extends Activity {
             if (i < letters.length) {
                 result[j++] = letters[i];
             }
-        }        System.out.println( "MMMMMAAKODKDLKDLKDKLDKDKLDK" + Arrays.toString(result) ); // Prints f
-        for (String s:result) createButton(s);
+        }
+        for (String s : result) createButton(s);
     }
 
     //returns array with random capital letters by given number
     public String[] getRandomLetters(int number) {
         Random r = new Random();
-        String [] randomLetters = new String[number];
+        String[] randomLetters = new String[number];
 
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (int i = 0; i < number; i++) {
@@ -106,7 +107,7 @@ public class GameActivity extends Activity {
                 LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
         params.weight = 1.0f;
         params.width = 0;
-        params.setMargins(1,1,1,1);
+        params.setMargins(1, 1, 1, 1);
         btn.setLayoutParams(params);
         btn.setBackgroundResource(R.drawable.buttoncolor1);
         btn.setText(letter);
@@ -114,7 +115,7 @@ public class GameActivity extends Activity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button b = (Button)v;
+                Button b = (Button) v;
                 String buttonText = b.getText().toString();
                 TextView textView = (TextView) findViewById(R.id.text_fill);
                 textView.append(buttonText);
