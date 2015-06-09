@@ -62,6 +62,9 @@
         client.on("player_ready", function() {
             onPlayerReady(this);
         });
+        client.on("check_room", function(roomName) {
+            onCheckRoom(this, roomName);
+        });
     }
 
     function onDisconnect(client) {
@@ -80,6 +83,20 @@
                 playerId: newPlayer.id,
                 room: defaultRoom.name
             });
+        });
+    }
+
+    function onCheckRoom(client, roomName) {
+        var room = Room.getRoom(roomName);
+        var canJoin = false;
+        if (room) {
+            canJoin = !room.isFull();
+        } else {
+            canJoin = true;
+        }
+        client.emit('check_room_callback', {
+            name: room.name,
+            canJoin: canJoin
         });
     }
 
