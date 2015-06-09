@@ -226,10 +226,26 @@ public class RoomActivity extends Activity {
                             }
                         });
                     }
+                },
+                new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Room is already full", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        RoomActivity.this.goBackToMain();
+                    }
                 }
         );
     }
 
+    private void goBackToMain() {
+        Intent intent = new Intent(RoomActivity.this, MainMenuActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onPause() {

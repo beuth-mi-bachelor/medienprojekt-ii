@@ -155,7 +155,8 @@ public class ServerDemo extends Activity {
                                     }
                                 });
                             }
-                        }
+                        },
+                        null
                 );
             }
         });
@@ -212,7 +213,8 @@ public class ServerDemo extends Activity {
                                     }
                                 });
                             }
-                        }
+                        },
+                        null
                 );
             }
         });

@@ -16,4 +16,6 @@ public class Events {
     public static final String PLAYER_READY = "player_ready";
     public static final String GAME_TIME_UPDATE = "game_time_update";
     public static final String ROOM_UPDATE = "update_room";
+    public static final String ROOM_CHECK = "check_room";
+    public static final String ROOM_CHECK_CALLBACK = "check_room_callback";
 }

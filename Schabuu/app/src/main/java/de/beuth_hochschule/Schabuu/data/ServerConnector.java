@@ -18,7 +18,7 @@ public interface ServerConnector {
 
     public void getRoomList(Emitter.Listener roomListCallback);
 
-    public void switchRoom(String roomName, Emitter.Listener switchedCallback, Emitter.Listener gameReadyCallback, Emitter.Listener roomUpdateCallback);
+    public void switchRoom(String roomName, Emitter.Listener switchedCallback, Emitter.Listener gameReadyCallback, Emitter.Listener roomUpdateCallback, Emitter.Listener roomCanNotBeJoinedCallback);
 
     public void goBackToLobby(Emitter.Listener switchedCallback);
 
