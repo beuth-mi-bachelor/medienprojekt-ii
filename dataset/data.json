@@ -1,4 +1,516 @@
 {
+  "Steckdose": [
+    "Strom",
+    "Laden",
+    "Akku",
+    "Kilowatt",
+    "Schlag",
+    "Wand"
+  ],
+  "Kaffee": [
+    "Mich",
+    "Zucker",
+    "Bohne",
+    "Braun",
+    "Latte Macchiato",
+    "trinken"
+  ],
+  "Kalender": [
+    "Datum",
+    "Zeit",
+    "Termin",
+    "Geburtstag",
+    "Monat",
+    "Jahr"
+  ],
+  "Monitor": [
+    "Fernsehr",
+    "Computer",
+    "Bild",
+    "HD",
+    "Bildschirm",
+    "Flackern"
+  ],
+  "Hacker": [
+    "Code",
+    "Angriff",
+    "Anonymus",
+    "Programmieren",
+    "Nerd",
+    "Geek"
+  ],
+  "Sonne": [
+    "Strahlen",
+    "UVB",
+    "UVA",
+    "Wetter",
+    "Regen",
+    "Gelb"
+  ],
+  "Geschichte": [
+    "Vergangenheit",
+    "M‰rchen",
+    "Schule",
+    "erz‰hlen",
+    "lernen",
+    "Historie"
+  ],
+  "Mode": [
+    "Trend",
+    "Marke",
+    "Zeitschrift",
+    "Kleidung",
+    "In",
+    "Out"
+  ],
+  "Blume": [
+    "pfl¸cken",
+    "Strauss",
+    "Bl¸te",
+    "Biene",
+    "Stiel",
+    "Pflanze"
+  ],
+  "Banane": [
+    "Gelb",
+    "Krumm",
+    "Affe",
+    "Baum",
+    "Obst",
+    "Staude"
+  ],
+  "Vampir": [
+    "Eckz‰hne",
+    "Blut",
+    "Werwolf",
+    "Knoblauch",
+    "Sonnenlicht",
+    "Twilight"
+  ],
+  "Boot": [
+    "Anker",
+    "Schiff",
+    "Wasser",
+    "Segel",
+    "Bord",
+    "Yacht"
+  ],
+  "Fahrrad": [
+    "Sattel",
+    "Kˆrbchen",
+    "Lenker",
+    "Pedal",
+    "Klingel",
+    "fahren"
+  ],
+  "Brille": [
+    "Augen",
+    "Klo",
+    "RayBan",
+    "Kontaktlinsen",
+    "Sehst‰rke",
+    "Gl‰ser"
+  ],
+  "Pechvogel": [
+    "Ungl¸ck",
+    "Missgeschick",
+    "Linke H‰nde",
+    "fliegen",
+    "schwarz",
+    "z‰h"
+  ],
+  "Muttertag": [
+    "Blummen",
+    "Schokolade",
+    "8.Mai",
+    "Sonntag",
+    "Parf¸m",
+    "Mama"
+  ],
+  "Wecker": [
+    "klingeln",
+    "Morgen",
+    "Arbit",
+    "laut",
+    "nervig",
+    "m¸de"
+  ],
+  "Ampel": [
+    "rot",
+    "gr¸n",
+    "M‰nnchen",
+    "stehen",
+    "gehen",
+    "Straﬂe"
+  ],
+  "Radiergummi": [
+    "lˆschen",
+    "Bleistift",
+    "Schule",
+    "Kinder",
+    "zeichnen",
+    "weiﬂ"
+  ],
+  "Luftballon": [
+    "schweben",
+    "Geburtstag",
+    "Bunt",
+    "platzen",
+    "laut",
+    "pusten"
+  ],
+  "Nagellack": [
+    "Aceton",
+    "Watte",
+    "Kosmetik",
+    "H‰nde",
+    "Farbe",
+    "k¸nstlich"
+  ],
+  "Aquarium": [
+    "Beh‰lter",
+    "Fische",
+    "Schildkrˆten",
+    "Wasser",
+    "Filter",
+    "Fischfutter"
+  ],
+  "Meer": [
+    "Wasser",
+    "Ocean",
+    "Blau",
+    "Fische",
+    "Schiffe",
+    "Insel"
+  ],
+  "Sandm‰nnchen": [
+    "schlafen",
+    "Kinder",
+    "19 Uhr",
+    "abends",
+    "Traum",
+    "Eltern"
+  ],
+  "Gartenschlauch": [
+    "Wasser",
+    "gieﬂen",
+    "Wasserhahn",
+    "lang",
+    "Haus",
+    "gr¸n"
+  ],
+  "Plattenspieler": [
+    "Musik",
+    "Sprung",
+    "Nadel",
+    "CD",
+    "DJ",
+    "auflegen"
+  ],
+  "Airbag": [
+    "Auto",
+    "Sicherheit",
+    "Aufprall",
+    "Lenker",
+    "Unfall",
+    "Kopf"
+  ],
+  "Wolkenkratzer": [
+    "Geb‰ude",
+    "Hoch",
+    "Dubai",
+    "oben",
+    "bauen",
+    "Haus"
+  ],
+  "Explosion": [
+    "Bum",
+    "Chemielabor",
+    "Bombe",
+    "Vulkan",
+    "Kraft",
+    "Zerstˆrung"
+  ],
+  "Fussbaltor": [
+    "Weltmeister",
+    "Ball",
+    "Mannschaft",
+    "eckig",
+    "Spielfeld",
+    "Netz"
+  ],
+  "Ringkampf": [
+    "Olympische Spiele",
+    "Regeln",
+    "Mannschaft",
+    "Gewichtsklasse",
+    "Sportart",
+    "Sumo"
+  ],
+  "Roboter": [
+    "Technik",
+    "Wal-E",
+    "Arm",
+    "Zukunft",
+    "Staubsauger",
+    "Rasenm‰her"
+  ],
+  "Kaninchen": [
+    "Hase",
+    "hoppeln",
+    "Mˆhren",
+    "Ostern",
+    "Ohren",
+    "K‰fig"
+  ],
+  "Elefant": [
+    "Groﬂ",
+    "Ohren",
+    "Afrika",
+    "R¸ssel",
+    "Grau",
+    "Benjamin Bl¸mchen"
+  ],
+  "Hippie": [
+    "Blumen",
+    "Gras",
+    "Drogen",
+    "sechziger",
+    "Schlaghosen",
+    "Liebe"
+  ],
+  "Indianer": [
+    "Feder",
+    "Ureinwohner",
+    "Amerika",
+    "Pferde",
+    "singen",
+    "Traumf‰nger"
+  ],
+  "B‰cker": [
+    "backen",
+    "Teigwaren",
+    "Brˆtchen",
+    "Sonnatg",
+    "Mehl",
+    "Pizza"
+  ],
+  "Koch": [
+    "zubereiten",
+    "dick",
+    "essen",
+    "Tim M‰lzer",
+    "Lebensmittel",
+    "grillen"
+  ],
+  "Masseur": [
+    "Tai",
+    "Behandlung",
+    "entspannen",
+    "Arzt",
+    "liegen",
+    "kneten"
+  ],
+  "Spiegel": [
+    "Glas",
+    "licht",
+    "bild",
+    "Pech",
+    "zerbrochen",
+    "Zeitung"
+  ],
+  "Wasserhahn": [
+    "trinken",
+    "klar",
+    "warm",
+    "kalt",
+    "laufen",
+    "tropfen"
+  ],
+  "Briefkasten": [
+    "Einwurf",
+    "gelb",
+    "Post",
+    "Brieftr‰ger",
+    "Vesand",
+    "Paket"
+  ],
+  "K¸hlschrank": [
+    "kalt",
+    "Lebensmittel",
+    "Eisfach",
+    "Bosch",
+    "Siemens",
+    "Eisw¸rfel"
+  ],
+  "Tankstelle": [
+    "Benzin",
+    "Auto",
+    "Geruch",
+    "Diesel",
+    "Rauchverbot",
+    "÷l"
+  ],
+  "Zuckerwatte": [
+    "S¸ﬂigkeit",
+    "Pink",
+    "Volksfest",
+    "klebrig",
+    "Weihnachtsmarkt",
+    "Kinder"
+  ],
+  "Hornhaut": [
+    "Hand",
+    "Fuﬂ",
+    "Auge",
+    "dick",
+    "rot",
+    "rau"
+  ],
+  "Stepptanz": [
+    "Schuhe",
+    "klackern",
+    "Irrland",
+    "Wettkampf",
+    "syncron",
+    "Gruppe"
+  ],
+  "Brieftr‰ger": [
+    "Taube",
+    "Post",
+    "DHL",
+    "Fahrrad",
+    "Gelb",
+    "liefern"
+  ],
+  "Angeln": [
+    "fischen",
+    "See",
+    "Meer",
+    "Boot",
+    "Kˆder",
+    "Fisch"
+  ],
+  "Rasieren": [
+    "Schaum",
+    "Haare",
+    "Bart",
+    "schnitt",
+    "Friseur",
+    "entfernen"
+  ],
+  "Eis": [
+    "schlecken",
+    "Kugel",
+    "Dessert",
+    "Sommer",
+    "Diele",
+    "gefrohren"
+  ],
+  "Durst": [
+    "trinken",
+    "saufen",
+    "Hunger",
+    "Wasser",
+    "Sport",
+    "Mangel"
+  ],
+  "Kaffeemaschiene": [
+    "Automamt",
+    "Milchschaum",
+    "Nespresso",
+    "Filter",
+    "B¸ro",
+    "Starbucks"
+  ],
+  "Party": [
+    "Fete",
+    "feiern",
+    "Geburtstag",
+    "Alkohl",
+    "Jubil‰um",
+    "Sause"
+  ],
+  "Papst": [
+    "Vatikan",
+    "Christen",
+    "Erzbischof",
+    "Rauch",
+    "Heilig",
+    "Gott"
+  ],
+  "Currywurst": [
+    "Berlin",
+    "Ketschup",
+    "Gew¸rz",
+    "braten",
+    "Darm",
+    "Imbiss"
+  ],
+  "Geist": [
+    "Spuk",
+    "Bettlaken",
+    "Helloween",
+    "weiﬂ",
+    "tot",
+    "Casper"
+  ],
+  "Grippe": [
+    "krank",
+    "husten",
+    "niesen",
+    "Fieber",
+    "Erk‰ltung",
+    "Bett"
+  ],
+  "Aufzug": [
+    "fahen",
+    "Musik",
+    "Stockwerk",
+    "hoch",
+    "runter",
+    "Konpf"
+  ],
+  "Schlagzeug": [
+    "laut",
+    "Sticks",
+    "Drummer",
+    "Base",
+    "Snare",
+    "Musik"
+  ],
+  "Silvester": [
+    "Party",
+    "Knaller",
+    "Bˆller",
+    "Raketen",
+    "Bunt",
+    "Jahresende"
+  ],
+  "Rapunzel": [
+    "Turm",
+    "Haare",
+    "M‰rchen",
+    "Hexe",
+    "Disney",
+    "Prinz"
+  ],
+  "Keks": [
+    "Kuchen",
+    "s¸ﬂ",
+    "Kr¸mel",
+    "Schokolade",
+    "knusprig",
+    "essen"
+  ],
+  "Dirigent": [
+    "Musik",
+    "Kompnist",
+    "Konzert",
+    "Klassik",
+    "Orchester",
+    "Stock"
+  ],
   "Motor": [
     "Auto",
     "Maschine",
@@ -87,228 +599,228 @@
     "Intenet",
     "Programm"
   ],
-  "Brandenburg":[
-	"Berlin",
-	"Potsdam",
-	"Wald",
-	"Flachland",
-	"Umland",
-	"Havel"
+  "Brandenburg": [
+    "Berlin",
+    "Potsdam",
+    "Wald",
+    "Flachland",
+    "Umland",
+    "Havel"
   ],
-  "Buch":[
-	"lesen",
-	"Schriftsteller",
-	"Seiten",
-	"gebunden",
-	"Wörter",
-	"Papier"
+  "Buch": [
+    "lesen",
+    "Schriftsteller",
+    "Seiten",
+    "gebunden",
+    "Wörter",
+    "Papier"
   ],
-	"Kleid":[
-	"... machen Leute",
-	"Klamotten",
-	"Rock",
-	"Frau",
-	"Mini",
-	"Hochzeit"
+  "Kleid": [
+    "... machen Leute",
+    "Klamotten",
+    "Rock",
+    "Frau",
+    "Mini",
+    "Hochzeit"
   ],
-  "Tacker":[
-	"Hefter",
-	"Papier",
-	"Klammer",
-	"drücken",
-	"Büro",
-	"lochen"
+  "Tacker": [
+    "Hefter",
+    "Papier",
+    "Klammer",
+    "drücken",
+    "Büro",
+    "lochen"
   ],
-  "Skype":[
-	"telefonieren",
-	"Bildschirmübertragung",
-	"Verbindung",
-	"Video",
-	"senden",
-	"Blau"
+  "Skype": [
+    "telefonieren",
+    "Bildschirmübertragung",
+    "Verbindung",
+    "Video",
+    "senden",
+    "Blau"
   ],
-  "Aschenbecher":[
-	"Zigarette",
-	"Tasse",
-	"Feuerzeug",
-	"Verbrennung",
-	"Nikotin",
-	"Bar"
+  "Aschenbecher": [
+    "Zigarette",
+    "Tasse",
+    "Feuerzeug",
+    "Verbrennung",
+    "Nikotin",
+    "Bar"
   ],
-  "Künstler":[
-	"malen",
-	"zeichnen",
-	"Musiker",
-	"Zirkus",
-	"Leinwand",
-	"Dichter"
+  "Künstler": [
+    "malen",
+    "zeichnen",
+    "Musiker",
+    "Zirkus",
+    "Leinwand",
+    "Dichter"
   ],
-	"Flohzirkus":[
-	"klein",
-	"Tier",
-	"Show",
-	"Clown",
-	"springen",
-	"Läuse"
+  "Flohzirkus": [
+    "klein",
+    "Tier",
+    "Show",
+    "Clown",
+    "springen",
+    "Läuse"
   ],
-	"Schnee":[
-	"Regen",
-	"Weiß",
-	"Fallen",
-	"Winter",
-	"schlacht",
-	"Ball"
+  "Schnee": [
+    "Regen",
+    "Weiß",
+    "Fallen",
+    "Winter",
+    "schlacht",
+    "Ball"
   ],
-	"Fenster":[
-	"rausschauen",
-	"Rahmen",
-	"rechteckig",
-	"Licht",
-	"einfall",
-	"Tür"
+  "Fenster": [
+    "rausschauen",
+    "Rahmen",
+    "rechteckig",
+    "Licht",
+    "einfall",
+    "Tür"
   ],
-	"Wetter":[
-	"Temperatur",
-	"Sturm",
-	"Regen",
-	"Sonne",
-	"Wind",
-	"Blitz"
+  "Wetter": [
+    "Temperatur",
+    "Sturm",
+    "Regen",
+    "Sonne",
+    "Wind",
+    "Blitz"
   ],
-	"Einkaufen":[
-	"Schuhe",
-	"Lebensmittel",
-	"Geld",
-	"EC-Karte",
-	"Bong",
-	"Bezahlen"
+  "Einkaufen": [
+    "Schuhe",
+    "Lebensmittel",
+    "Geld",
+    "EC-Karte",
+    "Bong",
+    "Bezahlen"
   ],
-	"Schlittschuhlaufen":[
-	"Wintersport",
-	"Eiskunst",
-	"Schlitten",
-	"Hockey",
-	"Springen",
-	"Ballett"
+  "Schlittschuhlaufen": [
+    "Wintersport",
+    "Eiskunst",
+    "Schlitten",
+    "Hockey",
+    "Springen",
+    "Ballett"
   ],
-	"Flur":[
-	"Wohnung",
-	"Gang",
-	"Türen",
-	"Raum",
-	"Eingang",
-	"Foyer"
+  "Flur": [
+    "Wohnung",
+    "Gang",
+    "Türen",
+    "Raum",
+    "Eingang",
+    "Foyer"
   ],
-	"Tanzpartner":[
-	"Disko",
-	"Standarttanz",
-	"Salsa",
-	"Schuhe",
-	"Club",
-	"Musik"
+  "Tanzpartner": [
+    "Disko",
+    "Standarttanz",
+    "Salsa",
+    "Schuhe",
+    "Club",
+    "Musik"
   ],
-	"Hexe":[
-	"Besen",
-	"Warze",
-	"Zaubern",
-	"fliegen",
-	"Helloween",
-	"Harry Potter"
+  "Hexe": [
+    "Besen",
+    "Warze",
+    "Zaubern",
+    "fliegen",
+    "Helloween",
+    "Harry Potter"
   ],
-	"Christkind":[
-	"Weihnachten",
-	"Jesus",
-	"Feiertag",
-	"Stern",
-	"Geburt",
-	"Jahresende"
+  "Christkind": [
+    "Weihnachten",
+    "Jesus",
+    "Feiertag",
+    "Stern",
+    "Geburt",
+    "Jahresende"
   ],
-	"Internet":[
-	"Router",
-	"Computer",
-	"Smartphone",
-	"google",
-	"Empfang",
-	"DSL"
+  "Internet": [
+    "Router",
+    "Computer",
+    "Smartphone",
+    "google",
+    "Empfang",
+    "DSL"
   ],
-	"Müllbeutel":[
-	"Eimer",
-	"Essensreste",
-	"Tüte",
-	"Plasik",
-	"stinken",
-	"wegwerfen"
+  "Müllbeutel": [
+    "Eimer",
+    "Essensreste",
+    "Tüte",
+    "Plasik",
+    "stinken",
+    "wegwerfen"
   ],
-	"Kuh":[
-	"Tier",
-	"schubsen",
-	"Milch",
-	"Muh",
-	"Weide",
-	"Euter"
+  "Kuh": [
+    "Tier",
+    "schubsen",
+    "Milch",
+    "Muh",
+    "Weide",
+    "Euter"
   ],
-	"Yoga":[
-	"Sport",
-	"Sonnengruß",
-	"Entspannung",
-	"Atmung",
-	"Isomatte",
-	"Bewegung"
+  "Yoga": [
+    "Sport",
+    "Sonnengruß",
+    "Entspannung",
+    "Atmung",
+    "Isomatte",
+    "Bewegung"
   ],
-	"Wasser":[
-	"Glas",
-	"Eis",
-	"schwimmen",
-	"See",
-	"Meer",
-	"Flasche"
+  "Wasser": [
+    "Glas",
+    "Eis",
+    "schwimmen",
+    "See",
+    "Meer",
+    "Flasche"
   ],
-	"Obst":[
-	"Apfel",
-	"Birne",
-	"Banane",
-	"Gemüse",
-	"Gesund",
-	"Vitamiene"
- ],
-	"Waffeleisen":[
-	"Zucker",
-	"Mehl",
-	"Dessert",
-	"Gerät",
-	"Pfannkuchen",
-	"Puderzucker"
+  "Obst": [
+    "Apfel",
+    "Birne",
+    "Banane",
+    "Gemüse",
+    "Gesund",
+    "Vitamiene"
   ],
-	"Kerze":[
-	"Licht",
-	"Feuerzeug",
-	"Dinner",
-	"Stromausfall",
-	"Docht",
-	"Wachs"
+  "Waffeleisen": [
+    "Zucker",
+    "Mehl",
+    "Dessert",
+    "Gerät",
+    "Pfannkuchen",
+    "Puderzucker"
   ],
-	"Schachbrett":[
-	"Spiel",
-	"Figuren",
-	"Schwarz-Weiß",
-	"Krieg",
-	"Matt",
-	"König"
+  "Kerze": [
+    "Licht",
+    "Feuerzeug",
+    "Dinner",
+    "Stromausfall",
+    "Docht",
+    "Wachs"
   ],
-	"Raubüberfall":[
-	"Geld",
-	"Bank",
-	"Straftat",
-	"Casino",
-	"Beute",
-	"Bonny und Clyde"
+  "Schachbrett": [
+    "Spiel",
+    "Figuren",
+    "Schwarz-Weiß",
+    "Krieg",
+    "Matt",
+    "König"
   ],
-	"Zahnfee":[
-	"Michzähne",
-	"Kopfkissen",
-	"Geld",
-	"Weinachtsmann",
-	"Kinder",
-	"Eltern"
+  "Raubüberfall": [
+    "Geld",
+    "Bank",
+    "Straftat",
+    "Casino",
+    "Beute",
+    "Bonny und Clyde"
+  ],
+  "Zahnfee": [
+    "Michzähne",
+    "Kopfkissen",
+    "Geld",
+    "Weinachtsmann",
+    "Kinder",
+    "Eltern"
   ]
 }
