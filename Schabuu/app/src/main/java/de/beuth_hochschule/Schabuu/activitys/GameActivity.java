@@ -70,7 +70,9 @@ public class GameActivity extends Activity {
         RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
+
         utils.StartPlayer();
+        utils.MutePlayer();
     }
 
 
