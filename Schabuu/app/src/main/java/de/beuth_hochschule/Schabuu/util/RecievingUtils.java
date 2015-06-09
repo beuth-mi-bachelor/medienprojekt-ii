@@ -42,6 +42,10 @@ public class RecievingUtils {
         }
     }
 
+    public void MutePlayer(){
+        player.setAudioVolume(0);
+    }
+
     public NanostreamPlayer GetPlayer() {
         return player;
     }
