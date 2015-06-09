@@ -45,7 +45,6 @@ public class GameActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game_screen_guesser);
-
         textView = (TextView) findViewById(R.id.text_fill);
 
         getLetters("KATZE", 10);
@@ -56,6 +55,14 @@ public class GameActivity extends Activity {
             public void onClick(View v) {
                 String text = textView.getText().toString();
                 textView.setText(text.substring(0, text.length() - 1));
+            }
+        });
+
+        Button renewButton = (Button) findViewById(R.id.buttonRenew);
+        renewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textView.setText("");
             }
         });
 
