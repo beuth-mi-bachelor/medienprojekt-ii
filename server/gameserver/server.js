@@ -62,8 +62,8 @@
         client.on("player_ready", function() {
             onPlayerReady(this);
         });
-        client.on("check_room", function(roomName) {
-            onCheckRoom(this, roomName);
+        client.on("check_room", function(data) {
+            onCheckRoom(this, data);
         });
     }
 
@@ -86,8 +86,8 @@
         });
     }
 
-    function onCheckRoom(client, roomName) {
-        var room = Room.getRoom(roomName);
+    function onCheckRoom(client, data) {
+        var room = Room.getRoom(data.name);
         var canJoin = false;
         if (room) {
             canJoin = !room.isFull();
