@@ -19,6 +19,13 @@
             class="de.beuth_hochschule.Schabuu.ui.SurfacePlayerView"
             android:id="@+id/view" />
 
+        <view
+            class="de.beuth_hochschule.Schabuu.ui.SurfacePlayerView"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:id="@+id/view_sound"
+            android:visibility="visible" />
+
         <TextView
             android:id="@+id/player_name"
             android:layout_width="wrap_content"
