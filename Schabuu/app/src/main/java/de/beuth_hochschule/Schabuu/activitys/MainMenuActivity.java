@@ -65,41 +65,43 @@ public class MainMenuActivity extends Activity {
     }
 
     private void connectToServer() {
-        _server = ServerConnectorImplementation.getInstance("192.168.1.102", 1337);
+        _server = ServerConnectorImplementation.getInstance("178.63.189.173", 1337);
         /**
          * ESTABLISHING CONNECTION
          */
         // how to connect to Server
-        _server.connectToServer(
-                // callback for connection established successfully
-                new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        // no arguments given
+        if (!_server.isConnected()) {
+            _server.connectToServer(
+                    // callback for connection established successfully
+                    new Emitter.Listener() {
+                        @Override
+                        public void call(Object... args) {
+                            // no arguments given
 
-                        /**
-                         * First thing after connection is established once
-                         * -> create Player on Server and move him to lobby
-                         */
-                        _server.initPlayer(username, new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-                                JSONObject data = (JSONObject) args[0];
-                                initDone(data);
-                            }
-                        });
-                        System.out.println("CONNECTED TO SERVER");
+                            /**
+                             * First thing after connection is established once
+                             * -> create Player on Server and move him to lobby
+                             */
+                            _server.initPlayer(username, new Emitter.Listener() {
+                                @Override
+                                public void call(Object... args) {
+                                    JSONObject data = (JSONObject) args[0];
+                                    initDone(data);
+                                }
+                            });
+                            System.out.println("CONNECTED TO SERVER");
+                        }
+                    },
+                    // callback for connection error
+                    new Emitter.Listener() {
+                        @Override
+                        public void call(Object... args) {
+                            // no arguments given
+                            System.err.println("a connection error occurred");
+                        }
                     }
-                },
-                // callback for connection error
-                new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        // no arguments given
-                        System.err.println("a connection error occurred");
-                    }
-                }
-        );
+            );
+        }
     }
 
     private void getUserNameAlert(String title, String msg) {

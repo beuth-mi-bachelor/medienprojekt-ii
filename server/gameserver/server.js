@@ -95,7 +95,7 @@
             canJoin = true;
         }
         client.emit('check_room_callback', {
-            name: room.name,
+            name: data.name,
             canJoin: canJoin
         });
     }

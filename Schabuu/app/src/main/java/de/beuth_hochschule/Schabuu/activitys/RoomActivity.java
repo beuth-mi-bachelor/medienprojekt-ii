@@ -58,7 +58,12 @@ public class RoomActivity extends Activity {
                             @Override
                             public void run() {
                                 Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
-                                onBackPressed();
+                                _server.goBackToLobby(new Emitter.Listener() {
+                                    @Override
+                                    public void call(Object... args) {
+                                        goBackToMain();
+                                    }
+                                });
                             }
                         });
                     }
@@ -119,47 +124,51 @@ public class RoomActivity extends Activity {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
-                        try {
-                            final JSONObject players = (JSONObject) data.get("players");
-                            Iterator x = players.keys();
-                            playerArray = new ArrayList<String>();
-
-                            while (x.hasNext()) {
-                                String key = (String) x.next();
-                                JSONObject player = (JSONObject) players.get(key);
-                                String name = (String) player.get("name");
-                                playerArray.add(name);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // just to display it on device for debugging
-                        System.out.println("room updated: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Integer maxPlayers;
-                                try {
-                                    maxPlayers = (Integer) data.get("maxPlayers");
-                                } catch (JSONException e) {
-                                    maxPlayers = 4;
-                                    e.printStackTrace();
-                                }
-                                for (int i = 0; i < maxPlayers; i++) {
-                                    if (i < playerArray.size()) {
-                                        (views.get(i)).setText(playerArray.get(i));
-                                    } else {
-                                        (views.get(i)).setText(getString(R.string.waiting_for_player));
-                                    }
-                                }
-                                Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
+                        updatePlayerList(data);
                     }
                 }
         );
+    }
+
+    private void updatePlayerList(final JSONObject data) {
+        try {
+            final JSONObject players = (JSONObject) data.get("players");
+            Iterator x = players.keys();
+            playerArray = new ArrayList<String>();
+
+            while (x.hasNext()) {
+                String key = (String) x.next();
+                JSONObject player = (JSONObject) players.get(key);
+                String name = (String) player.get("name");
+                playerArray.add(name);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // just to display it on device for debugging
+        System.out.println("room updated: " + data.toString());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Integer maxPlayers;
+                try {
+                    maxPlayers = (Integer) data.get("maxPlayers");
+                } catch (JSONException e) {
+                    maxPlayers = 4;
+                    e.printStackTrace();
+                }
+                for (int i = 0; i < maxPlayers; i++) {
+                    if (i < playerArray.size()) {
+                        (views.get(i)).setText(playerArray.get(i));
+                    } else {
+                        (views.get(i)).setText(getString(R.string.waiting_for_player));
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     public void newRoomSetup(String roomName) {
@@ -198,33 +207,7 @@ public class RoomActivity extends Activity {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
-                        try {
-                            final JSONObject players = (JSONObject) data.get("players");
-                            Iterator x = players.keys();
-                            playerArray = new ArrayList<String>();
-
-                            while (x.hasNext()) {
-                                String key = (String) x.next();
-                                JSONObject player = (JSONObject) players.get(key);
-                                String name = (String) player.get("name");
-                                playerArray.add(name);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // just to display it on device for debugging
-                        System.out.println("room updated: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                for (int i = playerArray.size() - 1; i >= 0; i--) {
-                                    (views.get(i)).setText(playerArray.get(i));
-                                    System.out.println(playerArray.get(i) + "" + i);
-                                }
-                                Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        updatePlayerList(data);
                     }
                 },
                 new Emitter.Listener() {
@@ -251,6 +234,26 @@ public class RoomActivity extends Activity {
     public void onPause() {
         super.onPause();  // Always call the superclass method first
         _server.setPlayerInActive();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();  // Always call the superclass method first
+        _server.goBackToLobby(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject data = (JSONObject) args[0];
+
+                // just to display it on device for debugging
+                System.out.println("room was switched: " + data.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override

@@ -98,6 +98,7 @@ public class ServerConnectorImplementation implements ServerConnector {
         socket.on(Events.ROOM_CHECK_CALLBACK, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+                // remove old event listeners
                 socket.off(Events.ROOM_CHECK_CALLBACK);
                 JSONObject cbObject = (JSONObject) args[0];
                 try {
@@ -148,12 +149,14 @@ public class ServerConnectorImplementation implements ServerConnector {
         HashMap<String, String> items = new HashMap<String, String>();
         items.put("name", "lobby");
         JSONObject data = this.jsonObjectHelper(items);
+        // remove old event listeners
         this.emit(Events.SWITCH_ROOM, data);
         socket.on(Events.SWITCH_ROOM_CALLBACK, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 socket.off(Events.SWITCH_ROOM_CALLBACK);
                 switchedCallback.call(args);
+                socket.off(Events.ROOM_UPDATE);
             }
         });
     }
@@ -177,7 +180,7 @@ public class ServerConnectorImplementation implements ServerConnector {
 
     @Override
     public void joinRandomRoom(final Emitter.Listener joinCallback, final Emitter.Listener gameReadyCallback, final Emitter.Listener roomUpdateCallback) {
-
+        // remove old event listeners
         this.getRandomRoom(new Emitter.Listener() {
             @Override
             public void call(Object... args) {
