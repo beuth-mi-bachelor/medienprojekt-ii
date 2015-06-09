@@ -5,7 +5,8 @@
         express = require("express"),
         expressHbs = require('express3-handlebars'),
         Player = require("./models/Player").Player,
-        Room = require("./models/Room").Room;
+        Room = require("./models/Room").Room,
+        dataSet = require('./data/data.json');
 
     var socket,
         app = express();
@@ -72,6 +73,15 @@
         Room.leaveAllRooms(client, currentPlayer, function() {
             currentPlayer.removePlayer();
         });
+    }
+
+    function getDataset() {
+        var items = Object.keys(dataSet),
+            rand = Math.floor(Math.random()*items.length),
+            key = items[rand],
+            dataToReturn = {};
+        dataToReturn[key] = dataSet[key];
+        return dataToReturn;
     }
 
     function onNewPlayer(client, data) {
