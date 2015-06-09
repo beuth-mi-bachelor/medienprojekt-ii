@@ -26,7 +26,7 @@
     function init() {
         socket = io.listen(PORT);
         // TODO: Disable logging when done
-        app.listen(7777);
+        app.listen(7778);
         setEventHandlers();
     }
 
