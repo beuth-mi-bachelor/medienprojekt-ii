@@ -115,6 +115,16 @@ Game.prototype.endRound = function(noWinner) {
 };
 
 /**
+ * get all games as an array
+ * @returns {[Game]} an array containing all games
+ */
+Game.getAllGamesAsArray = function () {
+    return Object.keys(Game.games).map(function (key) {
+        return Game.games[key];
+    });
+};
+
+/**
  * ends a game
  */
 Game.prototype.endGame = function() {

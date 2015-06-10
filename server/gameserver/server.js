@@ -12,16 +12,21 @@ var socket,
     server = new EventEmitter(),
     app = express();
 
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'room.hbs'}));
+app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'debugging.hbs'}));
 app.set('view engine', 'hbs');
 app.locals.layout = false;
 
 var PORT = 1337;
 
 app.get('/debug', function (req, res) {
-    var allRooms = Room.getAllRoomsAsArray();
-    res.render('room', {
-        rooms: allRooms
+    var allRooms = Room.getAllRoomsAsArray(),
+        allGames = Game.getAllGamesAsArray(),
+        allPlayers = Player.getAllPlayersAsArray();
+
+    res.render('debugging', {
+        rooms: allRooms,
+        games: allGames,
+        players: allPlayers
     });
 });
 
@@ -38,47 +43,6 @@ function init() {
     // TODO: Disable logging when done
     app.listen(7777);
     setEventHandlers();
-    //testGame();
-}
-
-function testGame() {
-    var p1 = new Player(server, "1", "testPlayer 1");
-    var p2 = new Player(server, "2", "testPlayer 2");
-    var p3 = new Player(server, "3", "testPlayer 3");
-    var p4 = new Player(server, "4", "testPlayer 4");
-
-    var testRoom = new Room(server, "testRoom", 4, "");
-
-    var addPlayer = function(player) {
-        testRoom.players[player.id] = {
-            id: player.id,
-            name: player.name,
-            isActive: player.isActive
-        };
-    };
-
-    addPlayer(p1);
-    addPlayer(p2);
-    addPlayer(p3);
-    addPlayer(p4);
-
-    var rounds = 3;
-    var time = 5;
-
-    var game = new Game(server, testRoom, rounds, time);
-
-    console.log(game.toString());
-    game.startGame();
-    setTimeout(function() {
-        console.log("starting next round");
-        game.startRound();
-        console.log(game.currentWord);
-    }, time * 1000 + 500);
-    setTimeout(function() {
-        console.log("starting next round");
-        game.startRound();
-        console.log(game.currentWord);
-    }, ((time * 1000) * 2) + 1000);
 }
 
 var setEventHandlers = function() {

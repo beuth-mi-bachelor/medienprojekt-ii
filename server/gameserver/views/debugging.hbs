@@ -1,0 +1,52 @@
+<h1>Debugging Schabuu</h1>
+<h2>Rooms</h2>
+{{#each rooms}}
+    <ul>
+        <li><h3>{{this.name}}</h3>
+            <ul>
+                {{#each this.players}}
+                    <li>{{this.name}}: {{this.isActive}}</li>
+                {{/each}}
+            </ul>
+        </li>
+    </ul>
+{{/each}}
+<h2>Games</h2>
+{{#each games}}
+    <ul>
+        <li><h3>Game in {{this.room.name}}</h3>
+            <ul>
+                <li>Time: {{this.currentTime}}/{{this.time}}, Round: {{this.currentRound}}/{{this.rounds}}</li>
+                <li>Data:    {{#each this.currentWord}}
+                    {{@key}}: {{this}}
+                {{/each}}</li>
+                <li>Time between rounds: {{this.timeOutBetweenRounds}}</li>
+                <li> Players:
+                    <ul>
+                        {{#each this.players}}
+                            <li>{{this.name}}: {{this.role}}</li>
+                        {{/each}}
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+{{/each}}
+<h2>Players</h2>
+{{#each players}}
+        <ul>
+            <li><h3>{{this.name}}</h3>
+                <ul>
+                    <li>in room: {{this.room.name}}</li>
+                    <li>is active: {{this.isActive}}</li>
+                    <li>role: {{this.role}}</li>
+                    <li>team: {{this.team}}</li>
+                </ul>
+            </li>
+        </ul>
+{{/each}}
+<script>
+    window.setInterval(function() {
+        location.reload();
+    }, 1000);
+</script>
