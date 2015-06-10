@@ -6,19 +6,16 @@
     <string name="action_640x360">640x360</string>
     <string name="action_640x480">640x480</string>
     <string name="stream_button">Stream</string>
-    <string name="app_name">SCHABUU!</string>
+    <string name="app_name">Schabuu</string>
     <string name="settings_button">SETTINGS</string>
     <string name="play_w_friends_button">PLAY WITH FRIENDS</string>
     <string name="play_alone_button">PLAY</string>
     <string name="settings">SETTINGS</string>
     <string name="play_w_friends">PLAY WITH FRIENDS</string>
     <string name="play_alone">PLAY</string>
-
     <string name="player_name">Player Name</string>
-
     <string name="title_activity_gamesreen_activity_av">GamesreenActivityAV</string>
     <string name="title_activity_game_screen_guesser">GameScreenGuesser</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="button_letter_q">Q</string>
@@ -54,10 +51,6 @@
     <string name="Delete">DELETE</string>
     <string name="title_activity_play_with_friends">PlayWithFriends</string>
     <string name="title_activity_play_alone">PlayAlone</string>
-    <string name="choose_Level">WÄHLE EIN LEVEL AUS...</string>
-    <string name="level_easy">LEICHT</string>
-    <string name="level_middle">MITTEL</string>
-    <string name="level_heavy">SCHWER</string>
     <string name="title_activity_server_demo">ServerDemo</string>
     <string name="time_left">Time left</string>
     <string name="score_team2">Score 2</string>
@@ -74,12 +67,11 @@
     <string name="settings_value">Settings</string>
     <string name="create_value">Create</string>
     <string name="join_value">Join</string>
-    <string name="waiting_for_player">waiting ...</string>
-    <string name="audio_description">Das Spiel wird geladen... Du bist in dieser Runde der Erklärbär. Versuche das Wort zu erklären ohne die angegebenen Wörter zu verwenden!</string>
-    <string name="team_value">Du bist im Team mit...</string>
+    <string name="waiting_for_player">waiting…</string>
+    <string name="audio_description">Das Spiel wird geladen… Du bist in dieser Runde der Erklärbär. Versuche das Wort zu erklären ohne die angegebenen Wörter zu verwenden!</string>
+    <string name="team_value">Du bist im Team mit…</string>
     <string name="other_player">Other Player</string>
-    <string name="video_description">Das Spiel wird geladen... Du bist in dieser Runde der Pantomime. Versuche das Wort durch Bewegungen vor der Kamera darzustellen! </string>
-    <string name="guesser_description">Das Spiel wird geladen... Du darfst in dieser Runde das dargestellte und erklärte Wort raten!</string>
+    <string name="video_description">Das Spiel wird geladen… Du bist in dieser Runde der Pantomime. Versuche das Wort durch Bewegungen vor der Kamera darzustellen! </string>
+    <string name="guesser_description">Das Spiel wird geladen… Du darfst in dieser Runde das dargestellte und erklärte Wort raten!</string>
     <string name="save_settings_button">Save Settings</string>
-
 </resources>
