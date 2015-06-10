@@ -181,12 +181,8 @@
                 name: player.name,
                 isActive: player.isActive
             };
-            if (self.isFull()) {
-                if (self.checkActivity()) {
-                    self.server.emit('startAGame', self, 3, 30);
-                    self.server.emit("emitToRoom", self.name, 'game_ready', {});
-                }
-            }
+            server.emit("startAGame", self, 3, 30);
+
             if (callback1) {
                 callback1(self);
             }

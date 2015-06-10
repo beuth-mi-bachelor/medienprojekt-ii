@@ -35,7 +35,12 @@ server.on('emitToRoom', function(roomName, event, data) {
 });
 
 server.on('startAGame', function(room, rounds, time) {
-    new Game(server, room, rounds, time);
+    if (room.isFull()) {
+        if (room.checkActivity()) {
+            var game = new Game(server, room, rounds, time);
+            server.emit("emitToRoom", room.name, 'game_ready', {game: game});
+        }
+    }
 });
 
 function init() {
@@ -130,14 +135,7 @@ function onPlayerActive(client) {
     if (player.room) {
         var currentRoom = Room.getRoom(player.room.name);
         currentRoom.players[player.id].isActive = player.isActive;
-
-        if (currentRoom.isFull()) {
-            if (currentRoom.checkActivity()) {
-                server.emit('startAGame', currentRoom, 3, 30);
-                server.emit("emitToRoom", currentRoom.name, 'game_ready', {});
-            }
-        }
-
+        server.emit("startAGame", currentRoom, 3, 30);
     }
 }
 
