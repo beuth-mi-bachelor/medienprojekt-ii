@@ -82,7 +82,9 @@ public class RoomActivity extends Activity {
         View playerTwoView = findViewById(R.id.player_two);
         playerTwoView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(RoomActivity.this, GameAvActivity.class));
+                Intent intent = new Intent(RoomActivity.this, RoomActivity.class);
+                intent.putExtra("MODE", "BLUB");
+                startActivity(intent);
             }
         });
 
