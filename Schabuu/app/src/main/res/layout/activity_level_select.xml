@@ -17,7 +17,7 @@
         android:id="@+id/textView3"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:background="@color/schabuu_red"
+        android:background="@color/schabuu_yellow"
         android:gravity="center"
         android:layout_weight="8" />
 

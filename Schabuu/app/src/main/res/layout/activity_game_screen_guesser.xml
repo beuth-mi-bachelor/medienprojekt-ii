@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.81"
         >
 
         <view
@@ -59,9 +59,9 @@
         <TextView
             android:id="@+id/score1"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/schabuu_red"
+            android:background="@color/schabuu_green"
             android:gravity="center"
             android:text="@string/score_team1"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -70,10 +70,10 @@
         <TextView
             android:id="@+id/time_left"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:background="@color/schabuu_grey"
+            android:background="@color/schabuu_red"
             android:text="@string/time_left"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffffff" />
@@ -81,7 +81,7 @@
         <TextView
             android:id="@+id/score2"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/schabuu_blue"
             android:gravity="center"
@@ -112,36 +112,21 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:weightSum="10">
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:padding="2dp">
 
-        <Button
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/buttonRenew"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:background="@drawable/buttonrenew"
-            android:text="@string/Renew"
-            android:textColor="@drawable/lettercolor" />
+            android:src="@android:drawable/ic_menu_revert"
+            android:scaleType="center"
+            android:background="@color/schabuu_yellow" />
 
-        <Button
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/buttonDelete"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:background="@drawable/buttondelete"
-            android:text="@string/Delete"
-            android:textColor="@drawable/lettercolor" />
+            android:src="@android:drawable/ic_input_delete"
+            android:background="@color/schabuu_red" />
     </LinearLayout>
 
 </LinearLayout>

@@ -10,7 +10,7 @@
         android:id="@+id/play_alone"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:background="@color/schabuu_red"
+        android:background="@color/schabuu_green"
         android:text="@string/play_alone_value"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffffff"
