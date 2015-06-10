@@ -22,7 +22,9 @@
         this.name = name;
         this.isActive = true;
         this.room = null;
+        // TODO: implement
         this.role = null;
+        this.team = null;
         Player.players[clientID] = this;
     }
 

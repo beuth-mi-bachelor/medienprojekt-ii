@@ -6,7 +6,7 @@
         expressHbs = require('express3-handlebars'),
         Player = require("./models/Player").Player,
         Room = require("./models/Room").Room,
-        dataSet = require('./data/data.json');
+        Game = require("./models/Game").Game;
 
     var socket,
         app = express();
@@ -29,6 +29,45 @@
         // TODO: Disable logging when done
         app.listen(7777);
         setEventHandlers();
+        testGame();
+    }
+
+    function testGame() {
+        var p1 = new Player("1", "testPlayer 1");
+        var p2 = new Player("2", "testPlayer 2");
+        var p3 = new Player("3", "testPlayer 3");
+        var p4 = new Player("4", "testPlayer 4");
+
+        var testRoom = new Room("testRoom", 4, "");
+
+        var addPlayer = function(player) {
+            testRoom.players[player.id] = {
+                id: player.id,
+                name: player.name,
+                isActive: player.isActive
+            };
+        };
+
+        addPlayer(p1);
+        addPlayer(p2);
+        addPlayer(p3);
+        addPlayer(p4);
+
+        var rounds = 3;
+        var time = 5;
+
+        var game = new Game(testRoom, rounds, time);
+
+        console.log(game.toString());
+        game.startGame();
+        setTimeout(function() {
+            console.log("starting next round");
+            game.startRound();
+        }, time * 1000 + 500);
+        setTimeout(function() {
+            game.startRound();
+            console.log("starting next round");
+        }, ((time * 1000) * 2) + 1000);
     }
 
     var setEventHandlers = function() {
@@ -73,15 +112,6 @@
         Room.leaveAllRooms(client, currentPlayer, function() {
             currentPlayer.removePlayer();
         });
-    }
-
-    function getDataset() {
-        var items = Object.keys(dataSet),
-            rand = Math.floor(Math.random()*items.length),
-            key = items[rand],
-            dataToReturn = {};
-        dataToReturn[key] = dataSet[key];
-        return dataToReturn;
     }
 
     function onNewPlayer(client, data) {
@@ -142,13 +172,8 @@
             var rdy = currentRoom.playerIsReady();
             if (rdy) {
                 socket.sockets.in(currentRoom.name).emit('game_start');
-                startGame(30);
             }
         }
-    }
-
-    function startGame(time) {
-                
     }
 
     function onGetPlayer(client, data) {

@@ -1,9 +1,6 @@
 (function () {
     "use strict";
 
-    // imports
-    var Player = require("./Player").Player;
-
     /**
      * global room list
      */
@@ -179,6 +176,7 @@
         var self = this;
         client.join(this.name, function () {
             self.players[player.id] = {
+                id: player.id,
                 name: player.name,
                 isActive: player.isActive
             };
@@ -211,23 +209,6 @@
             }
         }
         return true;
-    };
-
-    /**
-     * gets all players in currentRoom as an array
-     * @returns {Array} all players
-     */
-    Room.prototype.getAllPlayersAsArray = function () {
-        var players = [];
-        for (var player in this.players) {
-            if (this.players.hasOwnProperty(player)) {
-                var currentPlayer = Player.getPlayer(this.players[player].id);
-                if (currentPlayer) {
-                    players.push(currentPlayer);
-                }
-            }
-        }
-        return players;
     };
 
     /**
