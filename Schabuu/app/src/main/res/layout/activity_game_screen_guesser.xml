@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2.00"
         >
 
         <view
@@ -61,7 +61,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/schabuu_red"
+            android:background="@color/schabuu_green"
             android:gravity="center"
             android:text="@string/score_team1"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -73,7 +73,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:background="@color/schabuu_grey"
+            android:background="@color/schabuu_red"
             android:text="@string/time_left"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffffff" />

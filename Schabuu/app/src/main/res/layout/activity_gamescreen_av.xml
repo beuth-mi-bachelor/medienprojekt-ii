@@ -9,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="3.49">
 
         <view
             android:layout_width="wrap_content"
@@ -52,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/schabuu_red"
+            android:background="@color/schabuu_green"
             android:gravity="center"
             android:text="@string/score_team1"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -64,7 +65,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:background="@color/schabuu_grey"
+            android:background="@color/schabuu_red"
             android:text="@string/time_left"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffffff" />
@@ -76,7 +77,7 @@
             android:layout_weight="1"
             android:background="@color/schabuu_blue"
             android:gravity="center"
-            android:text="@string/time_left"
+            android:text="@string/score_team2"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffffff" />
 
@@ -91,7 +92,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ffffffff"
         android:textStyle="bold"
-        android:layout_weight="0.5" />
+        android:layout_weight="0.81" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -114,9 +115,9 @@
                 android:gravity="center"
                 android:text="@string/word_1"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffffff"
+                android:textColor="#ff000000"
                 android:textStyle="bold"
-                android:background="#ff92968b" />
+                android:background="@color/schabuu_yellow" />
 
             <TextView
                 android:id="@+id/word_two"
@@ -126,9 +127,9 @@
                 android:gravity="center"
                 android:text="@string/word_2"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffffff"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#ff92968b" />
+                android:background="@color/schabuu_grey" />
 
             <TextView
                 android:id="@+id/word_three"
@@ -138,9 +139,9 @@
                 android:gravity="center"
                 android:text="@string/word_3"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffffff"
+                android:textColor="#000000"
                 android:textStyle="bold"
-                android:background="#ff92968b"
+                android:background="@color/schabuu_yellow"
                 android:clickable="false" />
         </LinearLayout>
 
@@ -159,7 +160,7 @@
                 android:gravity="center"
                 android:text="@string/word_4"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffffff"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:background="#ff92968b" />
 
@@ -171,9 +172,9 @@
                 android:gravity="center"
                 android:text="@string/word_5"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffffff"
+                android:textColor="#000000"
                 android:textStyle="bold"
-                android:background="#ff92968b" />
+                android:background="@color/schabuu_yellow" />
 
             <TextView
                 android:id="@+id/word_six"
@@ -183,7 +184,7 @@
                 android:gravity="center"
                 android:text="@string/word_6"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffffff"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:background="#ff92968b" />
         </LinearLayout>

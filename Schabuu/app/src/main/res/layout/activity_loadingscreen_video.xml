@@ -51,7 +51,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.07"
         android:textStyle="bold"
-        android:textColor="#ff66b3ff"
+        android:textColor="@color/schabuu_yellow"
         android:textSize="22dp" />
 
     <ImageView
