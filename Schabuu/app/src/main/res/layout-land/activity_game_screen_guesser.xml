@@ -295,7 +295,7 @@
                 android:layout_marginRight="2dp"
                 android:background="@drawable/buttonrenew"
                 android:onClick="deleteAllLetters"
-                android:text="@string/Renew"
+                android:text="@string/button_renew"
                 android:textColor="@drawable/lettercolor" />
 
             <Button
@@ -307,7 +307,7 @@
                 android:layout_marginLeft="2dp"
                 android:background="@drawable/buttondelete"
                 android:onClick="deleteLastLetter"
-                android:text="@string/Delete"
+                android:text="@string/button_delete"
                 android:textColor="@drawable/lettercolor" />
         </LinearLayout>
     </LinearLayout>
