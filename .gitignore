@@ -1,7 +1,0 @@
-workspace.xml
-*.iml
-local.properties
-.name
-.idea/
-build/
-.gradle/
