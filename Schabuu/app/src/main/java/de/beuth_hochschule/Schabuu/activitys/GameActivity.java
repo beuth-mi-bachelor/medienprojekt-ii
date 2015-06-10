@@ -72,7 +72,6 @@ public class GameActivity extends Activity {
         surfaceView.getHolder().addCallback(utils.GetPlayer());
 
         utils.StartPlayer();
-        utils.MutePlayer();
     }
 
 
