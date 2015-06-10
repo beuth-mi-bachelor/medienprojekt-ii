@@ -37,4 +37,7 @@ public interface ServerConnector {
     public void clientIsReady(Emitter.Listener gameStartedCallback);
 
     public void addListener(String event, Emitter.Listener callback);
+
+    public void removeListener(String event);
+
 }

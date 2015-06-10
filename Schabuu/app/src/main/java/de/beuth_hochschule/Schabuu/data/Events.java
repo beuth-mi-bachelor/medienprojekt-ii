@@ -11,6 +11,8 @@ public class Events {
     public static final String ROOM_LIST_CALLBACK = "room_list_callback";
     public static final String GAME_READY = "game_ready";
     public static final String GAME_START = "game_start";
+    public static final String GAME_UPDATE = "game_update";
+    public static final String GAME_END = "game_end";
     public static final String PLAYER_ACTIVE = "player_active";
     public static final String PLAYER_INACTIVE = "player_inactive";
     public static final String PLAYER_READY = "player_ready";

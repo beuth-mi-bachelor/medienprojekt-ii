@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
@@ -109,6 +110,9 @@ public class RoomActivity extends Activity {
                     public void call(Object... args) {
                         // no args supplied
 
+                        // TODO: extract to loadingScreenDone
+                        startGame();
+
                         // just to display it on device for debugging
                         System.out.println("game is ready");
                         runOnUiThread(new Runnable() {
@@ -128,6 +132,59 @@ public class RoomActivity extends Activity {
                     }
                 }
         );
+    }
+
+    private void startGame() {
+
+        // here player tells server that he wants to start the game
+        _server.clientIsReady(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject gameData = (JSONObject) args[0];
+
+                // just to display it on device for debugging
+                System.out.println("game started: " + gameData.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject time = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("gametime is: " + time.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "gametime is: " + time.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_END, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        _server.removeListener(Events.GAME_UPDATE);
+                        // just to display it on device for debugging
+                        System.out.println("game has ended");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "game has ended", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+
+            }
+        });
+
     }
 
     private void updatePlayerList(final JSONObject data) {
@@ -192,6 +249,9 @@ public class RoomActivity extends Activity {
                     @Override
                     public void call(Object... args) {
                         // no args supplied
+
+                        // TODO: extract to loadingScreenDone
+                        startGame();
 
                         // just to display it on device for debugging
                         System.out.println("game is ready");

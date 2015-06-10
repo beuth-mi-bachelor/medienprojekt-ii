@@ -13,15 +13,17 @@
 
     /**
      * constructor for instantiation
+     * @param server {EventEmitter} pub sub system to server
      * @param clientID {String} a unique identifier for a player
      * @param name {String} represents the player
      * @constructor
      */
-    function Player(clientID, name) {
+    function Player(server, clientID, name) {
         this.id = clientID;
         this.name = name;
         this.isActive = true;
         this.room = null;
+        this.server = server;
         // TODO: implement
         this.role = null;
         this.team = null;
@@ -87,7 +89,7 @@
         var room = Room.getRoom(roomName);
 
         if (!room) {
-            room = new Room(roomName);
+            room = new Room(this.server, roomName);
         }
         if (room.isFull()) {
             console.log("room was full");

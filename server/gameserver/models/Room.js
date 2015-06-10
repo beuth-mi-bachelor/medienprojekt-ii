@@ -10,19 +10,20 @@
 
     /**
      * constructor for instantiation
+     * @param server {EventEmitter} pub sub system to server
      * @param name {String} a unique name for the room
      * @param maxPlayers {Number} number of players for this room
      * @param password {String} for accessing the room
      * @constructor
      */
-    function Room(name, maxPlayers, password) {
+    function Room(server, name, maxPlayers, password) {
+        this.server = server;
         this.name = name;
         this.password = password || "";
         this.players = {};
         this.maxPlayers = maxPlayers || 4;
         Room.rooms[name] = this;
         this.gameReady = 0;
-        this.game = null;
     }
 
     /**
@@ -182,7 +183,8 @@
             };
             if (self.isFull()) {
                 if (self.checkActivity()) {
-                    socket.sockets.in(self.name).emit('game_ready');
+                    self.server.emit('startAGame', self, 3, 30);
+                    self.server.emit("emitToRoom", self.name, 'game_ready', {});
                 }
             }
             if (callback1) {
@@ -249,10 +251,7 @@
      */
     Room.prototype.playerIsReady = function () {
         this.gameReady += 1;
-        if (this.gameReady === this.maxPlayers) {
-            return true;
-        }
-        return false;
+        return (this.gameReady === this.maxPlayers);
     };
 
     /**

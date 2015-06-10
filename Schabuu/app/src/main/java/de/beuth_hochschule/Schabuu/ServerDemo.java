@@ -336,16 +336,16 @@ public class ServerDemo extends Activity {
                     public void call(Object... args) {
                         // no args supplied
 
-                        _server.addListener(Events.GAME_TIME_UPDATE, new Emitter.Listener() {
+                        _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
                             @Override
                             public void call(Object... args) {
-                                final Integer time = (Integer) args[0];
+                                final JSONObject time = (JSONObject) args[0];
                                 // just to display it on device for debugging
-                                System.out.println("gametime is: " + time);
+                                System.out.println("gametime is: " + time.toString());
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(getApplicationContext(), "gametime is: " + time, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "gametime is: " + time.toString(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }

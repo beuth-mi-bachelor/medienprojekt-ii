@@ -3,28 +3,36 @@
 var Player = require("./Player").Player,
     dataSet = require('./../data/data.json');
 
+if (!Game.games) {
+    Game.games = {};
+}
+
 /**
  * instance of a game in a room
+ * @param server {EventEmitter} pub sub system to server
  * @param room {Room} instance of room launching the game
  * @param rounds {int} number of rounds to play
  * @param time {int} time for each round
  * @constructor
  */
-function Game(room, rounds, time) {
+function Game(server, room, rounds, time) {
     this.players = [];
     for (var player in room.players) {
         if (room.players.hasOwnProperty(player)) {
             this.players.push(Player.getPlayer(room.players[player].id));
         }
     }
+    this.server = server;
     this.rounds = rounds || 3;
     this.currentRound = 1;
     this.time = time || 30;
     this.currentTime = time || 30;
+    this.room = room;
     this.points = {
         "teamred": 0,
         "teamblue": 0
     };
+    Game.games[this.room.name] = this;
     this.streamNames = {
         audio: room.name + "-audio",
         video: room.name + "-video"
@@ -51,6 +59,13 @@ Game.getDataset = function () {
  */
 Game.prototype.startGame = function() {
     this.startRound();
+    this.currentWord = Game.getDataset();
+    this.server.emit("emitToRoom", this.room.name, 'game_start', {
+        time: this.currentTime,
+        word: this.currentWord,
+        round: this.currentRound,
+        points: this.points
+    });
 };
 
 /**
@@ -58,11 +73,12 @@ Game.prototype.startGame = function() {
  */
 Game.prototype.startRound = function() {
     var self = this;
-    this.currentWord = Game.getDataset();
     this.interval = setInterval(function() {
         self.currentTime -= 1;
-        // TODO: send update to clients
-        console.log("round " + self.currentRound + ", currentTime: " + self.currentTime);
+        self.server.emit("emitToRoom", self.room.name, 'game_update', {
+            round: self.currentRound,
+            time: self.currentTime
+        });
         if (self.currentTime <= 0) {
             self.endRound(true);
         }
@@ -94,7 +110,11 @@ Game.prototype.endRound = function(noWinner) {
  * ends a game
  */
 Game.prototype.endGame = function() {
-    // TODO: Emit to all, show scores and so on
+    this.server.emit(this.room.name, 'game_end', {
+        round: this.currentRound,
+        points: this.points
+    });
+    delete Game.games[this.room.name];
     console.log("game ended");
 };
 
