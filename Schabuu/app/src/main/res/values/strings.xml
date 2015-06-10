@@ -16,7 +16,6 @@
     <string name="player_name">Player Name</string>
     <string name="title_activity_gamesreen_activity_av">GamesreenActivityAV</string>
     <string name="title_activity_game_screen_guesser">GameScreenGuesser</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="button_letter_q">Q</string>
     <string name="button_letter_w">w</string>
@@ -47,8 +46,8 @@
     <string name="button_letter_b">B</string>
     <string name="button_letter_n">N</string>
     <string name="button_letter_m">M</string>
-    <string name="Renew">RENEW</string>
-    <string name="Delete">DELETE</string>
+    <string name="button_renew">RENEW</string>
+    <string name="button_delete">DELETE</string>
     <string name="title_activity_play_with_friends">PlayWithFriends</string>
     <string name="title_activity_play_alone">PlayAlone</string>
     <string name="title_activity_server_demo">ServerDemo</string>
