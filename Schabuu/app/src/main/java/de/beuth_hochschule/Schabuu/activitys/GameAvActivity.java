@@ -42,7 +42,7 @@ public class GameAvActivity extends Activity {
         if (intent.getStringExtra("MODE").equals("CAM")){
             StreamingUtils utils = new StreamingUtils(serverUrl, streamName, license_stream, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext());
             utils.toggleStreaming();
-        }{
+        } else {
             RecievingUtils utils = new RecievingUtils(this, license, serverUrl, streamName, authUser, authPass);
             utils.StartPlayer();
         }

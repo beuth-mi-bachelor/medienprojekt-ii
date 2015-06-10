@@ -30,17 +30,18 @@ public class RoomActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
         setContentView(R.layout.activity_room);
 
         _server = ServerConnectorImplementation.getInstance();
+
+        Intent intent = getIntent();
 
         views.add((TextView) findViewById(R.id.player_one));
         views.add((TextView) findViewById(R.id.player_two));
         views.add((TextView) findViewById(R.id.player_three));
         views.add((TextView) findViewById(R.id.player_four));
 
-        if (intent.getStringExtra("ROOM_MODE").equals("Random Room"))
+        if (intent.getStringExtra("ROOM_MODE") != null && intent.getStringExtra("ROOM_MODE").equals("Random Room"))
             randomRoomSetup();
         else newRoomSetup(intent.getStringExtra("ROOM_NAME"));
 
@@ -82,9 +83,9 @@ public class RoomActivity extends Activity {
         View playerTwoView = findViewById(R.id.player_two);
         playerTwoView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(RoomActivity.this, RoomActivity.class);
-                intent.putExtra("MODE", "BLUB");
-                startActivity(intent);
+                Intent newIntent = new Intent(RoomActivity.this, GameAvActivity.class);
+                newIntent.putExtra("MODE", "CAM");
+                startActivity(newIntent);
             }
         });
 

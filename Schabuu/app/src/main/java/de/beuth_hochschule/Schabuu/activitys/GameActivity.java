@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,7 +50,7 @@ public class GameActivity extends Activity {
 
         getLetters("KATZE", 10);
 
-        Button deleteButton = (Button) findViewById(R.id.buttonDelete);
+        ImageView deleteButton = (ImageView) findViewById(R.id.buttonDelete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +59,7 @@ public class GameActivity extends Activity {
             }
         });
 
-        Button renewButton = (Button) findViewById(R.id.buttonRenew);
+        ImageView renewButton = (ImageView) findViewById(R.id.buttonRenew);
         renewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
