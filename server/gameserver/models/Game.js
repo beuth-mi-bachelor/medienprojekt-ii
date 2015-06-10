@@ -27,11 +27,9 @@ function Game(server, room, rounds, time) {
     this.currentRound = 1;
     this.time = time || 30;
     this.currentTime = time || 30;
+    this.timeOutBetweenRounds = 5;
     this.room = room;
-    this.points = {
-        "teamred": 0,
-        "teamblue": 0
-    };
+    this.points = [];
     Game.games[this.room.name] = this;
     this.streamNames = {
         audio: room.name + "-audio",
@@ -63,8 +61,7 @@ Game.prototype.startGame = function() {
     this.server.emit("emitToRoom", this.room.name, 'game_start', {
         time: this.currentTime,
         word: this.currentWord,
-        round: this.currentRound,
-        points: this.points
+        round: this.currentRound
     });
 };
 
@@ -73,10 +70,17 @@ Game.prototype.startGame = function() {
  */
 Game.prototype.startRound = function() {
     var self = this;
+    if (this.currentRound != 1) {
+        this.currentWord = Game.getDataset();
+    }
+    this.server.emit("emitToRoom", this.room.name, 'game_round_start', {
+        time: this.currentTime,
+        word: this.currentWord,
+        round: this.currentRound
+    });
     this.interval = setInterval(function() {
         self.currentTime -= 1;
         self.server.emit("emitToRoom", self.room.name, 'game_update', {
-            round: self.currentRound,
             time: self.currentTime
         });
         if (self.currentTime <= 0) {
@@ -93,10 +97,14 @@ Game.prototype.endRound = function(noWinner) {
     this.interval = clearInterval(this.interval);
     this.interval = null;
     this.currentTime = this.time;
+    this.server.emit("emitToRoom", this.room.name, 'game_round_end', {
+        points: this.points
+    });
     if (this.rounds - this.currentRound <= 0) {
         this.endGame();
     } else {
         this.currentRound += 1;
+        setTimeout(this.startRound(), this.timeOutBetweenRounds);
     }
     // TODO: show scores
     if (noWinner) {
@@ -110,8 +118,7 @@ Game.prototype.endRound = function(noWinner) {
  * ends a game
  */
 Game.prototype.endGame = function() {
-    this.server.emit(this.room.name, 'game_end', {
-        round: this.currentRound,
+    this.server.emit("emitToRoom", this.room.name, 'game_end', {
         points: this.points
     });
     delete Game.games[this.room.name];

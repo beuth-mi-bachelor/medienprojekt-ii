@@ -140,6 +140,7 @@ public class RoomActivity extends Activity {
         _server.clientIsReady(new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+
                 final JSONObject gameData = (JSONObject) args[0];
 
                 // just to display it on device for debugging
@@ -154,13 +155,45 @@ public class RoomActivity extends Activity {
                 _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
-                        final JSONObject time = (JSONObject) args[0];
+                        final JSONObject data = (JSONObject) args[0];
                         // just to display it on device for debugging
-                        System.out.println("gametime is: " + time.toString());
+                        System.out.println("gametime is: " + data.toString());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "gametime is: " + time.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("next round started: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "next round started: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("round ended: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -170,6 +203,9 @@ public class RoomActivity extends Activity {
                     @Override
                     public void call(Object... args) {
                         _server.removeListener(Events.GAME_UPDATE);
+                        _server.removeListener(Events.GAME_ROUND_END);
+                        _server.removeListener(Events.GAME_ROUND_START);
+                        _server.removeListener(Events.GAME_END);
                         // just to display it on device for debugging
                         System.out.println("game has ended");
                         runOnUiThread(new Runnable() {
