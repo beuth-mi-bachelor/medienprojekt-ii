@@ -48,7 +48,9 @@ public class Events {
     public static final String ROOM_LIST_CALLBACK = "room_list_callback";
 
     /**
-     * nothing
+     * JSONObject {
+     *      "game": {Game}
+     * }
      */
     public static final String GAME_READY = "game_ready";
 
