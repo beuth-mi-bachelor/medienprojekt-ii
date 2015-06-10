@@ -22,8 +22,8 @@ public class GameActivity extends Activity {
     private static final String license = "nlic:1.2:LiveEnc:3.0:LvApp=1,LivePlg=1,H264DEC=1,H264ENC=1,RTMPsrc=1,RtmpMsg=1,RTMPx=3,NoMsg=1,Ic=0:adr,ios:20150409,20150707::0:0:smartfrog-431775-1:ncpt:90ddf42ffe204d9e1e6ac99e9df92aba";
     // rtmp://ws2.nanocosmos.net/live
     // rtmps://55087e44b8b38.streamlock.net/vod
-    private static final String strStreamUrl = "rtmp://178.63.189.173/rtmp";
-    private static final String strStreamname = "test";
+    private static final String strStreamUrl = "rtmp://ws2.nanocosmos.net/live/";
+    private static final String strStreamname = "Schabuu";
 
     private static String authUser = "";
     private static String authPass = "";
