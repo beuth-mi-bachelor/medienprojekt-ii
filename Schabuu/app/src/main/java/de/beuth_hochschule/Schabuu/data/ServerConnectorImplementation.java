@@ -20,6 +20,7 @@ public class ServerConnectorImplementation implements ServerConnector {
     private String ip;
     private int port;
     private Socket socket;
+    public static String USERID = "";
 
     private ServerConnectorImplementation() {
         this.ip = "178.63.189.173";
@@ -230,6 +231,13 @@ public class ServerConnectorImplementation implements ServerConnector {
             @Override
             public void call(Object... args) {
                 socket.off(Events.NEW_PLAYER_CALLBACK);
+                JSONObject player = (JSONObject) args[0];
+                try {
+                    USERID = (String) player.get("playerId");
+                    System.out.println(USERID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 initDone.call(args);
             }
         });
