@@ -1,5 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="de">
+<head>
+    <title>Schabuu: Debugging</title>
+    <meta charset="utf-8">
+    <meta name="description" lang="de" content="">
+    <meta name="keywords" lang="de" content="">
+    <meta name="author" content="Team Schabuu">
+
+    <!-- bild.de icons -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="apple-touch-icon" href="img/ic_launcher.png">
+
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="robots" content="index,follow,noarchive">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="views/style.css">
+
+    <style type="text/css">
+        html, body {
+            font-size: 90%;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        h1 {
+            font-size: 180%;
+        }
+        h2 {
+            font-size: 150%;
+        }
+        h3 {
+            font-size: 130%;
+        }
+    </style>
+
+</head>
+<body>
 <h1>Debugging Schabuu</h1>
 <h2>Rooms</h2>
+<div class="clear">
 {{#each rooms}}
     <ul>
         <li><h3>{{this.name}}</h3>
@@ -11,7 +52,9 @@
         </li>
     </ul>
 {{/each}}
+</div>
 <h2>Games</h2>
+<div class="clear">
 {{#each games}}
     <ul>
         <li><h3>Game in {{this.room.name}}</h3>
@@ -32,7 +75,9 @@
         </li>
     </ul>
 {{/each}}
+</div>
 <h2>Players</h2>
+<div class="clear">
 {{#each players}}
         <ul>
             <li><h3>{{this.name}}</h3>
@@ -45,8 +90,11 @@
             </li>
         </ul>
 {{/each}}
+</div>
 <script>
     window.setInterval(function() {
-        location.reload();
+        //location.reload();
     }, 1000);
 </script>
+</body>
+</html>

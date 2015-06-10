@@ -30,6 +30,10 @@ app.get('/debug', function (req, res) {
     });
 });
 
+app.get(/^(.+)$/, function (req, res) {
+    res.sendFile(__dirname + req.params[0]);
+});
+
 server.on('emitToRoom', function(roomName, event, data) {
     socket.sockets.in(roomName).emit(event, data);
 });
