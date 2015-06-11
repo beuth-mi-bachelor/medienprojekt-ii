@@ -100,7 +100,7 @@ public class GameActivity extends Activity {
         iconView = (ImageView) findViewById(R.id.imageView);
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         descriptionTextView.setText(getResources().getString(R.string.guesser_description));
-        if (intent.getStringExtra("TEAM").equals(0)) {
+        if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         }
         else

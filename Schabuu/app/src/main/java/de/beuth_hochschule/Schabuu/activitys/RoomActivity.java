@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import de.beuth_hochschule.Schabuu.R;
-import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.util.Player;
@@ -27,7 +26,7 @@ public class RoomActivity extends Activity {
     private ServerConnector _server;
     private ArrayList<TextView> views = new ArrayList<TextView>();
     private ArrayList<String> playerArray;
-    private HashMap<String,Player> playerList;
+    private HashMap<String, Player> playerList;
     private String username;
 
 
@@ -118,14 +117,11 @@ public class RoomActivity extends Activity {
                     public void call(Object... args) {
                         // no args supplied
 
-                        _server.addListener(Events.GAME_READY, new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-                                final JSONObject data = (JSONObject) args[0];
-                                getPlayerHashMap(data);
-                                createActivity();
-                            }
-                        });
+
+                        final JSONObject data = (JSONObject) args[0];
+                        getPlayerHashMap(data);
+                        createActivity();
+
 
                         // just to display it on device for debugging
                         System.out.println("game is ready");
@@ -214,14 +210,10 @@ public class RoomActivity extends Activity {
                     public void call(Object... args) {
                         // no args supplied
 
-                        _server.addListener(Events.GAME_READY, new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-                                final JSONObject data = (JSONObject) args[0];
-                                getPlayerHashMap(data);
-                                createActivity();
-                            }
-                        });
+                        final JSONObject data = (JSONObject) args[0];
+                        System.out.println("HALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOO");
+                        getPlayerHashMap(data);
+                        createActivity();
 
                         // just to display it on device for debugging
                         System.out.println("game is ready");
@@ -256,8 +248,10 @@ public class RoomActivity extends Activity {
     }
 
     private void createActivity() {
+        System.out.println("ALLE DAAAAA");
         Player player = playerList.get(username);
         Intent intent = new Intent();
+        System.out.println(player.toString());
         if (player.role.equals("guesser")) {
             intent = new Intent(RoomActivity.this, GameActivity.class);
         }
@@ -277,14 +271,18 @@ public class RoomActivity extends Activity {
     }
 
     private void getPlayerHashMap(JSONObject data) {
+        playerList = new HashMap<String, Player>();
         try {
-            final JSONObject players = (JSONObject) data.get("players");
+            System.out.println("PPPPPPPPPPPPP" + data.toString());
+            final JSONObject game = (JSONObject) data.get("game");
+            final JSONObject players = (JSONObject) game.get("players");
             Iterator x = players.keys();
 
             while (x.hasNext()) {
                 String key = (String) x.next();
                 JSONObject player = (JSONObject) players.get(key);
-                Player newPlayer = new Player((String) player.get("name"),(String) player.get("role"),(String) player.get("team"),(String) player.get("streamAudio"),(String) player.get("streamVideo"));
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), (String) player.get("team"), "PaulTest", "PaulTest");
+                System.out.println("!!!!!!!!!!!!!!!!!" + newPlayer.toString());
                 playerList.put((String) player.get("name"), newPlayer);
             }
 

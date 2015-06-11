@@ -15,4 +15,15 @@ public class Player {
         this.streamAudio = streamAudio;
         this.streamVideo = streamVideo;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", role='" + role + '\'' +
+                ", team='" + team + '\'' +
+                ", streamAudio='" + streamAudio + '\'' +
+                ", streamVideo='" + streamVideo + '\'' +
+                '}';
+    }
 }
