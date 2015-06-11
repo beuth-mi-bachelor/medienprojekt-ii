@@ -17,7 +17,7 @@ app.set('view engine', 'hbs');
 app.locals.layout = false;
 
 var args = process.argv.slice(2),
-    PORT = parseInt(args[0], 10) || 80;
+    PORT = parseInt(args[0], 10) || 1337;
 
 app.get('/debug', function (req, res) {
     var allRooms = Room.getAllRoomsAsArray(),
@@ -51,7 +51,7 @@ server.on('startAGame', function(room, rounds, time) {
 function init() {
     socket = io.listen(PORT);
     // TODO: Disable logging when done
-    app.listen(8080);
+    app.listen(7777);
     setEventHandlers();
 }
 
