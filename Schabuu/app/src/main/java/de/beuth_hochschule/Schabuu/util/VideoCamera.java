@@ -70,6 +70,10 @@ public class VideoCamera extends NanostreamVideoSource {
         mVideoFrameCallbackList.add(arg0);
     }
 
+    public void mute(){
+
+    }
+
     @Override
     public VideoFormat getVideoFormat() {
         return mVideoFormat;
@@ -182,6 +186,11 @@ public class VideoCamera extends NanostreamVideoSource {
         res = possible.toArray(res);
         return res;
     }
+    public void setCameraOrientation(int d){
+        if(mCamera != null)
+            mCamera.setDisplayOrientation(d);
+    }
+
 
     public Resolution checkPreviewSize(Camera.Parameters params, int w, int h) {
         Logging.log(LogLevel.INFO, this.getClass().getName(), "Looking for suitable preview size");

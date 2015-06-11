@@ -3,6 +3,7 @@ package de.beuth_hochschule.Schabuu.util;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -21,9 +22,8 @@ import net.nanocosmos.nanoStream.streamer.Resolution;
 import net.nanocosmos.nanoStream.streamer.Rotation;
 import net.nanocosmos.nanoStream.streamer.VideoSettings;
 import net.nanocosmos.nanoStream.streamer.nanoStream;
-import net.nanocosmos.nanoStream.streamer.nanoStreamSettings;
 
-public class StreamingUtils implements NanostreamEventListener {
+public class StreamingUtils extends Activity implements NanostreamEventListener {
     //Sending Attributes
     private nanoStream streamLib;
     private int width = 640;
@@ -32,7 +32,7 @@ public class StreamingUtils implements NanostreamEventListener {
     private int FRAME_RATE = 15;
     private AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.QUALITY_DEGRADE_AND_FRAME_DROP;
     private VideoCamera mVideoCam = null;
-    private nanoStream.VideoSourceType vsType = nanoStream.VideoSourceType.INTERNAL_FRONT;
+    private nanoStream.VideoSourceType vsType = nanoStream.VideoSourceType.EXTERNAL;
     private Context context;
 
     private static final String LOG_TAG = "StreamingUtilsActivity";
@@ -51,20 +51,20 @@ public class StreamingUtils implements NanostreamEventListener {
             vSettings.setFrameRate(FRAME_RATE);
             vSettings.setResolution(new Resolution(width, height));
 
-           vSettings.setVideoSourceType(nanoStream.VideoSourceType.INTERNAL_FRONT);
+            vSettings.setVideoSourceType(nanoStream.VideoSourceType.EXTERNAL);
 
             AudioSettings aSettings = new AudioSettings(2, 32 * 1024, 44100);
-            streamLib = new nanoStream(true, vSettings, surfacePlayerView.getHolder(), true, aSettings, license, serverUrl, streamName, authUser, authPass, this,
-                    abcSettings, logSettings, true, false, "");
+            //streamLib = new nanoStream(true, vSettings, surfacePlayerView.getHolder(), true, aSettings, license, serverUrl, streamName, authUser, authPass, this,
+            //        abcSettings, logSettings, true, false, "");
 
-//            streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surfacePlayerView.getHolder(), 2, license, serverUrl, streamName, authUser, authPass,
-//                    this, abcSettings, logSettings);
-//            mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
-//            mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
-//            streamLib.setVideoSource(mVideoCam);
-            //streamLib.setRotation(Rotation.ROTATION_270);
+            streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surfacePlayerView.getHolder(), 2, license, serverUrl, streamName, authUser, authPass, this, abcSettings, logSettings);
+            mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
 
-            //streamLib = new nanoStream(vsType, width, height, BIT_RATE, FRAME_RATE, surfacePlayerView.getHolder(), 2, license, serverUrl, streamName, authUser, authPass, this, abcSettings, logSettings);
+            mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
+            mVideoCam.setCameraOrientation(90);
+            streamLib.setVideoSource(mVideoCam);
+            streamLib.setRotation(Rotation.ROTATION_270);
+
 
         } catch (NanostreamException en) {
             Toast.makeText(context, en.toString(), Toast.LENGTH_LONG).show();
@@ -79,8 +79,9 @@ public class StreamingUtils implements NanostreamEventListener {
     }
 
     public void toggleStreaming() {
+
         if (streamLib == null) {
-            Toast.makeText(context.getApplicationContext(), "nanoStream failed to initialize", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "nanoStream failed to initialize", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -136,7 +137,7 @@ public class StreamingUtils implements NanostreamEventListener {
 
     @Override
     public void onNanostreamEvent(NanostreamEvent nanostreamEvent) {
-        //runOnUiThread(new NotificationRunable(nanostreamEvent));
+        this.runOnUiThread(new NotificationRunable(nanostreamEvent));
     }
 
     private class NotificationRunable implements Runnable {

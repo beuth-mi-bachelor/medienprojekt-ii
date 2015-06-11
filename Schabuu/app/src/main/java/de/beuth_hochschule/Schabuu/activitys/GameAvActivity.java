@@ -23,10 +23,15 @@ public class GameAvActivity extends Activity {
     private String serverUrl = "rtmp://ws2.nanocosmos.net/live";
     private String streamName = "foobar";
 
+
+    private static final String license = "nlic:1.2:LiveEnc:3.0:LvApp=1,LivePlg=1,H264DEC=1,H264ENC=1,RTMPsrc=1,RtmpMsg=1,RTMPx=3,NoMsg=1,Ic=0:adr,ios:20150409,20150707::0:0:smartfrog-431775-1:ncpt:90ddf42ffe204d9e1e6ac99e9df92aba";
+    private static final String strStreamUrl = "rtmp://ws2.nanocosmos.net/live";
+    private String strStreamname = "PaulTest";
+
     private static String authUser = "";
     private static String authPass = "";
 
-    private static final String license = "nlic:1.2:LiveEnc:3.0:LvApp=1,LivePlg=1,H264DEC=1,H264ENC=1,RTMPsrc=1,RtmpMsg=1,RTMPx=3,NoMsg=1,Ic=0:adr,ios:20150409,20150707::0:0:smartfrog-431775-1:ncpt:90ddf42ffe204d9e1e6ac99e9df92aba";
+
 
     private static final String LOG_TAG = "GameAvActivity";
 
@@ -89,7 +94,13 @@ public class GameAvActivity extends Activity {
 
             utils = new StreamingUtils(serverUrl, streamName, license_stream, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext());
             utils.toggleStreaming();
+        /*
+        RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
+        SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
+        surfaceView.getHolder().addCallback(utils.GetPlayer());
 
+        utils.StartPlayer();
+        */
 
     }
 
