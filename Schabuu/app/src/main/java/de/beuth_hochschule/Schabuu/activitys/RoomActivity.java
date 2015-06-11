@@ -151,6 +151,22 @@ public class RoomActivity extends Activity {
 
     private void updatePlayerList(final JSONObject data) {
 
+        try {
+            final JSONObject players = (JSONObject) data.get("players");
+            Iterator x = players.keys();
+            playerArray = new ArrayList<String>();
+
+            while (x.hasNext()) {
+                String key = (String) x.next();
+                JSONObject player = (JSONObject) players.get(key);
+                String name = (String) player.get("name");
+                playerArray.add(name);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         // just to display it on device for debugging
         System.out.println("room updated: " + data.toString());
         runOnUiThread(new Runnable() {
