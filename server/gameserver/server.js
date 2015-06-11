@@ -90,6 +90,9 @@ function onConnect(client) {
     client.on("check_room", function(data) {
         onCheckRoom(this, data);
     });
+    client.on("player_change_name", function(data) {
+        onChangeName(this, data);
+    });
 }
 
 function onDisconnect(client) {
@@ -109,6 +112,12 @@ function onNewPlayer(client, data) {
             room: defaultRoom.name
         });
     });
+}
+
+function onChangeName(client, data) {
+    var currentPlayer = Player.getPlayer(client.id);
+    currentPlayer.changeName(data["playername"]);
+    currentPlayer.room.players[client.id].name = data["playername"];
 }
 
 function onCheckRoom(client, data) {

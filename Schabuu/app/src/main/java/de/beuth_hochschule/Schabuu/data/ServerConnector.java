@@ -38,6 +38,8 @@ public interface ServerConnector {
 
     public void addListener(String event, Emitter.Listener callback);
 
+    public void changePlayername(String name);
+
     public void removeListener(String event);
 
 }
