@@ -198,6 +198,14 @@ public class ServerConnectorImplementation implements ServerConnector {
     }
 
     @Override
+    public void changePlayername(String name) {
+        HashMap<String, String> items = new HashMap<String, String>();
+        items.put("playername", name);
+        JSONObject data = this.jsonObjectHelper(items);
+        this.emit(Events.PLAYER_CHANGE_NAME, data);
+    }
+
+    @Override
     public void removeListener(String event) {
         socket.off(event);
     }

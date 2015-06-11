@@ -283,15 +283,17 @@ public class RoomActivity extends Activity {
         }
         if (player.role.equals("audio")) {
             intent = new Intent(RoomActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "CAM");
         }
         if (player.role.equals("video")) {
             intent = new Intent(RoomActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "CAM");
         }
-        intent.putExtra("USERNAME", player.name);
-        intent.putExtra("ROLE", player.role);
-        intent.putExtra("TEAM", player.team);
-        intent.putExtra("STREAM_AUDIO", player.streamAudio);
-        intent.putExtra("STREAM_VIDEO", player.streamVideo);
+        intent.putExtra("USERNAME", ""+player.name);
+        intent.putExtra("ROLE", ""+player.role);
+        intent.putExtra("TEAM", ""+player.team);
+        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
+        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
 
         startActivity(intent);
     }
@@ -301,19 +303,11 @@ public class RoomActivity extends Activity {
         try {
             System.out.println("PPPPPPPPPPPPP" + data.toString());
             final JSONObject game = (JSONObject) data.get("game");
-            final JSONArray players = (JSONArray) game.get("players");
-            for (int i=0; i < players.length(); i++) {
-                JSONObject player = (JSONObject) players.get(i);
-
-                Iterator x = player.keys();
-
-                while (x.hasNext()) {
-                    String key = (String) x.next();
-                    JSONObject onePlayer = (JSONObject) player.get(key);
-                    Player newPlayer = new Player((String) onePlayer.get("name"), (String) onePlayer.get("role"), (String) onePlayer.get("team"), "PaulTest", "PaulTest");
-                    System.out.println("!!!!!!!!!!!!!!!!!" + newPlayer.toString());
-                    playerList.put((String) onePlayer.get("name"), newPlayer);
-                }
+            final JSONArray playersArray = (JSONArray) game.get("players");
+            for (int i=0; i < playersArray.length(); i++) {
+                JSONObject player = (JSONObject) playersArray.get(i);
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(), "PaulTest", "PaulTest");
+                playerList.put((String) player.get("name"), newPlayer);
             }
 
         } catch (JSONException e) {
@@ -324,6 +318,7 @@ public class RoomActivity extends Activity {
     private void goBackToMain() {
         Intent intent = new Intent(RoomActivity.this, MainMenuActivity.class);
         startActivity(intent);
+        RoomActivity.this.finish();
     }
 
     @Override

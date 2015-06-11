@@ -31,7 +31,7 @@ public class GameActivity extends Activity {
     // rtmp://ws2.nanocosmos.net/live
     // rtmps://55087e44b8b38.streamlock.net/vod
     private static final String strStreamUrl = "rtmp://ws2.nanocosmos.net/live/";
-    private String strStreamname = "Schabuu";
+    private String strStreamname;
 
     private static String authUser = "";
     private static String authPass = "";
@@ -62,7 +62,7 @@ public class GameActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game_screen_guesser);
-
+        //loadingBackground.setVisibility(View.GONE);
         createLoadingScreen();
 
         textView = (TextView) findViewById(R.id.text_fill);
@@ -86,12 +86,13 @@ public class GameActivity extends Activity {
             }
         });
 
-
+        System.out.println("!!!!!!!!!!!!!!!!!!"+strStreamname);
         RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
 
         utils.StartPlayer();
+        //setTimeOut();
     }
 
     private void createLoadingScreen() {
@@ -100,6 +101,7 @@ public class GameActivity extends Activity {
         iconView = (ImageView) findViewById(R.id.imageView);
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         descriptionTextView.setText(getResources().getString(R.string.guesser_description));
+        System.out.println("TEAM: " + intent.getStringExtra("TEAM"));
         if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         }
@@ -108,7 +110,7 @@ public class GameActivity extends Activity {
         teamTextView.append(intent.getStringExtra("TEAM"));
         iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
         strStreamname = intent.getStringExtra("STREAM_VIDEO");
-        setTimeOut();
+
     }
 
 
@@ -132,7 +134,9 @@ public class GameActivity extends Activity {
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
+/*
                     startGame();
+*/
                     loadingBackground.setVisibility(View.GONE);
                 }
             }

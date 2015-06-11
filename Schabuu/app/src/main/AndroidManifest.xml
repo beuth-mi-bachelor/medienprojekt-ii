@@ -27,10 +27,12 @@
         android:hardwareAccelerated="true"
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
-        android:theme="@android:style/Theme.NoTitleBar">
+        android:theme="@android:style/Theme.NoTitleBar"
+        android:screenOrientation="portrait">
         <activity
             android:name=".activitys.SplashScreenActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,37 +41,32 @@
         <activity
             android:name=".activitys.MainMenuActivity"
             android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activitys.RoomActivity"
             android:parentActivityName=".activitys.MainMenuActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".activitys.PlayWithFriendsActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".activitys.GameActivity"
-            android:label="@string/app_name">
-
-        </activity>
-        <activity
-            android:name=".activitys.SettingsActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".activitys.GameAvActivity"
-            android:label="@string/app_name">
-
-        </activity>
-        <activity
-            android:name=".ServerDemo"
-            android:label="@string/title_activity_server_demo">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>
