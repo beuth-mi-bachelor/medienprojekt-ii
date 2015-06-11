@@ -49,7 +49,7 @@ public class GameActivity extends Activity {
     private static final String LOG_TAG = "GameActivity";
 
     private ServerConnector _server;
-
+    private SolutionHolder solutionHolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,6 @@ public class GameActivity extends Activity {
 
         intent = getIntent();
 
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -66,12 +65,10 @@ public class GameActivity extends Activity {
         //loadingBackground.setVisibility(View.GONE);
         createLoadingScreen();
 
-        textView = (TextView) findViewById(R.id.text_fill);
-
         getLetters("KATZE", 10);
 
         LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
-        SolutionHolder solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 System.out.println("!!!!!!!!!!!! SOLUTION DONE!");
@@ -82,8 +79,7 @@ public class GameActivity extends Activity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = textView.getText().toString();
-                textView.setText(text.substring(0, text.length() - 1));
+                solutionHolder.deleteChar();
             }
         });
 
@@ -91,7 +87,7 @@ public class GameActivity extends Activity {
         renewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText("");
+                solutionHolder.deleteWord();
             }
         });
 
@@ -109,11 +105,13 @@ public class GameActivity extends Activity {
         iconView = (ImageView) findViewById(R.id.imageView);
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         descriptionTextView.setText(getResources().getString(R.string.guesser_description));
+
         if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         teamTextView.append(intent.getStringExtra("TEAM"));
+
         iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
         strStreamname = intent.getStringExtra("STREAM_VIDEO");
 
@@ -202,7 +200,7 @@ public class GameActivity extends Activity {
             public void onClick(View v) {
                 Button b = (Button) v;
                 String buttonText = b.getText().toString();
-                textView.append(buttonText);
+                solutionHolder.addChar(buttonText);
             }
         });
         buttonLayout.addView(btn);

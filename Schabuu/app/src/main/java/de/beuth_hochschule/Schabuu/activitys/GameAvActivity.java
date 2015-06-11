@@ -2,9 +2,13 @@ package de.beuth_hochschule.Schabuu.activitys;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
@@ -33,6 +37,8 @@ public class GameAvActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        Typeface awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
         Intent intent = getIntent();
         _server = ServerConnectorImplementation.getInstance();
 
@@ -41,6 +47,45 @@ public class GameAvActivity extends Activity {
 
         setContentView(R.layout.activity_gamescreen_av);
 
+
+        TextView word_one = (TextView) findViewById(R.id.word_one);
+        TextView word_two = (TextView) findViewById(R.id.word_two);
+        TextView word_three = (TextView) findViewById(R.id.word_three);
+        TextView word_four = (TextView) findViewById(R.id.word_four);
+        TextView word_five = (TextView) findViewById(R.id.word_five);
+        TextView word_six = (TextView) findViewById(R.id.word_six);
+        TextView score1 = (TextView) findViewById(R.id.score1);
+        TextView score2 = (TextView) findViewById(R.id.score2);
+        TextView time_left = (TextView) findViewById(R.id.time_left);
+        TextView solution = (TextView) findViewById(R.id.loesungswort);
+        TextView player_name = (TextView) findViewById(R.id.player_name);
+
+        word_one.setTypeface(geoBold);
+        word_two.setTypeface(geoBold);
+        word_three.setTypeface(geoBold);
+        word_four.setTypeface(geoBold);
+        word_five.setTypeface(geoBold);
+        word_six.setTypeface(geoBold);
+        score1.setTypeface(geoBold);
+        score2.setTypeface(geoBold);
+        time_left.setTypeface(geoBold);
+        solution.setTypeface(geoBold);
+        player_name.setTypeface(geoBold);
+
+        player_name.setAlpha(0.5f);
+
+        word_one.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        word_two.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        word_three.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        word_four.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        word_five.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        word_six.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        score1.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        score2.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        time_left.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        solution.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+
+        time_left.setText("00:00");
 
             utils = new StreamingUtils(serverUrl, streamName, license_stream, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext());
             utils.toggleStreaming();

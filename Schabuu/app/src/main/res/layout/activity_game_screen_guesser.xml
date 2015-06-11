@@ -158,12 +158,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
         android:orientation="horizontal"
         android:id="@+id/solutionLayout"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:weightSum="10">
 
     </LinearLayout>
 
@@ -190,6 +191,7 @@
             android:id="@+id/buttonDelete"
             android:src="@android:drawable/ic_input_delete"
             android:background="@color/schabuu_red" />
+
     </LinearLayout>
 
 </LinearLayout>

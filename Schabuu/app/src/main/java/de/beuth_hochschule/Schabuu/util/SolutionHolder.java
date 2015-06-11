@@ -2,12 +2,17 @@ package de.beuth_hochschule.Schabuu.util;
 
 import android.app.Activity;
 import android.text.Layout;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
 import java.util.ArrayList;
+
+import de.beuth_hochschule.Schabuu.R;
+
+import static de.beuth_hochschule.Schabuu.R.color.schabuu_white;
 
 public class SolutionHolder {
 
@@ -27,7 +32,14 @@ public class SolutionHolder {
         SolutionHolder self = this;
         this.callback = callback;
         for (int i = 0; i < this.lengthOfSolution; i++) {
-            TextView textView = new TextView(self.appContext);
+            TextView textView = new TextView(new ContextThemeWrapper(self.appContext, R.style.input_solution));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+            params.weight = 1.0f;
+            params.width = 0;
+            params.setMargins(10, 5, 10, 5);
+            textView.setLayoutParams(params);
+            textView.setBackgroundResource(R.color.schabuu_white);
             self.solutionInputHolder.add(textView);
         }
         this.appendToView(layout);
@@ -37,22 +49,26 @@ public class SolutionHolder {
         for (int i = 0; i < this.solutionInputHolder.size(); i++) {
             TextView currentTextView = solutionInputHolder.get(i);
             layout.addView(currentTextView);
+            System.out.println(layout.getChildCount());
         }
     }
 
     public void addChar(String character) {
         if (this.isSolved()) {
-            callback.call();
+            this.callback.call();
+        } else {
+            if (!this.isFull()) {
+                TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
+                currentTextView.setText(character);
+                this.charPointer++;
+            }
         }
-        TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
-        currentTextView.setText(character);
-        this.charPointer++;
     }
 
     public void deleteChar() {
+        this.charPointer--;
         TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
         currentTextView.setText("");
-        this.charPointer--;
     }
 
     public void deleteWord() {
@@ -73,12 +89,11 @@ public class SolutionHolder {
     }
 
     private boolean isSolved() {
-        if ((this.lengthOfSolution - 1) >= this.charPointer) {
-            if (this.solution.equals(this.buildSolution())) {
-                return true;
-            }
-        }
-        return false;
+        return this.solution.equals(this.buildSolution());
+    }
+
+    private boolean isFull() {
+        return this.charPointer == this.lengthOfSolution;
     }
 
 }

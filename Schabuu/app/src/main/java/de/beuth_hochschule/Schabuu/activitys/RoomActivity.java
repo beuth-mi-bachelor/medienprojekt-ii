@@ -46,10 +46,10 @@ public class RoomActivity extends Activity {
 
         _server = ServerConnectorImplementation.getInstance();
 
-        views.add((TextView) findViewById(R.id.player_one));
-        views.add((TextView) findViewById(R.id.player_two));
-        views.add((TextView) findViewById(R.id.player_three));
-        views.add((TextView) findViewById(R.id.player_four));
+        views.add((Typewriter) findViewById(R.id.player_one));
+        views.add((Typewriter) findViewById(R.id.player_two));
+        views.add((Typewriter) findViewById(R.id.player_three));
+        views.add((Typewriter) findViewById(R.id.player_four));
 
         username = intent.getStringExtra("USERNAME");
 
@@ -57,6 +57,7 @@ public class RoomActivity extends Activity {
             randomRoomSetup();
         else newRoomSetup(intent.getStringExtra("ROOM_NAME"));
 
+        // BACK BUTTON
         Button backButton = (Button)findViewById(R.id.back_button);
         backButton.setTypeface(awesome);
         backButton.setTextColor(Color.parseColor("#ffffff"));
@@ -90,6 +91,7 @@ public class RoomActivity extends Activity {
             }
         });
 
+        // PLAYER ONE
         Typewriter playerOneView = (Typewriter) findViewById(R.id.player_one);
         playerOneView.setTypeface(geoBold);
         playerOneView.setTextSize(48);
@@ -102,6 +104,7 @@ public class RoomActivity extends Activity {
         playerOneView.setCharacterDelay(150);
         playerOneView.animateText("Waiting...");
 
+        //PLAYER TWO
         Typewriter playerTwoView = (Typewriter)findViewById(R.id.player_two);
         playerTwoView.setTypeface(geoBold);
         playerTwoView.setTextSize(48);
@@ -116,6 +119,7 @@ public class RoomActivity extends Activity {
         playerTwoView.setCharacterDelay(150);
         playerTwoView.animateText("Waiting...");
 
+        // PLAYER THREE
         Typewriter playerThreeView = (Typewriter)findViewById(R.id.player_three);
         playerThreeView.setTypeface(geoBold);
         playerThreeView.setTextSize(48);
@@ -123,6 +127,7 @@ public class RoomActivity extends Activity {
         playerThreeView.setCharacterDelay(150);
         playerThreeView.animateText("Waiting...");
 
+        // PLAYER FOUR
         Typewriter playerFourView = (Typewriter)findViewById(R.id.player_four);
         playerFourView.setTypeface(geoBold);
         playerFourView.setTextSize(48);
