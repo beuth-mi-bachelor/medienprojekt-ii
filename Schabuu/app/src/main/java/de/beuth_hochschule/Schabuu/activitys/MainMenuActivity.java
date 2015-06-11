@@ -44,6 +44,7 @@ public class MainMenuActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
                 intent.putExtra("ROOM_MODE", "Random Room");
+                intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }
         });

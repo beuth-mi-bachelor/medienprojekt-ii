@@ -13,18 +13,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
+import de.beuth_hochschule.Schabuu.util.Player;
 
 public class RoomActivity extends Activity {
 
     private ServerConnector _server;
     private ArrayList<TextView> views = new ArrayList<TextView>();
     private ArrayList<String> playerArray;
+    private HashMap<String,Player> playerList;
+    private String username;
 
 
     @Override
@@ -39,6 +43,8 @@ public class RoomActivity extends Activity {
         views.add((TextView) findViewById(R.id.player_two));
         views.add((TextView) findViewById(R.id.player_three));
         views.add((TextView) findViewById(R.id.player_four));
+
+        username = intent.getStringExtra("USERNAME");
 
         if (intent.getStringExtra("ROOM_MODE").equals("Random Room"))
             randomRoomSetup();
@@ -110,8 +116,14 @@ public class RoomActivity extends Activity {
                     public void call(Object... args) {
                         // no args supplied
 
-                        // TODO: extract to loadingScreenDone
-                        startGame();
+                        _server.addListener(Events.GAME_READY, new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+                                getPlayerHashMap(data);
+                                createActivity();
+                            }
+                        });
 
                         // just to display it on device for debugging
                         System.out.println("game is ready");
@@ -134,111 +146,9 @@ public class RoomActivity extends Activity {
         );
     }
 
-    private void startGame() {
-
-        // here player tells server that he wants to start the game
-        _server.clientIsReady(new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-
-                final JSONObject gameData = (JSONObject) args[0];
-
-                // just to display it on device for debugging
-                System.out.println("game started: " + gameData.toString());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        final JSONObject data = (JSONObject) args[0];
-                        // just to display it on device for debugging
-                        System.out.println("gametime is: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-                _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-
-                        final JSONObject data = (JSONObject) args[0];
-                        // just to display it on device for debugging
-                        System.out.println("next round started: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "next round started: " + data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-                _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-
-                        final JSONObject data = (JSONObject) args[0];
-                        // just to display it on device for debugging
-                        System.out.println("round ended: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-                _server.addListener(Events.GAME_END, new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        _server.removeListener(Events.GAME_UPDATE);
-                        _server.removeListener(Events.GAME_ROUND_END);
-                        _server.removeListener(Events.GAME_ROUND_START);
-                        _server.removeListener(Events.GAME_END);
-                        // just to display it on device for debugging
-                        System.out.println("game has ended");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "game has ended", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
-
-
-            }
-        });
-
-    }
 
     private void updatePlayerList(final JSONObject data) {
-        try {
-            final JSONObject players = (JSONObject) data.get("players");
-            Iterator x = players.keys();
-            playerArray = new ArrayList<String>();
 
-            while (x.hasNext()) {
-                String key = (String) x.next();
-                JSONObject player = (JSONObject) players.get(key);
-                String name = (String) player.get("name");
-                playerArray.add(name);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         // just to display it on device for debugging
         System.out.println("room updated: " + data.toString());
         runOnUiThread(new Runnable() {
@@ -286,8 +196,14 @@ public class RoomActivity extends Activity {
                     public void call(Object... args) {
                         // no args supplied
 
-                        // TODO: extract to loadingScreenDone
-                        startGame();
+                        _server.addListener(Events.GAME_READY, new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                final JSONObject data = (JSONObject) args[0];
+                                getPlayerHashMap(data);
+                                createActivity();
+                            }
+                        });
 
                         // just to display it on device for debugging
                         System.out.println("game is ready");
@@ -319,6 +235,44 @@ public class RoomActivity extends Activity {
                     }
                 }
         );
+    }
+
+    private void createActivity() {
+        Player player = playerList.get(username);
+        Intent intent = new Intent();
+        if (player.role.equals("guesser")) {
+            intent = new Intent(RoomActivity.this, GameActivity.class);
+        }
+        if (player.role.equals("audio")) {
+            intent = new Intent(RoomActivity.this, GameAvActivity.class);
+        }
+        if (player.role.equals("video")) {
+            intent = new Intent(RoomActivity.this, GameAvActivity.class);
+        }
+        intent.putExtra("USERNAME", player.name);
+        intent.putExtra("ROLE", player.role);
+        intent.putExtra("TEAM", player.team);
+        intent.putExtra("STREAM_AUDIO", player.streamAudio);
+        intent.putExtra("STREAM_VIDEO", player.streamVideo);
+
+        startActivity(intent);
+            }
+
+    private void getPlayerHashMap(JSONObject data) {
+        try {
+            final JSONObject players = (JSONObject) data.get("players");
+            Iterator x = players.keys();
+
+            while (x.hasNext()) {
+                String key = (String) x.next();
+                JSONObject player = (JSONObject) players.get(key);
+                Player newPlayer = new Player((String) player.get("name"),(String) player.get("role"),(String) player.get("team"),(String) player.get("streamAudio"),(String) player.get("streamVideo"));
+                playerList.put((String) player.get("name"), newPlayer);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void goBackToMain() {
