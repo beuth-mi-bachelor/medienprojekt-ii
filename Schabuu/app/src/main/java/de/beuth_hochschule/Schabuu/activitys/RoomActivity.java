@@ -293,6 +293,7 @@ public class RoomActivity extends Activity {
     private void goBackToMain() {
         Intent intent = new Intent(RoomActivity.this, MainMenuActivity.class);
         startActivity(intent);
+        RoomActivity.this.finish();
     }
 
     @Override

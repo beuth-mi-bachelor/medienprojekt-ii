@@ -110,6 +110,14 @@
     };
 
     /**
+     * change name of a player
+     * @param name {String} new name of the player
+     */
+    Player.prototype.changeName = function (name) {
+        this.name = name;
+    };
+
+    /**
      * displays a readable string of a player instance
      * @returns {{String}} representation of this player
      */

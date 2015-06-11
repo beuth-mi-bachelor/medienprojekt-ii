@@ -184,6 +184,11 @@ public class Events {
     /**
      * only an emitter
      */
+    public static final String PLAYER_CHANGE_NAME = "player_change_name";
+
+    /**
+     * only an emitter
+     */
     public static final String PLAYER_INACTIVE = "player_inactive";
 
     /**

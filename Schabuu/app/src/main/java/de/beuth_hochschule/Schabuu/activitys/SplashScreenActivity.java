@@ -35,6 +35,7 @@ public class SplashScreenActivity extends Activity {
                     e.printStackTrace();
                 }finally{
                     startActivity(new Intent(SplashScreenActivity.this, MainMenuActivity.class));
+                    SplashScreenActivity.this.finish();
                 }
             }
         };
