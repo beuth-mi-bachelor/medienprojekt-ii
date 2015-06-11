@@ -69,7 +69,7 @@
                 <li> Players:
                     <ul>
                         {{#each this.players}}
-                            <li>{{this.name}}: {{this.role}}</li>
+                            <li>{{this.name}}: {{this.role}} in {{this.team}}</li>
                         {{/each}}
                     </ul>
                 </li>
@@ -96,7 +96,7 @@
 </div>
 <script>
     window.setInterval(function() {
-        location.reload();
+        //location.reload();
     }, 1000);
 </script>
 </body>
