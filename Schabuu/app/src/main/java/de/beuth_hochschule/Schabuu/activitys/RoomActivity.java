@@ -2,8 +2,11 @@ package de.beuth_hochschule.Schabuu.activitys;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,8 @@ public class RoomActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        Typeface awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
         Intent intent = getIntent();
         setContentView(R.layout.activity_room);
 
@@ -50,7 +55,12 @@ public class RoomActivity extends Activity {
             randomRoomSetup();
         else newRoomSetup(intent.getStringExtra("ROOM_NAME"));
 
-        View backButton = findViewById(R.id.back_button);
+        Button backButton = (Button)findViewById(R.id.back_button);
+        backButton.setTypeface(awesome);
+        backButton.setTextColor(Color.parseColor("#ffffff"));
+        backButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        backButton.setTextSize(36);
+        backButton.setText("\uF060");
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,14 +88,20 @@ public class RoomActivity extends Activity {
             }
         });
 
-        View playerOneView = findViewById(R.id.player_one);
+        TextView playerOneView = (TextView)findViewById(R.id.player_one);
+        playerOneView.setTypeface(geoBold);
+        playerOneView.setTextSize(48);
+        playerOneView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         playerOneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(RoomActivity.this, GameActivity.class));
             }
         });
 
-        View playerTwoView = findViewById(R.id.player_two);
+        TextView playerTwoView = (TextView)findViewById(R.id.player_two);
+        playerTwoView.setTypeface(geoBold);
+        playerTwoView.setTextSize(48);
+        playerTwoView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         playerTwoView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent newIntent = new Intent(RoomActivity.this, GameAvActivity.class);
@@ -94,6 +110,15 @@ public class RoomActivity extends Activity {
             }
         });
 
+        TextView playerThreeView = (TextView)findViewById(R.id.player_three);
+        playerThreeView.setTypeface(geoBold);
+        playerThreeView.setTextSize(48);
+        playerThreeView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+
+        TextView playerFourView = (TextView)findViewById(R.id.player_four);
+        playerFourView.setTypeface(geoBold);
+        playerFourView.setTextSize(48);
+        playerFourView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
     }
 
     public void randomRoomSetup() {

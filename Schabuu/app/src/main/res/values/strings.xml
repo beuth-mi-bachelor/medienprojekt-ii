@@ -75,4 +75,6 @@
     <string name="save_settings_button">Save Settings</string>
     <string name="user_name_title">Set your name</string>
     <string name="user_name_msg">Please enter your displayed ingame-name</string>
+    <string name="play_a">PLAY</string>
+    <string name="play_alon">Play</string>
 </resources>

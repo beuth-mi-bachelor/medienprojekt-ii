@@ -5,17 +5,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,11 +40,15 @@ public class MainMenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+
         username = loadUserNameFromStoarge("username", getApplicationContext());
 
         setContentView(R.layout.activity_main_menu);
 
-        View playAloneView = findViewById(R.id.play_alone);
+        TextView playAloneView = (TextView)findViewById(R.id.play_alone);
+        playAloneView.setTextSize(60);
+        playAloneView.setTypeface(geoBold);
         playAloneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
@@ -49,14 +58,18 @@ public class MainMenuActivity extends Activity {
             }
         });
 
-        View playWithFriendsView = findViewById(R.id.play_friends);
+        TextView playWithFriendsView = (TextView)findViewById(R.id.play_friends);
+        playWithFriendsView.setTextSize(60);
+        playWithFriendsView.setTypeface(geoBold);
         playWithFriendsView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(MainMenuActivity.this, PlayWithFriendsActivity.class));
             }
         });
 
-        View settingsView = findViewById(R.id.settings);
+        TextView settingsView = (TextView)findViewById(R.id.settings);
+        settingsView.setTextSize(60);
+        settingsView.setTypeface(geoBold);
         settingsView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 changeName(getString(R.string.user_name_title), getString(R.string.user_name_msg));
@@ -230,5 +243,4 @@ public class MainMenuActivity extends Activity {
             }
         });
     }
-
 }
