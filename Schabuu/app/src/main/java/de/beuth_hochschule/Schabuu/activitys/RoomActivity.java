@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import java.util.Iterator;
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
+import de.beuth_hochschule.Schabuu.ui.Typewriter;
 import de.beuth_hochschule.Schabuu.util.Player;
 
 public class RoomActivity extends Activity {
@@ -33,10 +35,10 @@ public class RoomActivity extends Activity {
     private HashMap<String, Player> playerList;
     private String username;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
         Typeface awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
         Intent intent = getIntent();
@@ -88,7 +90,7 @@ public class RoomActivity extends Activity {
             }
         });
 
-        TextView playerOneView = (TextView)findViewById(R.id.player_one);
+        Typewriter playerOneView = (Typewriter) findViewById(R.id.player_one);
         playerOneView.setTypeface(geoBold);
         playerOneView.setTextSize(48);
         playerOneView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -97,8 +99,10 @@ public class RoomActivity extends Activity {
                 startActivity(new Intent(RoomActivity.this, GameActivity.class));
             }
         });
+        playerOneView.setCharacterDelay(150);
+        playerOneView.animateText("Waiting...");
 
-        TextView playerTwoView = (TextView)findViewById(R.id.player_two);
+        Typewriter playerTwoView = (Typewriter)findViewById(R.id.player_two);
         playerTwoView.setTypeface(geoBold);
         playerTwoView.setTextSize(48);
         playerTwoView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -109,16 +113,22 @@ public class RoomActivity extends Activity {
                 startActivity(newIntent);
             }
         });
+        playerTwoView.setCharacterDelay(150);
+        playerTwoView.animateText("Waiting...");
 
-        TextView playerThreeView = (TextView)findViewById(R.id.player_three);
+        Typewriter playerThreeView = (Typewriter)findViewById(R.id.player_three);
         playerThreeView.setTypeface(geoBold);
         playerThreeView.setTextSize(48);
         playerThreeView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        playerThreeView.setCharacterDelay(150);
+        playerThreeView.animateText("Waiting...");
 
-        TextView playerFourView = (TextView)findViewById(R.id.player_four);
+        Typewriter playerFourView = (Typewriter)findViewById(R.id.player_four);
         playerFourView.setTypeface(geoBold);
         playerFourView.setTextSize(48);
         playerFourView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        playerFourView.setCharacterDelay(150);
+        playerFourView.animateText("Waiting...");
     }
 
     public void randomRoomSetup() {
