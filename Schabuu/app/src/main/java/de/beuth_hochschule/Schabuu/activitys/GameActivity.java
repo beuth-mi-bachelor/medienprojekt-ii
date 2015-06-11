@@ -30,8 +30,8 @@ public class GameActivity extends Activity {
     private static final String license = "nlic:1.2:LiveEnc:3.0:LvApp=1,LivePlg=1,H264DEC=1,H264ENC=1,RTMPsrc=1,RtmpMsg=1,RTMPx=3,NoMsg=1,Ic=0:adr,ios:20150409,20150707::0:0:smartfrog-431775-1:ncpt:90ddf42ffe204d9e1e6ac99e9df92aba";
     // rtmp://ws2.nanocosmos.net/live
     // rtmps://55087e44b8b38.streamlock.net/vod
-    private static final String strStreamUrl = "rtmp://ws2.nanocosmos.net/live/";
-    private String strStreamname;
+    private static final String strStreamUrl = "rtmp://ws2.nanocosmos.net/live";
+    private String strStreamname = "PaulTest";
 
     private static String authUser = "";
     private static String authPass = "";
@@ -109,7 +109,7 @@ public class GameActivity extends Activity {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         teamTextView.append(intent.getStringExtra("TEAM"));
         iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
-        strStreamname = intent.getStringExtra("STREAM_VIDEO");
+        //strStreamname = intent.getStringExtra("STREAM_VIDEO");
 
     }
 
