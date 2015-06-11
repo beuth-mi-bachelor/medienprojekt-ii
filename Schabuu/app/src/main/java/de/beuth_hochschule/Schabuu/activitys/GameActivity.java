@@ -1,6 +1,7 @@
 package de.beuth_hochschule.Schabuu.activitys;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -9,10 +10,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.nkzawa.emitter.Emitter;
+
+import org.json.JSONObject;
 
 import java.util.Random;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
@@ -24,12 +31,19 @@ public class GameActivity extends Activity {
     // rtmp://ws2.nanocosmos.net/live
     // rtmps://55087e44b8b38.streamlock.net/vod
     private static final String strStreamUrl = "rtmp://ws2.nanocosmos.net/live/";
-    private static final String strStreamname = "Schabuu";
+    private String strStreamname = "Schabuu";
 
     private static String authUser = "";
     private static String authPass = "";
 
     private TextView textView;
+    private TextView descriptionTextView;
+    private TextView teamTextView;
+    private ImageView iconView;
+    private LinearLayout loadingBackground;
+
+    private Intent intent;
+
 
     private static final String LOG_TAG = "GameActivity";
 
@@ -41,11 +55,16 @@ public class GameActivity extends Activity {
 
         _server = ServerConnectorImplementation.getInstance();
 
+        intent = getIntent();
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game_screen_guesser);
+
+        createLoadingScreen();
+
         textView = (TextView) findViewById(R.id.text_fill);
 
         getLetters("KATZE", 10);
@@ -75,6 +94,23 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
     }
 
+    private void createLoadingScreen() {
+        descriptionTextView = (TextView) findViewById(R.id.description);
+        teamTextView = (TextView) findViewById(R.id.team_value);
+        iconView = (ImageView) findViewById(R.id.imageView);
+        loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
+        descriptionTextView.setText(getResources().getString(R.string.guesser_description));
+        if (intent.getStringExtra("TEAM").equals(0)) {
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
+        }
+        else
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
+        teamTextView.append(intent.getStringExtra("TEAM"));
+        iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
+        strStreamname = intent.getStringExtra("STREAM_VIDEO");
+        setTimeOut();
+    }
+
 
     @Override
     public void onPause() {
@@ -86,6 +122,22 @@ public class GameActivity extends Activity {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
         _server.setPlayerActive();
+    }
+
+    public void setTimeOut() {
+        Thread timerThread = new Thread(){
+            public void run(){
+                try{
+                    sleep(3000);
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }finally{
+                    startGame();
+                    loadingBackground.setVisibility(View.GONE);
+                }
+            }
+        };
+        timerThread.start();
     }
 
     //gets the word to be described and the maximum number of the buttons to be shown
@@ -144,5 +196,94 @@ public class GameActivity extends Activity {
             }
         });
         buttonLayout.addView(btn);
+    }
+
+    private void startGame() {
+
+        // here player tells server that he wants to start the game
+        _server.clientIsReady(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+
+                final JSONObject gameData = (JSONObject) args[0];
+
+                // just to display it on device for debugging
+                System.out.println("game started: " + gameData.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("gametime is: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("next round started: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "next round started: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("round ended: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_END, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        _server.removeListener(Events.GAME_UPDATE);
+                        _server.removeListener(Events.GAME_ROUND_END);
+                        _server.removeListener(Events.GAME_ROUND_START);
+                        _server.removeListener(Events.GAME_END);
+                        // just to display it on device for debugging
+                        System.out.println("game has ended");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "game has ended", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+
+            }
+        });
+
     }
 }
