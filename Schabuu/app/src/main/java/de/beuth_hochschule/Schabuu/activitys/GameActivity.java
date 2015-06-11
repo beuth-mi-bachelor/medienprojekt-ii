@@ -71,7 +71,6 @@ public class GameActivity extends Activity {
         getLetters("KATZE", 10);
 
         LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
-
         SolutionHolder solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -110,16 +109,13 @@ public class GameActivity extends Activity {
         iconView = (ImageView) findViewById(R.id.imageView);
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         descriptionTextView.setText(getResources().getString(R.string.guesser_description));
-        //System.out.println("TEAM: " + intent.getStringExtra("TEAM"));
-
-//        if (intent.getStringExtra("TEAM").equals("0")) {
-  //          loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
-    //    }
-      //  else
-        //    loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
-        //teamTextView.append(intent.getStringExtra("TEAM"));
+        if (intent.getStringExtra("TEAM").equals("0")) {
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
+        } else
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
+        teamTextView.append(intent.getStringExtra("TEAM"));
         iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
-        //strStreamname = intent.getStringExtra("STREAM_VIDEO");
+        strStreamname = intent.getStringExtra("STREAM_VIDEO");
 
     }
 
@@ -137,13 +133,13 @@ public class GameActivity extends Activity {
     }
 
     public void setTimeOut() {
-        Thread timerThread = new Thread(){
-            public void run(){
-                try{
+        Thread timerThread = new Thread() {
+            public void run() {
+                try {
                     sleep(3000);
-                }catch(InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
-                }finally{
+                } finally {
 /*
                     startGame();
 */

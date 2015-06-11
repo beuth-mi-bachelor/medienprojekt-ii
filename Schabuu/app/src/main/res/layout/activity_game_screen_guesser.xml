@@ -161,8 +161,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
-        android:orientation="vertical"
-        android:id="@+id/solutionLayout">
+        android:orientation="horizontal"
+        android:id="@+id/solutionLayout"
+        android:gravity="center_horizontal">
 
     </LinearLayout>
 
