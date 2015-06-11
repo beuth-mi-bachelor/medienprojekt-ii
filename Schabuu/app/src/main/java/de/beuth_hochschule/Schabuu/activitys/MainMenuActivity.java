@@ -59,7 +59,7 @@ public class MainMenuActivity extends Activity {
         View settingsView = findViewById(R.id.settings);
         settingsView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
+                changeName(getString(R.string.user_name_title), getString(R.string.user_name_msg));
             }
         });
 
@@ -118,12 +118,38 @@ public class MainMenuActivity extends Activity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 username = input.getText().toString();
                 if (username.equals("")) {
-                    getUserNameAlert("Set Name", "Please enter a valid name");
+                    getUserNameAlert(getString(R.string.user_name_title), getString(R.string.user_name_msg));
                     return;
                 }
                 saveUserNameInStoarge(username);
             }
         });
+        alert.create().show();
+    }
+
+    private void changeName(String title, String msg) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle(title);
+        alert.setMessage(msg);
+
+        final EditText input = new EditText(this);
+        input.setText(username);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                username = input.getText().toString();
+                saveUserNameInStoarge(username);
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
         alert.create().show();
     }
 
@@ -162,7 +188,7 @@ public class MainMenuActivity extends Activity {
             MainMenuActivity.this.connectToServer();
 
         } catch (FileNotFoundException e) {
-            getUserNameAlert("Set Name", "Please enter a your displayed name");
+            getUserNameAlert(getString(R.string.user_name_title), getString(R.string.user_name_msg));
             Log.e("TAG", "File not found: " + e.toString());
         } catch (IOException e) {
             Log.e("TAG", "Can not read file: " + e.toString());

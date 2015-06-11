@@ -16,7 +16,8 @@ app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'debugging.hbs'}));
 app.set('view engine', 'hbs');
 app.locals.layout = false;
 
-var PORT = 1337;
+var args = process.argv.slice(2),
+    PORT = parseInt(args[0], 10) || 1337;
 
 app.get('/debug', function (req, res) {
     var allRooms = Room.getAllRoomsAsArray(),
