@@ -111,19 +111,23 @@ Game.prototype.endRound = function(noWinner) {
     this.interval = null;
     this.currentTime = this.time;
     var self = this;
-    for (var i = 0; i < this.players.length; i++) {
-        setRole(self.players[i], i, self);
-    }
-    this.server.emit("emitToRoom", this.room.name, 'game_round_end', {
-        points: this.points,
-        players: this.players
-    });
+
     if (this.rounds - this.currentRound <= 0) {
         this.endGame();
     } else {
         this.currentRound += 1;
         setTimeout(this.startRound(), this.timeOutBetweenRounds);
     }
+
+    for (var i = 0; i < this.players.length; i++) {
+        setRole(self.players[i], i, self);
+    }
+
+    this.server.emit("emitToRoom", this.room.name, 'game_round_end', {
+        points: this.points,
+        players: this.players
+    });
+
     // TODO: show scores
     if (noWinner) {
         // unentschieden
