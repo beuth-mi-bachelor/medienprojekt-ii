@@ -44,6 +44,7 @@ public class MainMenuActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenuActivity.this, RoomActivity.class);
                 intent.putExtra("ROOM_MODE", "Random Room");
+                intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }
         });
@@ -65,7 +66,7 @@ public class MainMenuActivity extends Activity {
     }
 
     private void connectToServer() {
-        _server = ServerConnectorImplementation.getInstance("192.168.1.102", 1337);
+        _server = ServerConnectorImplementation.getInstance("178.63.189.173", 1337);
         /**
          * ESTABLISHING CONNECTION
          */

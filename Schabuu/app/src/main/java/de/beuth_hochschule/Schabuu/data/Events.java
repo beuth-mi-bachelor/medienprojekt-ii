@@ -3,6 +3,62 @@ package de.beuth_hochschule.Schabuu.data;
 public class Events {
 
     /**
+     * Game {
+     *      "game": {
+     *           "players": Array{Players},
+     *            "rounds": Integer,
+     *            "currentRound: Integer,
+     *            "time": Integer,
+     *            "currentTime": Integer,
+     *            "timeOutBetweenRounds": Integer,
+     *            "room": {Room},
+     *            "points": [
+     *               // round 1
+     *               Object {
+     *                    "team_red": Integer,
+     *                    "team_blue": Integer
+     *               },
+     *               // round 2
+     *               Object {
+     *                    "team_red": Integer,
+     *                  "team_blue": Integer
+     *               }
+     *           ],
+     *            "streamNames" = {
+     *               "audio": String
+     *               "video": String
+     *            },
+     *            "currentWord": {
+     *                word(String): [list, of, words]
+     *            }
+     *      }
+     * }
+     */
+
+
+    /**
+     * Room {
+     *     name: String,
+     *     password: String
+     *     players: {
+     *          Player.id: {Player}
+     *     },
+     *     maxPlayers: Integer
+     *     gameReady: Integer
+     * }
+     */
+
+    /**
+     * Player {
+     *     id: String,
+     *     name: String,
+     *     room: Room,
+     *     role: String,
+     *     team: Integer
+     * }
+     */
+
+    /**
      * only an emitter
      */
     public static final String NEW_PLAYER = "new_player";
@@ -114,7 +170,8 @@ public class Events {
      *              "team_red": Integer,
      *              "team_blue": Integer
      *          }
-     *      ]
+     *      ],
+     *      "players": Array{Players}
      * }
      */
     public static final String GAME_END = "game_end";
