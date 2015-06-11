@@ -36,6 +36,7 @@ ul li ul {
 ul li ul li {
     margin: 0;
     padding: 5px 10px;
+    white-space: nowrap;
     list-style: none;
     background: transparent;
     border: 1px solid #000000;
