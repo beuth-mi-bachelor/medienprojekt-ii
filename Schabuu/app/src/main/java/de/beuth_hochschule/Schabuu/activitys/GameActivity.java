@@ -24,6 +24,7 @@ import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
 import de.beuth_hochschule.Schabuu.util.RecievingUtils;
+import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 
 public class GameActivity extends Activity {
 
@@ -69,6 +70,15 @@ public class GameActivity extends Activity {
 
         getLetters("KATZE", 10);
 
+        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+
+        SolutionHolder solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                System.out.println("!!!!!!!!!!!! SOLUTION DONE!");
+            }
+        }, GameActivity.this, "KATZE");
+
         ImageView deleteButton = (ImageView) findViewById(R.id.buttonDelete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +96,6 @@ public class GameActivity extends Activity {
             }
         });
 
-        System.out.println("!!!!!!!!!!!!!!!!!!"+strStreamname);
         RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
@@ -101,13 +110,14 @@ public class GameActivity extends Activity {
         iconView = (ImageView) findViewById(R.id.imageView);
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         descriptionTextView.setText(getResources().getString(R.string.guesser_description));
-        System.out.println("TEAM: " + intent.getStringExtra("TEAM"));
-        if (intent.getStringExtra("TEAM").equals("0")) {
-            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
-        }
-        else
-            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
-        teamTextView.append(intent.getStringExtra("TEAM"));
+        //System.out.println("TEAM: " + intent.getStringExtra("TEAM"));
+
+//        if (intent.getStringExtra("TEAM").equals("0")) {
+  //          loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
+    //    }
+      //  else
+        //    loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
+        //teamTextView.append(intent.getStringExtra("TEAM"));
         iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
         //strStreamname = intent.getStringExtra("STREAM_VIDEO");
 
