@@ -69,7 +69,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
             android:src="@drawable/audio_icon"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            />
 
     </LinearLayout>
 
