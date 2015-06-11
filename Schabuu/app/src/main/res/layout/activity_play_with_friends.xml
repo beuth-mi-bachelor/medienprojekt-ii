@@ -16,7 +16,9 @@
         android:textColor="#ffffffff"
         android:gravity="center"
         android:layout_weight="2.5"
-        android:textSize="48dp" />
+        android:textSize="48dp"
+        android:shadowColor="#ff333333"
+        android:singleLine="false" />
 
 
     <RelativeLayout
@@ -42,7 +44,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:id="@+id/back_button" />
+            android:id="@+id/back_button"
+            android:width="75dp"
+            android:height="75dp"
+            android:paddingTop="25dp"
+            android:paddingRight="35dp" />
     </RelativeLayout>
 
 </LinearLayout>

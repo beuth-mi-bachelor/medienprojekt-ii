@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
@@ -22,26 +26,38 @@ public class PlayWithFriendsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-
+        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        Typeface awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
         _server = ServerConnectorImplementation.getInstance();
 
         setContentView(R.layout.activity_play_with_friends);
 
-        View backButton = findViewById(R.id.back_button);
+        Button backButton = (Button)findViewById(R.id.back_button);
+        backButton.setTypeface(awesome);
+        backButton.setTextColor(Color.parseColor("#ffffff"));
+        backButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        backButton.setTextSize(36);
+        backButton.setText("\uF060");
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(PlayWithFriendsActivity.this, MainMenuActivity.class));
             }
         });
 
-        View joinButton = findViewById(R.id.join);
+        TextView joinButton = (TextView)findViewById(R.id.join);
+        joinButton.setTypeface(geoBold);
+        joinButton.setTextSize(60);
+        joinButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         joinButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 alert("Join Room", "Enter Roomname", AlertType.JOIN);
             }
         });
 
-        View createButton = findViewById(R.id.create);
+        TextView createButton = (TextView)findViewById(R.id.create);
+        createButton.setTypeface(geoBold);
+        createButton.setTextSize(60);
+        createButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         createButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 alert("Create Room", "Enter Roomname", AlertType.CREATE);
