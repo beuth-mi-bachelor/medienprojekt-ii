@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -275,15 +276,19 @@ public class RoomActivity extends Activity {
         try {
             System.out.println("PPPPPPPPPPPPP" + data.toString());
             final JSONObject game = (JSONObject) data.get("game");
-            final JSONObject players = (JSONObject) game.get("players");
-            Iterator x = players.keys();
+            final JSONArray players = (JSONArray) game.get("players");
+            for (int i=0; i < players.length(); i++) {
+                JSONObject player = (JSONObject) players.get(i);
 
-            while (x.hasNext()) {
-                String key = (String) x.next();
-                JSONObject player = (JSONObject) players.get(key);
-                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), (String) player.get("team"), "PaulTest", "PaulTest");
-                System.out.println("!!!!!!!!!!!!!!!!!" + newPlayer.toString());
-                playerList.put((String) player.get("name"), newPlayer);
+                Iterator x = player.keys();
+
+                while (x.hasNext()) {
+                    String key = (String) x.next();
+                    JSONObject onePlayer = (JSONObject) player.get(key);
+                    Player newPlayer = new Player((String) onePlayer.get("name"), (String) onePlayer.get("role"), (String) onePlayer.get("team"), "PaulTest", "PaulTest");
+                    System.out.println("!!!!!!!!!!!!!!!!!" + newPlayer.toString());
+                    playerList.put((String) onePlayer.get("name"), newPlayer);
+                }
             }
 
         } catch (JSONException e) {
