@@ -170,7 +170,8 @@ public class Events {
      *              "team_red": Integer,
      *              "team_blue": Integer
      *          }
-     *      ]
+     *      ],
+     *      "players": Array{Players}
      * }
      */
     public static final String GAME_END = "game_end";

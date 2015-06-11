@@ -7,7 +7,7 @@ if (!Game.games) {
     Game.games = {};
 }
 
-Game.roles = ["guesser-1", "guesser-2", "audio", "video"];
+Game.roles = ["guesser", "audio", "video"];
 Game.team = [0, 1];
 
 /**
@@ -20,11 +20,7 @@ Game.team = [0, 1];
  */
 function Game(server, room, rounds, time) {
     this.players = [];
-    for (var player in room.players) {
-        if (room.players.hasOwnProperty(player)) {
-            this.players.push(Player.getPlayer(room.players[player].id));
-        }
-    }
+    var index = 0;
     this.server = server;
     this.rounds = rounds || 3;
     this.currentRound = 1;
@@ -33,14 +29,27 @@ function Game(server, room, rounds, time) {
     this.timeOutBetweenRounds = 5;
     this.room = room;
     this.points = [];
-    Game.games[this.room.name] = this;
     this.streamNames = {
         audio: room.name + "-audio",
         video: room.name + "-video"
     };
     this.currentWord = Game.getDataset();
+    var self = this;
+    for (var player in room.players) {
+        if (room.players.hasOwnProperty(player)) {
+            var currentPlayer = Player.getPlayer(room.players[player].id);
+            setRole(currentPlayer, index, self);
+            currentPlayer.team =  Game.team[(index) % Game.team.length];
+            this.players.push(currentPlayer);
+            index++;
+        }
+    }
+    Game.games[this.room.name] = this;
     this.interval = null;
+}
 
+function setRole(currentPlayer, index, self) {
+    currentPlayer.role = Game.roles[(index + (self.currentRound-1)) % Game.roles.length];
 }
 
 /**
@@ -101,8 +110,13 @@ Game.prototype.endRound = function(noWinner) {
     this.interval = clearInterval(this.interval);
     this.interval = null;
     this.currentTime = this.time;
+    var self = this;
+    for (var i = 0; i < this.players.length; i++) {
+        setRole(self.players[i], i, self);
+    }
     this.server.emit("emitToRoom", this.room.name, 'game_round_end', {
-        points: this.points
+        points: this.points,
+        players: this.players
     });
     if (this.rounds - this.currentRound <= 0) {
         this.endGame();
