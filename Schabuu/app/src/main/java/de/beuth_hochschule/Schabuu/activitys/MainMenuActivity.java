@@ -214,6 +214,12 @@ public class MainMenuActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        MainMenuActivity.this.finish();
+        System.exit(0);
+    }
+
     public void initDone(final JSONObject data) {
         // Only for debugging
         System.out.println(data.toString());
