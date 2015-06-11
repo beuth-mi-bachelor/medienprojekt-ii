@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff000000"
-    android:orientation="vertical"
-    android:layout_weight="10.0">
+    android:layout_weight="10.0"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2.38">
+        android:layout_weight="0.03">
 
         <view
             android:layout_width="wrap_content"
@@ -28,7 +28,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_margin="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
             android:gravity="center"
             android:text="@string/score_team1"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/time_left"
@@ -65,21 +67,23 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:background="@color/schabuu_red"
+            android:background="#45835e"
             android:text="@string/time_left"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/score2"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/schabuu_blue"
+            android:background="@color/schabuu_green"
             android:gravity="center"
             android:text="@string/score_team2"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:textSize="20sp"/>
 
     </LinearLayout>
 
@@ -92,20 +96,24 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ffffffff"
         android:textStyle="bold"
-        android:layout_weight="0.81" />
+        android:layout_weight="0.81"
+        android:background="#45835e"
+        android:textSize="36sp"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.0">
+        android:layout_weight="2.0"
+        android:background="@color/schabuu_rosered">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:layout_marginRight="2dp">
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp">
 
             <TextView
                 android:id="@+id/word_one"
@@ -115,9 +123,11 @@
                 android:gravity="center"
                 android:text="@string/word_1"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ff000000"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="@color/schabuu_yellow" />
+                android:background="#b55f61"
+                android:textSize="20sp"
+                android:layout_margin="2dp" />
 
             <TextView
                 android:id="@+id/word_two"
@@ -129,7 +139,9 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="@color/schabuu_grey" />
+                android:background="#b55f61"
+                android:textSize="20sp"
+                android:layout_margin="2dp"/>
 
             <TextView
                 android:id="@+id/word_three"
@@ -139,10 +151,12 @@
                 android:gravity="center"
                 android:text="@string/word_3"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="@color/schabuu_yellow"
-                android:clickable="false" />
+                android:background="#b55f61"
+                android:clickable="false"
+                android:textSize="20sp"
+                android:layout_margin="2dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -150,7 +164,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:layout_marginLeft="2dp">
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            >
 
             <TextView
                 android:id="@+id/word_four"
@@ -162,7 +178,9 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#ff92968b" />
+                android:background="#b55f61"
+                android:textSize="20sp"
+                android:layout_margin="2dp"/>
 
             <TextView
                 android:id="@+id/word_five"
@@ -172,9 +190,11 @@
                 android:gravity="center"
                 android:text="@string/word_5"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="@color/schabuu_yellow" />
+                android:background="#b55f61"
+                android:textSize="20sp"
+                android:layout_margin="2dp"/>
 
             <TextView
                 android:id="@+id/word_six"
@@ -186,7 +206,9 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#ff92968b" />
+                android:background="#b55f61"
+                android:textSize="20sp"
+                android:layout_margin="2dp"/>
         </LinearLayout>
     </LinearLayout>
 
