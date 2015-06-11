@@ -181,7 +181,7 @@
                 name: player.name,
                 isActive: player.isActive
             };
-            server.emit("startAGame", self, 3, 30);
+            self.server.emit("startAGame", self, 3, 30);
 
             if (callback1) {
                 callback1(self);

@@ -7,6 +7,9 @@ if (!Game.games) {
     Game.games = {};
 }
 
+Game.roles = ["guesser-1", "guesser-2", "audio", "video"];
+Game.team = [0, 1];
+
 /**
  * instance of a game in a room
  * @param server {EventEmitter} pub sub system to server
@@ -37,6 +40,7 @@ function Game(server, room, rounds, time) {
     };
     this.currentWord = Game.getDataset();
     this.interval = null;
+
 }
 
 /**

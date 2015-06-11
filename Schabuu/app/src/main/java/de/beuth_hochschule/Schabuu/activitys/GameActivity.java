@@ -69,7 +69,7 @@ public class GameActivity extends Activity {
 
         getLetters("KATZE", 10);
 
-        Button deleteButton = (Button) findViewById(R.id.buttonDelete);
+        ImageView deleteButton = (ImageView) findViewById(R.id.buttonDelete);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +78,7 @@ public class GameActivity extends Activity {
             }
         });
 
-        Button renewButton = (Button) findViewById(R.id.buttonRenew);
+        ImageView renewButton = (ImageView) findViewById(R.id.buttonRenew);
         renewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +92,6 @@ public class GameActivity extends Activity {
         surfaceView.getHolder().addCallback(utils.GetPlayer());
 
         utils.StartPlayer();
-        utils.MutePlayer();
     }
 
     private void createLoadingScreen() {
