@@ -1,4 +1,4 @@
-{
+﻿{
   "Steckdose": [
     "Strom",
     "Laden",
@@ -12,7 +12,7 @@
     "Zucker",
     "Bohne",
     "Braun",
-    "Latte Macchiato",
+    "Latte",
     "trinken"
   ],
   "Kalender": [
@@ -191,7 +191,7 @@
     "Traum",
     "Eltern"
   ],
-  "Gartenschlauch": [
+  "Schlauch": [
     "Wasser",
     "gießen",
     "Wasserhahn",
@@ -199,7 +199,7 @@
     "Haus",
     "grün"
   ],
-  "Plattenspieler": [
+  "Platten": [
     "Musik",
     "Sprung",
     "Nadel",
@@ -240,7 +240,7 @@
     "Netz"
   ],
   "Ringkampf": [
-    "Olympische Spiele",
+    "Olympische",
     "Regeln",
     "Mannschaft",
     "Gewichtsklasse",
@@ -269,7 +269,7 @@
     "Afrika",
     "Rüssel",
     "Grau",
-    "Benjamin Blümchen"
+    "Benjamin"
   ],
   "Hippie": [
     "Blumen",
@@ -356,7 +356,7 @@
     "Pink",
     "Volksfest",
     "klebrig",
-    "Weihnachtsmarkt",
+    "Weihnachten",
     "Kinder"
   ],
   "Hornhaut": [
@@ -415,8 +415,8 @@
     "Sport",
     "Mangel"
   ],
-  "Kaffeemaschiene": [
-    "Automamt",
+  "Kaffeeautomat": [
+    "Maschine",
     "Milchschaum",
     "Nespresso",
     "Filter",
@@ -616,7 +616,7 @@
     "Papier"
   ],
   "Kleid": [
-    "... machen Leute",
+    "machen Leute",
     "Klamotten",
     "Rock",
     "Frau",
@@ -633,7 +633,7 @@
   ],
   "Skype": [
     "telefonieren",
-    "Bildschirmübertragung",
+    "Bildschirm",
     "Verbindung",
     "Video",
     "senden",
@@ -695,7 +695,7 @@
     "Bong",
     "Bezahlen"
   ],
-  "Schlittschuhlaufen": [
+  "Schlittschuh": [
     "Wintersport",
     "Eiskunst",
     "Schlitten",
@@ -813,7 +813,7 @@
     "Straftat",
     "Casino",
     "Beute",
-    "Bonny und Clyde"
+    "Bonny"
   ],
   "Zahnfee": [
     "Michzähne",
