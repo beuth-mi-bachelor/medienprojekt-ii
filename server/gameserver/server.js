@@ -33,7 +33,7 @@ app.get('/debug', function (req, res) {
 });
 
 app.get('/video', function (req, res) {
-    var game = new Game(server, new Room(server, "test", 4, ""), 3, 30);
+    //var game = new Game(server, new Room(server, "test", 4, ""), 3, 30);
     var allGames = Game.getAllGamesAsArray();
 
     if (allGames.length > 0) {
