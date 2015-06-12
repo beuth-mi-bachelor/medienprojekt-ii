@@ -8,4 +8,10 @@
         <item name="android:background">@color/schabuu_white</item>
         <item name="android:layout_weight">1</item>
     </style>
+
+    <style name="last_in_waiting_room">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">2.5</item>
+    </style>
 </resources>

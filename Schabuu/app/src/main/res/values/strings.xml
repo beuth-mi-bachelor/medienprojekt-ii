@@ -66,7 +66,7 @@
     <string name="settings_value">Settings</string>
     <string name="create_value">Create</string>
     <string name="join_value">Join</string>
-    <string name="waiting_for_player">waiting…</string>
+    <string name="waiting_for_player">waiting</string>
     <string name="audio_description">Das Spiel wird geladen… Du bist in dieser Runde der Erklärbär. Versuche das Wort zu erklären ohne die angegebenen Wörter zu verwenden!</string>
     <string name="team_value">Du bist im Team </string>
     <string name="other_player">Other Player</string>

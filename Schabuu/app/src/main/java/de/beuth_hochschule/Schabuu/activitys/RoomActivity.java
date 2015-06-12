@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class RoomActivity extends Activity {
 
     private ServerConnector _server;
     private ArrayList<TextView> views = new ArrayList<TextView>();
+    private ArrayList<ProgressBar> progBars = new ArrayList<ProgressBar>();
     private ArrayList<String> playerArray;
     private HashMap<String, Player> playerList;
     private String username;
@@ -46,10 +48,16 @@ public class RoomActivity extends Activity {
 
         _server = ServerConnectorImplementation.getInstance();
 
-        views.add((Typewriter) findViewById(R.id.player_one));
-        views.add((Typewriter) findViewById(R.id.player_two));
-        views.add((Typewriter) findViewById(R.id.player_three));
-        views.add((Typewriter) findViewById(R.id.player_four));
+        views.add((TextView) findViewById(R.id.player_one));
+        views.add((TextView) findViewById(R.id.player_two));
+        views.add((TextView) findViewById(R.id.player_three));
+        views.add((TextView) findViewById(R.id.player_four));
+
+        progBars.add((ProgressBar) findViewById(R.id.loadingBar_1));
+        progBars.add((ProgressBar) findViewById(R.id.loadingBar_2));
+        progBars.add((ProgressBar) findViewById(R.id.loadingBar_3));
+        progBars.add((ProgressBar) findViewById(R.id.loadingBar_4));
+
 
         username = intent.getStringExtra("USERNAME");
 
@@ -92,7 +100,7 @@ public class RoomActivity extends Activity {
         });
 
         // PLAYER ONE
-        Typewriter playerOneView = (Typewriter) findViewById(R.id.player_one);
+        TextView playerOneView = (TextView) findViewById(R.id.player_one);
         playerOneView.setTypeface(geoBold);
         playerOneView.setTextSize(48);
         playerOneView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -103,11 +111,9 @@ public class RoomActivity extends Activity {
                 startActivity(newIntent);
             }
         });
-        playerOneView.setCharacterDelay(150);
-        playerOneView.animateText(getString(R.string.waiting_for_player));
 
         //PLAYER TWO
-        Typewriter playerTwoView = (Typewriter)findViewById(R.id.player_two);
+        TextView playerTwoView = (TextView)findViewById(R.id.player_two);
         playerTwoView.setTypeface(geoBold);
         playerTwoView.setTextSize(48);
         playerTwoView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -118,11 +124,9 @@ public class RoomActivity extends Activity {
                 startActivity(newIntent);
             }
         });
-        playerTwoView.setCharacterDelay(150);
-        playerTwoView.animateText(getString(R.string.waiting_for_player));
 
         // PLAYER THREE
-        Typewriter playerThreeView = (Typewriter)findViewById(R.id.player_three);
+        TextView playerThreeView = (TextView)findViewById(R.id.player_three);
         playerThreeView.setTypeface(geoBold);
         playerThreeView.setTextSize(48);
         playerThreeView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -131,11 +135,9 @@ public class RoomActivity extends Activity {
                 startActivity(new Intent(RoomActivity.this, GameActivity.class));
             }
         });
-        playerThreeView.setCharacterDelay(150);
-        playerThreeView.animateText(getString(R.string.waiting_for_player));
 
         // PLAYER FOUR
-        Typewriter playerFourView = (Typewriter)findViewById(R.id.player_four);
+        TextView playerFourView = (TextView)findViewById(R.id.player_four);
         playerFourView.setTypeface(geoBold);
         playerFourView.setTextSize(48);
         playerFourView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -144,8 +146,6 @@ public class RoomActivity extends Activity {
                 startActivity(new Intent(RoomActivity.this, GameActivity.class));
             }
         });
-        playerFourView.setCharacterDelay(150);
-        playerFourView.animateText(getString(R.string.waiting_for_player));
     }
 
     public void randomRoomSetup() {
@@ -230,9 +230,11 @@ public class RoomActivity extends Activity {
                 }
                 for (int i = 0; i < maxPlayers; i++) {
                     if (i < playerArray.size()) {
-                        (views.get(i)).setText(playerArray.get(i));
+                        views.get(i).setText(playerArray.get(i));
+                        progBars.get(i).setVisibility(View.INVISIBLE);
                     } else {
-                        (views.get(i)).setText(getString(R.string.waiting_for_player));
+                        views.get(i).setText(getString(R.string.waiting_for_player));
+                        progBars.get(i).setVisibility(View.VISIBLE);
                     }
                 }
                 Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();

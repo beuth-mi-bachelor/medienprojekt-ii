@@ -7,55 +7,99 @@
     android:layout_weight="10.0"
     android:orientation="vertical">
 
-    <de.beuth_hochschule.Schabuu.ui.Typewriter
-        android:id="@+id/player_one"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:background="@color/schabuu_green"
-        android:shadowColor="#333"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="25"
-        android:text="@string/waiting_for_player"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
-        android:gravity="center"
-        android:layout_weight="2.5" />
+    <RelativeLayout style="@style/last_in_waiting_room">
 
-    <de.beuth_hochschule.Schabuu.ui.Typewriter
-        android:id="@+id/player_two"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:shadowColor="#333"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="25"
-        android:background="@color/schabuu_green"
-        android:text="@string/waiting_for_player"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
-        android:layout_weight="2.5" />
+        <de.beuth_hochschule.Schabuu.ui.Typewriter
+            android:id="@+id/player_one"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/schabuu_green"
+            android:shadowColor="#333"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="25"
+            android:text="@string/waiting_for_player"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffffff"
+            android:gravity="center"
+            android:layout_weight="2.5" />
 
-    <de.beuth_hochschule.Schabuu.ui.Typewriter
-        android:id="@+id/player_three"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:shadowColor="#333"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="25"
-        android:background="@color/schabuu_blue"
-        android:text="@string/waiting_for_player"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
-        android:layout_weight="2.5" />
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="20dp"
+            android:id="@+id/loadingBar_1"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.5">
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout style="@style/last_in_waiting_room">
+
+        <de.beuth_hochschule.Schabuu.ui.Typewriter
+            android:id="@+id/player_two"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:shadowColor="#333"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="25"
+            android:background="@color/schabuu_green"
+            android:text="@string/waiting_for_player"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffffff"
+            android:layout_weight="2.5" />
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="20dp"
+            android:id="@+id/loadingBar_2"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout style="@style/last_in_waiting_room">
+
+        <de.beuth_hochschule.Schabuu.ui.Typewriter
+            android:id="@+id/player_three"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:shadowColor="#333"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="25"
+            android:background="@color/schabuu_blue"
+            android:text="@string/waiting_for_player"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffffff"
+            android:layout_weight="2.5" />
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="20dp"
+            android:id="@+id/loadingBar_3"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout style="@style/last_in_waiting_room">
 
         <de.beuth_hochschule.Schabuu.ui.Typewriter
             android:id="@+id/player_four"
@@ -70,6 +114,16 @@
             android:text="@string/waiting_for_player"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffffff" />
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="20dp"
+            android:id="@+id/loadingBar_4"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar" />
 
         <Button
             android:layout_width="wrap_content"
