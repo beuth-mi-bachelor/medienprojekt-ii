@@ -6,8 +6,7 @@ var io = require("socket.io"),
     Player = require("./models/Player").Player,
     Room = require("./models/Room").Room,
     Game = require("./models/Game").Game,
-    EventEmitter = require('events').EventEmitter,
-    path = require ('path');;
+    EventEmitter = require('events').EventEmitter;
 
 var socket,
     server = new EventEmitter(),
@@ -16,7 +15,7 @@ var socket,
 app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'debugging.hbs'}));
 app.set('view engine', 'hbs');
 app.locals.layout = false;
-app.use(express.static(path.join(__dirname, '../public')));
+app.set('views', __dirname + '/views');
 
 var args = process.argv.slice(2),
     PORT = parseInt(args[0], 10) || 80;
