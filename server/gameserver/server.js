@@ -32,8 +32,21 @@ app.get('/debug', function (req, res) {
     });
 });
 
+app.get('/video', function (req, res) {
+    var allGames = Game.getAllGamesAsArray();
+
+    res.render('video', {
+        videoUrl: ""
+    });
+});
+
 app.get(/^(.+)$/, function (req, res) {
-    res.sendFile(__dirname + req.params[0]);
+
+    res.sendFile(__dirname + req.params[0], function(err, result) {
+        if (err) {
+            res.send("not found");
+        }
+    });
 });
 
 server.on('emitToRoom', function(roomName, event, data) {
