@@ -299,32 +299,37 @@ public class GameActivity extends Activity {
 
                 // just to display it on device for debugging
                 System.out.println("game started: " + gameData.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject words = (JSONObject) gameData.get("word");
+                            System.out.println(words);
+                            Iterator<?> keys = words.keys();
 
-                try {
-                    JSONObject words = (JSONObject) gameData.get("word");
-                    System.out.println(words);
-                    Iterator<?> keys = words.keys();
+                            while( keys.hasNext() ) {
+                                String key = (String)keys.next();
+                                JSONArray names = (JSONArray) words.get(key);
+                                System.out.println(key);
+                                System.out.println(names.toString());
 
-                    while( keys.hasNext() ) {
-                        String key = (String)keys.next();
-                        JSONArray names = (JSONArray) words.get(key);
-                        System.out.println(key);
-                        System.out.println(names.toString());
+                                getLetters(key,20);
 
-                        getLetters(key,20);
+                                LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+                                solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+                                    @Override
+                                    public void call(Object... args) {
+                                        _server.emit(Events.GAME_SOLUTION, null);
+                                    }
+                                }, GameActivity.this, key);
 
-                        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
-                        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-                                _server.emit(Events.GAME_SOLUTION, null);
                             }
-                        }, GameActivity.this, key);
-
+                        } catch (JSONException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
-                } catch (JSONException e) {
-                    System.out.println(e.getMessage());
-                }
+                });
+
 
                 _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
                     @Override
@@ -332,10 +337,11 @@ public class GameActivity extends Activity {
                         final JSONObject data = (JSONObject) args[0];
                         // just to display it on device for debugging
                         System.out.println("gametime is: " + data.toString());
-                        time_left.setText(data.toString());
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                time_left.setText(data.toString());
                                 Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
