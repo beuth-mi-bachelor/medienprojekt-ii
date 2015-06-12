@@ -73,7 +73,7 @@ app.get(/^(.+)$/, function (req, res) {
     res.sendFile(__dirname + req.params[0], function(err, result) {
         if (err) {
             console.log(err);
-            //res.send("not found");
+            res.end("not found");
         }
     });
 });
