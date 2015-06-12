@@ -101,6 +101,8 @@ public class GameAvActivity extends Activity {
 
         time_left.setText("00:00");
 
+        /*
+
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AUDIO"+intent.getStringExtra("STREAM_AUDIO"));
        if(intent.getStringExtra("MODE").equals("CAM")){
@@ -119,6 +121,7 @@ public class GameAvActivity extends Activity {
 
 
        }
+       */
 
     }
     private void createLoadingScreen() {

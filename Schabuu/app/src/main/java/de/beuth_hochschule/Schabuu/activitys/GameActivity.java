@@ -131,6 +131,7 @@ public class GameActivity extends Activity {
             }
         });
 
+        /*
         RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_VIDEO"), authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
@@ -141,6 +142,7 @@ public class GameActivity extends Activity {
 
         utils.StartPlayer();
         utils2.StartPlayer();
+        */
         //setTimeOut();
     }
 
