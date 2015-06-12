@@ -143,16 +143,10 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-        /*
+
         createLoadingScreen();
-        setTimeOut();
-        */
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                loadingBackground.setVisibility(View.GONE);
-            }
-        });
+        //setTimeOut();
+
         startGame();
     }
 
@@ -187,6 +181,13 @@ public class GameActivity extends Activity {
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadingBackground.setVisibility(View.GONE);
+            }
+        });
     }
 
 

@@ -108,16 +108,11 @@ public class GameAvActivity extends Activity {
 
         time_left.setText("00:00");
 
-        /*
+
         createLoadingScreen();
-        setTimeOut();
-        */
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                loadingBackground.setVisibility(View.GONE);
-            }
-        });
+        //setTimeOut();
+
+
         startGame();
 
         /*
@@ -198,6 +193,13 @@ public class GameAvActivity extends Activity {
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadingBackground.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
