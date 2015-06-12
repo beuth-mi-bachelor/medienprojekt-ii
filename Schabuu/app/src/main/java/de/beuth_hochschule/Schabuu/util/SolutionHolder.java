@@ -34,7 +34,7 @@ public class SolutionHolder {
         for (int i = 0; i < this.lengthOfSolution; i++) {
             TextView textView = new TextView(new ContextThemeWrapper(self.appContext, R.style.input_solution));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             params.weight = 1.0f;
             params.width = 0;
             params.setMargins(10, 5, 10, 5);

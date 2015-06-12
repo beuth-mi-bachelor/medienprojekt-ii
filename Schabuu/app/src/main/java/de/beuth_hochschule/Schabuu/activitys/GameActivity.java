@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -88,7 +90,7 @@ public class GameActivity extends Activity {
         buttonDelete.setText("\ue80d");
         buttonRenew.setText("\ue80f");
 
-        buttonDelete.setTextSize(36);
+        buttonDelete.setTextSize(32);
         buttonRenew.setTextSize(36);
 
         buttonDelete.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -137,7 +139,7 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-
+        //getLetters("HALLO",20);
         createLoadingScreen();
         //setTimeOut();
 
@@ -170,11 +172,11 @@ public class GameActivity extends Activity {
         iconView.setText("\uf11c");
 
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
-        if (intent.getStringExtra("TEAM").equals("0")) {
+       /* if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
-        }
+        }*/
 
         runOnUiThread(new Runnable() {
             @Override
@@ -237,7 +239,17 @@ public class GameActivity extends Activity {
                 result[j++] = letters[i];
             }
         }
-        for (String s : result) createButton(s);
+        int i = 0;
+        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+        LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
+        for (String s : result){
+            i++;
+            if(i >10){
+                createButton(s, buttonLayout2);
+            } else {
+                createButton(s,buttonLayout);
+            }
+        }
     }
 
     //returns array with random capital letters by given number
@@ -254,24 +266,20 @@ public class GameActivity extends Activity {
 
     //creates a new Button in the LinearLayout button_panel in activity_gamescreen_av.xml and sets
     //letter from itself in TextView when clicked
-    public void createButton(String letter) {
-        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+    public void createButton(String letter,LinearLayout buttonLayout) {
         Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
         Button btn = new Button(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.weight = 1.0f;
-        params.width = 0;
-        params.setMargins(1, 1, 1, 1);
-        btn.setLayoutParams(params);
+        params.setMargins(2, 0, 2, 0);
+        //btn.setLayoutParams(params);
         //btn.setBackgroundResource(R.drawable.buttoncolor1);
         btn.setBackgroundColor(Color.parseColor("#0D485C"));
         btn.setText(letter);
         btn.setTag("button_" + letter);
         btn.setTypeface(geoBold);
         btn.setTextColor(Color.parseColor("#ffffff"));
-        btn.setWidth(40);
-        btn.setHeight(40);
         btn.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,7 +289,7 @@ public class GameActivity extends Activity {
                 solutionHolder.addChar(buttonText);
             }
         });
-        buttonLayout.addView(btn);
+        buttonLayout.addView(btn,params);
     }
 
     private void startGame() {

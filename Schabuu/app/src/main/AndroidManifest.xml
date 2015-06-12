@@ -64,8 +64,6 @@
             android:name=".activitys.GameAvActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-
-
         </activity>
     </application>
 
