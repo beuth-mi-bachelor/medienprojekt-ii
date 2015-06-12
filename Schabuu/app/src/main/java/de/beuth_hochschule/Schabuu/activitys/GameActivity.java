@@ -147,6 +147,13 @@ public class GameActivity extends Activity {
         createLoadingScreen();
         setTimeOut();
         */
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadingBackground.setVisibility(View.GONE);
+            }
+        });
+        startGame();
     }
 
     private void createLoadingScreen() {

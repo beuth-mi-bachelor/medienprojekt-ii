@@ -11,8 +11,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.nkzawa.emitter.Emitter;
+
+import org.json.JSONObject;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
@@ -106,6 +112,14 @@ public class GameAvActivity extends Activity {
         createLoadingScreen();
         setTimeOut();
         */
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadingBackground.setVisibility(View.GONE);
+            }
+        });
+        startGame();
+
         /*
 
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));
@@ -196,6 +210,95 @@ public class GameAvActivity extends Activity {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
         _server.setPlayerActive();
+    }
+
+    private void startGame() {
+
+        // here player tells server that he wants to start the game
+        _server.clientIsReady(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+
+                final JSONObject gameData = (JSONObject) args[0];
+
+                // just to display it on device for debugging
+                System.out.println("game started: " + gameData.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("gametime is: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("next round started: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "next round started: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+
+                        final JSONObject data = (JSONObject) args[0];
+                        // just to display it on device for debugging
+                        System.out.println("round ended: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                _server.addListener(Events.GAME_END, new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        _server.removeListener(Events.GAME_UPDATE);
+                        _server.removeListener(Events.GAME_ROUND_END);
+                        _server.removeListener(Events.GAME_ROUND_START);
+                        _server.removeListener(Events.GAME_END);
+                        // just to display it on device for debugging
+                        System.out.println("game has ended");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "game has ended", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+
+            }
+        });
+
     }
 
     
