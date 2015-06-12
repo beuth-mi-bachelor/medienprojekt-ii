@@ -26,7 +26,7 @@ public class SurfacePlayerView extends SurfaceView {
 
         // TODO: Get aspect ratio from stream
         int videoWidth = 20;
-        int videoHeight = 18;
+        int videoHeight = 23;
         double aspectScreen = (double) viewWidth / (double) viewHeight;
         double aspectVideo = (double) videoWidth / (double) videoHeight;
 

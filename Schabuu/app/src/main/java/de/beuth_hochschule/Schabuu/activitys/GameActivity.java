@@ -2,6 +2,8 @@ package de.beuth_hochschule.Schabuu.activitys;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -53,6 +55,8 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        Typeface awesome = Typeface.createFromAsset(getAssets(), "font/fontello.ttf");
 
         _server = ServerConnectorImplementation.getInstance();
 
@@ -65,6 +69,42 @@ public class GameActivity extends Activity {
         //loadingBackground.setVisibility(View.GONE);
         createLoadingScreen();
 
+        TextView score1 = (TextView) findViewById(R.id.score1);
+        TextView score2 = (TextView) findViewById(R.id.score2);
+        TextView time_left = (TextView) findViewById(R.id.time_left);
+        TextView player_name = (TextView) findViewById(R.id.player_name);
+        Button buttonDelete = (Button) findViewById(R.id.buttonDelete);
+        Button buttonRenew = (Button) findViewById(R.id.buttonRenew);
+
+        score1.setTypeface(geoBold);
+        score2.setTypeface(geoBold);
+        time_left.setTypeface(geoBold);
+        player_name.setTypeface(geoBold);
+
+        buttonDelete.setTypeface(awesome);
+        buttonRenew.setTypeface(awesome);
+
+        buttonDelete.setText("\ue80d");
+        buttonRenew.setText("\ue80f");
+
+        buttonDelete.setTextSize(36);
+        buttonRenew.setTextSize(36);
+
+        buttonDelete.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        buttonRenew.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+
+        buttonDelete.setTextColor(Color.parseColor("#ffffff"));
+        buttonRenew.setTextColor(Color.parseColor("#ffffff"));
+
+        player_name.setAlpha(0.5f);
+
+        score1.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        score2.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        time_left.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+
+        time_left.setText("00:00");
+
+
         getLetters("KATZE", 10);
 
         LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
@@ -75,16 +115,16 @@ public class GameActivity extends Activity {
             }
         }, GameActivity.this, "KATZE");
 
-        ImageView deleteButton = (ImageView) findViewById(R.id.buttonDelete);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        //Button deleteButton = (Button) findViewById(R.id.buttonDelete);
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteChar();
             }
         });
 
-        ImageView renewButton = (ImageView) findViewById(R.id.buttonRenew);
-        renewButton.setOnClickListener(new View.OnClickListener() {
+        //Button renewButton = (Button) findViewById(R.id.buttonRenew);
+        buttonRenew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteWord();
@@ -187,6 +227,7 @@ public class GameActivity extends Activity {
     //letter from itself in TextView when clicked
     public void createButton(String letter) {
         LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
         Button btn = new Button(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
@@ -194,9 +235,15 @@ public class GameActivity extends Activity {
         params.width = 0;
         params.setMargins(1, 1, 1, 1);
         btn.setLayoutParams(params);
-        btn.setBackgroundResource(R.drawable.buttoncolor1);
+        //btn.setBackgroundResource(R.drawable.buttoncolor1);
+        btn.setBackgroundColor(Color.parseColor("#0D485C"));
         btn.setText(letter);
         btn.setTag("button_" + letter);
+        btn.setTypeface(geoBold);
+        btn.setTextColor(Color.parseColor("#ffffff"));
+        btn.setWidth(40);
+        btn.setHeight(40);
+        btn.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
