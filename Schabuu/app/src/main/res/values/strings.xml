@@ -77,4 +77,7 @@
     <string name="user_name_msg">Please enter your displayed ingame-name</string>
     <string name="play_a">PLAY</string>
     <string name="play_alon">Play</string>
+    <string name="title_activity_game_end">GameEnd</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
