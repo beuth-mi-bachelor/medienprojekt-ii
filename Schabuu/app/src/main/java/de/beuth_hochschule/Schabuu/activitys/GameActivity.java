@@ -199,19 +199,11 @@ public class GameActivity extends Activity {
         playerList = new HashMap<String, Player>();
         try {
             System.out.println("PPPPPPPPPPPPP" + data.toString());
-            final JSONObject game = (JSONObject) data.get("game");
-            final JSONArray playersArray = (JSONArray) game.get("players");
 
-
-            final JSONObject streamNameArray = (JSONObject) game.get("streamNames");
-            final String streamAudio = (String) streamNameArray.get("audio");
-            final String streamVideo = (String) streamNameArray.get("video");
-
-
-
+            final JSONArray playersArray = (JSONArray) data.get("players");
             for (int i=0; i < playersArray.length(); i++) {
                 JSONObject player = (JSONObject) playersArray.get(i);
-                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(),streamAudio,streamVideo);
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(),intent.getStringExtra("STREAM_AUDIO"),intent.getStringExtra("STREAM_VIDEO"));
                 playerList.put((String) player.get("name"), newPlayer);
             }
 

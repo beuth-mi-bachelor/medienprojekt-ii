@@ -323,8 +323,8 @@ public class RoomActivity extends Activity {
         intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
         intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
         intent.putExtra("USERNAME",username);
-        intent.putExtra("SCORE0",0);
-        intent.putExtra("SCORE1",0);
+        intent.putExtra("SCORE0","0");
+        intent.putExtra("SCORE1","0");
 
 
         startActivity(intent);
