@@ -122,15 +122,15 @@
         android:orientation="horizontal"
         android:weightSum="3"
         android:id="@+id/score_layout"
-        android:longClickable="true"
-        android:background="@color/schabuu_green">
+        android:longClickable="false"
+        android:background="@color/schabuu_darkblue">
 
         <TextView
             android:id="@+id/score1"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/schabuu_green"
+            android:background="@color/schabuu_darkblue"
             android:gravity="center"
             android:text="@string/score_team1"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -154,7 +154,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/schabuu_green"
+            android:background="@color/schabuu_darkblue"
             android:gravity="center"
             android:text="@string/score_team2"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -174,7 +174,7 @@
         android:textColor="#ffffffff"
         android:textStyle="bold"
         android:layout_weight="0.81"
-        android:background="#45835e"
+        android:background="@color/schabuu_darkgreen"
         android:textSize="36sp"/>
 
     <LinearLayout
@@ -182,7 +182,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2.0"
-        android:background="@color/schabuu_rosered">
+        android:background="@color/schabuu_darkblue">
 
         <LinearLayout
             android:orientation="vertical"
@@ -202,7 +202,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#b55f61"
+                android:background="@color/schabuu_green"
                 android:textSize="20sp"
                 android:layout_margin="2dp" />
 
@@ -216,7 +216,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#b55f61"
+                android:background="@color/schabuu_green"
                 android:textSize="20sp"
                 android:layout_margin="2dp"/>
 
@@ -230,7 +230,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#b55f61"
+                android:background="@color/schabuu_green"
                 android:clickable="false"
                 android:textSize="20sp"
                 android:layout_margin="2dp"/>
@@ -255,7 +255,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#b55f61"
+                android:background="@color/schabuu_green"
                 android:textSize="20sp"
                 android:layout_margin="2dp"/>
 
@@ -269,7 +269,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#b55f61"
+                android:background="@color/schabuu_green"
                 android:textSize="20sp"
                 android:layout_margin="2dp"/>
 
@@ -283,7 +283,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
-                android:background="#b55f61"
+                android:background="@color/schabuu_green"
                 android:textSize="20sp"
                 android:layout_margin="2dp"/>
         </LinearLayout>
