@@ -129,14 +129,18 @@ public class GameAvActivity extends Activity {
         Thread timerThread = new Thread() {
             public void run() {
                 try {
-                    sleep(3000);
+                    sleep(7000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-/*
-                    startGame();
-*/
-                    loadingBackground.setVisibility(View.GONE);
+                    //startGame();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadingBackground.setVisibility(View.GONE);
+                        }
+                    });
+
                 }
             }
         };

@@ -183,14 +183,18 @@ public class GameActivity extends Activity {
         Thread timerThread = new Thread() {
             public void run() {
                 try {
-                    sleep(3000);
+                    sleep(7000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-/*
                     startGame();
-*/
-                    loadingBackground.setVisibility(View.GONE);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadingBackground.setVisibility(View.GONE);
+                        }
+                    });
+
                 }
             }
         };
