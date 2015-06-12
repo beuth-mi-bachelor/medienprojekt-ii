@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -28,8 +26,6 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
-import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
-import de.beuth_hochschule.Schabuu.util.RecievingUtils;
 import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 
 public class GameActivity extends Activity {
@@ -341,8 +337,11 @@ public class GameActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                time_left.setText(data.toString());
-                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
+                                try {
+                                    time_left.setText(data.get("time").toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }

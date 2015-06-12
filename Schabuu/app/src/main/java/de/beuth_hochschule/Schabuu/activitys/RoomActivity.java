@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -25,7 +24,6 @@ import java.util.Iterator;
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
-import de.beuth_hochschule.Schabuu.ui.Typewriter;
 import de.beuth_hochschule.Schabuu.util.Player;
 
 public class RoomActivity extends Activity {
