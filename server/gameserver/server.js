@@ -6,9 +6,7 @@ var io = require("socket.io"),
     Player = require("./models/Player").Player,
     Room = require("./models/Room").Room,
     Game = require("./models/Game").Game,
-    EventEmitter = require('events').EventEmitter,
-    http = require('http'),
-    httpProxy = require('http-proxy');
+    EventEmitter = require('events').EventEmitter;
 
 var socket,
     server = new EventEmitter(),
@@ -21,14 +19,6 @@ app.set('views', __dirname + '/views');
 
 var args = process.argv.slice(2),
     PORT = parseInt(args[0], 10) || 80;
-
-var options = {
-    router: {
-        'debug.schabuu.de': '127.0.0.1:7777'
-    }
-};
-var proxyServer = httpProxy.createServer(options);
-proxyServer.listen(8080);
 
 app.get('/debug', function (req, res) {
     var allRooms = Room.getAllRoomsAsArray(),
@@ -62,7 +52,7 @@ server.on('startAGame', function(room, rounds, time) {
 function init() {
     socket = io.listen(PORT);
     // TODO: Disable logging when done
-    app.listen(7777);
+    app.listen(8080);
     setEventHandlers();
 }
 
