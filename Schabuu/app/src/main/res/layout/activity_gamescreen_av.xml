@@ -63,7 +63,7 @@
             android:textColor="@color/schabuu_yellow"
             android:textSize="22dp" />
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
