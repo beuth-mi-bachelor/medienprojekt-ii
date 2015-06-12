@@ -8,21 +8,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
-import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
-import de.beuth_hochschule.Schabuu.util.RecievingUtils;
+import de.beuth_hochschule.Schabuu.util.Player;
 import de.beuth_hochschule.Schabuu.util.StreamingUtils;
 
 public class GameAvActivity extends Activity {
@@ -51,9 +55,16 @@ public class GameAvActivity extends Activity {
     private TextView teamTextView;
     private TextView iconView;
     private LinearLayout loadingBackground;
-
+    private ArrayList<TextView> views = new ArrayList<TextView>();
     private Intent intent;
     Typeface awesome;
+    TextView solution;
+    TextView time_left;
+
+    TextView score1;
+    TextView score2;
+
+    private HashMap<String, Player> playerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +86,23 @@ public class GameAvActivity extends Activity {
         TextView word_four = (TextView) findViewById(R.id.word_four);
         TextView word_five = (TextView) findViewById(R.id.word_five);
         TextView word_six = (TextView) findViewById(R.id.word_six);
-        TextView score1 = (TextView) findViewById(R.id.score1);
-        TextView score2 = (TextView) findViewById(R.id.score2);
-        TextView time_left = (TextView) findViewById(R.id.time_left);
-        TextView solution = (TextView) findViewById(R.id.loesungswort);
+
+        views.add(word_one);
+        views.add(word_two);
+        views.add(word_three);
+        views.add(word_four);
+        views.add(word_five);
+        views.add(word_six);
+
+
+        score1 = (TextView) findViewById(R.id.score1);
+        score2 = (TextView) findViewById(R.id.score2);
+
+        score1.setText(intent.getStringExtra("SCORE0"));
+        score2.setText(intent.getStringExtra("SCORE1"));
+
+         time_left = (TextView) findViewById(R.id.time_left);
+         solution = (TextView) findViewById(R.id.loesungswort);
         TextView player_name = (TextView) findViewById(R.id.player_name);
 
         word_one.setTypeface(geoBold);
@@ -214,6 +238,59 @@ public class GameAvActivity extends Activity {
         _server.setPlayerActive();
     }
 
+    private void getPlayerHashMap(JSONObject data) {
+        playerList = new HashMap<String, Player>();
+        try {
+            System.out.println("PPPPPPPPPPPPP" + data.toString());
+            final JSONObject game = (JSONObject) data.get("game");
+            final JSONArray playersArray = (JSONArray) game.get("players");
+
+
+            final JSONObject streamNameArray = (JSONObject) game.get("streamNames");
+            final String streamAudio = (String) streamNameArray.get("audio");
+            final String streamVideo = (String) streamNameArray.get("video");
+
+
+
+            for (int i=0; i < playersArray.length(); i++) {
+                JSONObject player = (JSONObject) playersArray.get(i);
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(),streamAudio,streamVideo);
+                playerList.put((String) player.get("name"), newPlayer);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createActivity() {
+        Player player = playerList.get(intent.getStringExtra("USERNAME"));
+        Intent intent = new Intent();
+        System.out.println(player.toString());
+        if (player.role.equals("guesser")) {
+            intent = new Intent(GameAvActivity.this, GameActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("audio")) {
+            intent = new Intent(GameAvActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("video")) {
+            intent = new Intent(GameAvActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "CAM");
+        }
+        intent.putExtra("USERNAME", ""+player.name);
+        intent.putExtra("ROLE", ""+player.role);
+        intent.putExtra("TEAM", ""+player.team);
+        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
+        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
+        intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
+        intent.putExtra("SCORE0",1);
+        intent.putExtra("SCORE1",1);
+
+        startActivity(intent);
+    }
+
     private void startGame() {
 
         // here player tells server that he wants to start the game
@@ -225,10 +302,34 @@ public class GameAvActivity extends Activity {
 
                 // just to display it on device for debugging
                 System.out.println("game started: " + gameData.toString());
+
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject words = (JSONObject) gameData.get("word");
+                            System.out.println(words);
+                            Iterator<?> keys = words.keys();
+
+                            while (keys.hasNext()) {
+                                String key = (String) keys.next();
+                                JSONArray names = (JSONArray) words.get(key);
+
+                                System.out.println(key);
+                                System.out.println(names.toString());
+                                solution.setText(key);
+                                for (int i = 0; i < views.size(); i++) {
+                                    views.get(i).setText(names.getInt(i));
+                                }
+
+                            }
+
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 });
 
@@ -241,7 +342,11 @@ public class GameAvActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
+                                try {
+                                    time_left.setText(data.get("time").toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }
@@ -268,6 +373,10 @@ public class GameAvActivity extends Activity {
                     public void call(Object... args) {
 
                         final JSONObject data = (JSONObject) args[0];
+
+                        getPlayerHashMap(data);
+                        createActivity();
+
                         // just to display it on device for debugging
                         System.out.println("round ended: " + data.toString());
                         runOnUiThread(new Runnable() {

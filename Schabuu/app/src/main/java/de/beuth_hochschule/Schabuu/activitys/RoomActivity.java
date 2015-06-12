@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -25,7 +24,6 @@ import java.util.Iterator;
 import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
-import de.beuth_hochschule.Schabuu.ui.Typewriter;
 import de.beuth_hochschule.Schabuu.util.Player;
 
 public class RoomActivity extends Activity {
@@ -324,6 +322,10 @@ public class RoomActivity extends Activity {
         intent.putExtra("TEAM", ""+player.team);
         intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
         intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
+        intent.putExtra("USERNAME",username);
+        intent.putExtra("SCORE0",0);
+        intent.putExtra("SCORE1",0);
+
 
         startActivity(intent);
     }
@@ -372,6 +374,8 @@ public class RoomActivity extends Activity {
             @Override
             public void call(Object... args) {
                 final JSONObject data = (JSONObject) args[0];
+
+
 
                 // just to display it on device for debugging
                 System.out.println("room was switched: " + data.toString());
