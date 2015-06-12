@@ -101,6 +101,8 @@ public class GameAvActivity extends Activity {
 
         time_left.setText("00:00");
 
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AUDIO"+intent.getStringExtra("STREAM_AUDIO"));
        if(intent.getStringExtra("MODE").equals("CAM")){
            utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_VIDEO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext(),false);
            utils.toggleStreaming();
