@@ -101,8 +101,11 @@ public class GameAvActivity extends Activity {
         solution.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
 
         time_left.setText("00:00");
+
+        /*
         createLoadingScreen();
-        //setTimeOut();
+        setTimeOut();
+        */
         /*
 
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));

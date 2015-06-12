@@ -67,7 +67,7 @@ public class GameActivity extends Activity {
 
         setContentView(R.layout.activity_game_screen_guesser);
 
-        createLoadingScreen();
+
 
         TextView score1 = (TextView) findViewById(R.id.score1);
         TextView score2 = (TextView) findViewById(R.id.score2);
@@ -143,7 +143,10 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-        //setTimeOut();
+        /*
+        createLoadingScreen();
+        setTimeOut();
+        */
     }
 
     private void createLoadingScreen() {
