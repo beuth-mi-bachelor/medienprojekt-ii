@@ -70,10 +70,6 @@ public class VideoCamera extends NanostreamVideoSource {
         mVideoFrameCallbackList.add(arg0);
     }
 
-    public void mute(){
-
-    }
-
     @Override
     public VideoFormat getVideoFormat() {
         return mVideoFormat;

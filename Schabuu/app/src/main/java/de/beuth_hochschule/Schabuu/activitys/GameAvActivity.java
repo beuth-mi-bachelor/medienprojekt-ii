@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import de.beuth_hochschule.Schabuu.R;
@@ -39,12 +41,19 @@ public class GameAvActivity extends Activity {
 
     private StreamingUtils utils = null;
 
+    private TextView descriptionTextView;
+    private TextView teamTextView;
+    private ImageView iconView;
+    private LinearLayout loadingBackground;
+
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
         Typeface awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
-        Intent intent = getIntent();
+         intent = getIntent();
         _server = ServerConnectorImplementation.getInstance();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -92,16 +101,42 @@ public class GameAvActivity extends Activity {
 
         time_left.setText("00:00");
 
-            utils = new StreamingUtils(serverUrl, streamName, license_stream, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext());
-            utils.toggleStreaming();
-        /*
-        RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
-        SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
-        surfaceView.getHolder().addCallback(utils.GetPlayer());
+       if(intent.getStringExtra("MODE").equals("CAM")){
+           utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_VIDEO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext(),false);
+           utils.toggleStreaming();
+       }
+       if(intent.getStringExtra("MODE").equals("AUDIO")){
+           utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_AUDIO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view_audio), getApplicationContext(),true);
+           utils.toggleStreaming();
 
-        utils.StartPlayer();
-        */
 
+           RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, "foobar", authUser, authPass);
+           SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
+           surfaceView.getHolder().addCallback(utils.GetPlayer());
+           utils.StartPlayer();
+
+
+       }
+
+    }
+    private void createLoadingScreen() {
+        descriptionTextView = (TextView) findViewById(R.id.description);
+        teamTextView = (TextView) findViewById(R.id.team_value);
+        iconView = (ImageView) findViewById(R.id.imageView);
+        loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
+        descriptionTextView.setText(getResources().getString(R.string.guesser_description));
+
+        if (intent.getStringExtra("TEAM") != null && intent.getStringExtra("TEAM").equals("0")) {
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
+        } else
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
+        if (intent.getStringExtra("TEAM") != null) {
+            teamTextView.append(intent.getStringExtra("TEAM"));
+        }
+        iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
+        if (intent.getStringExtra("STREAM_VIDEO") != null) {
+            strStreamname = intent.getStringExtra("STREAM_VIDEO");
+        }
     }
 
     @Override
@@ -115,6 +150,8 @@ public class GameAvActivity extends Activity {
         super.onResume();  // Always call the superclass method first
         _server.setPlayerActive();
     }
+
+    
 
 
 }

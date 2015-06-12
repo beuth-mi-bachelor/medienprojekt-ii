@@ -131,11 +131,16 @@ public class GameActivity extends Activity {
             }
         });
 
-        RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, strStreamname, authUser, authPass);
+        RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_VIDEO"), authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
 
+        RecievingUtils utils2 = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_AUDIO"), authUser, authPass);
+        SurfacePlayerView surfaceView2 = (SurfacePlayerView) findViewById(R.id.view_sound);
+        surfaceView2.getHolder().addCallback(utils.GetPlayer());
+
         utils.StartPlayer();
+        utils2.StartPlayer();
         //setTimeOut();
     }
 
