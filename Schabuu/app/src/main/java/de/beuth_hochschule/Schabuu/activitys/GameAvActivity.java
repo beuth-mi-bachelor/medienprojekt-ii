@@ -112,7 +112,7 @@ public class GameAvActivity extends Activity {
            utils.toggleStreaming();
 
 
-           RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, "foobar", authUser, authPass);
+           RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl,intent.getStringExtra("STREAM_VIDEO") , authUser, authPass);
            SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
            surfaceView.getHolder().addCallback(utils.GetPlayer());
            utils.StartPlayer();
