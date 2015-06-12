@@ -108,8 +108,8 @@ public class GameAvActivity extends Activity {
            utils.toggleStreaming();
        }
        if(intent.getStringExtra("MODE").equals("AUDIO")){
-           utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_AUDIO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view_audio), getApplicationContext(),true);
-           utils.toggleStreaming();
+           //utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_AUDIO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view_audio), getApplicationContext(),true);
+           //utils.toggleStreaming();
 
 
            RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl,intent.getStringExtra("STREAM_VIDEO") , authUser, authPass);
