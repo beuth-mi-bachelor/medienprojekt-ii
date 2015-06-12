@@ -98,11 +98,13 @@ public class RoomActivity extends Activity {
         playerOneView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         playerOneView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(RoomActivity.this, GameActivity.class));
+                Intent newIntent = new Intent(RoomActivity.this, GameAvActivity.class);
+                newIntent.putExtra("MODE", "NOCAM");
+                startActivity(newIntent);
             }
         });
         playerOneView.setCharacterDelay(150);
-        playerOneView.animateText("Waiting...");
+        playerOneView.animateText(getString(R.string.waiting_for_player));
 
         //PLAYER TWO
         Typewriter playerTwoView = (Typewriter)findViewById(R.id.player_two);
@@ -117,23 +119,33 @@ public class RoomActivity extends Activity {
             }
         });
         playerTwoView.setCharacterDelay(150);
-        playerTwoView.animateText("Waiting...");
+        playerTwoView.animateText(getString(R.string.waiting_for_player));
 
         // PLAYER THREE
         Typewriter playerThreeView = (Typewriter)findViewById(R.id.player_three);
         playerThreeView.setTypeface(geoBold);
         playerThreeView.setTextSize(48);
         playerThreeView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        playerThreeView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(RoomActivity.this, GameActivity.class));
+            }
+        });
         playerThreeView.setCharacterDelay(150);
-        playerThreeView.animateText("Waiting...");
+        playerThreeView.animateText(getString(R.string.waiting_for_player));
 
         // PLAYER FOUR
         Typewriter playerFourView = (Typewriter)findViewById(R.id.player_four);
         playerFourView.setTypeface(geoBold);
         playerFourView.setTextSize(48);
         playerFourView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        playerFourView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(RoomActivity.this, GameActivity.class));
+            }
+        });
         playerFourView.setCharacterDelay(150);
-        playerFourView.animateText("Waiting...");
+        playerFourView.animateText(getString(R.string.waiting_for_player));
     }
 
     public void randomRoomSetup() {

@@ -106,15 +106,17 @@ public class GameActivity extends Activity {
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         descriptionTextView.setText(getResources().getString(R.string.guesser_description));
 
-        if (intent.getStringExtra("TEAM").equals("0")) {
+        if (intent.getStringExtra("TEAM") != null && intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
-        teamTextView.append(intent.getStringExtra("TEAM"));
-
+        if (intent.getStringExtra("TEAM") != null) {
+            teamTextView.append(intent.getStringExtra("TEAM"));
+        }
         iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
-        strStreamname = intent.getStringExtra("STREAM_VIDEO");
-
+        if (intent.getStringExtra("STREAM_VIDEO") != null) {
+            strStreamname = intent.getStringExtra("STREAM_VIDEO");
+        }
     }
 
 
