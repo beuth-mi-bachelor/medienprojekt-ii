@@ -66,8 +66,10 @@ public class SolutionHolder {
 
     public void deleteChar() {
         this.charPointer--;
-        TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
-        currentTextView.setText("");
+        if (this.charPointer >= 0) {
+            TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
+            currentTextView.setText("");
+        }
     }
 
     public void deleteWord() {
