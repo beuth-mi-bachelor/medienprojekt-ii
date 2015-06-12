@@ -56,6 +56,17 @@ app.get('/video', function (req, res) {
 
 });
 
+app.get("/download", function (req, res) {
+    res.setHeader("Content-type", "application/vnd.android.package-archive");
+    res.setHeader('Content-disposition', 'attachment; filename=schabuu.apk');
+
+    res.end(__dirname + "/apk/schabuu.apk", function(err, result) {
+         if (err) {
+            res.send("Download gestartet");
+         }
+     });
+});
+
 app.get(/^(.+)$/, function (req, res) {
 
     res.sendFile(__dirname + req.params[0], function(err, result) {
