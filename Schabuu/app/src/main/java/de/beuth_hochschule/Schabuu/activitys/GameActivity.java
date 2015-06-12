@@ -143,7 +143,7 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-        setTimeOut();
+        //setTimeOut();
     }
 
     private void createLoadingScreen() {
@@ -161,7 +161,6 @@ public class GameActivity extends Activity {
         teamTextView.setTextColor(Color.parseColor("#ffffff"));
         teamTextView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         teamTextView.setTextSize(36);
-        teamTextView.setText("\f130");
         teamTextView.append(" "+intent.getStringExtra("TEAM"));
 
 
@@ -170,7 +169,7 @@ public class GameActivity extends Activity {
         iconView.setTextColor(Color.parseColor("#ffffff"));
         iconView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         iconView.setTextSize(36);
-        iconView.setText("\f11c");
+        iconView.setText("\uf11c");
 
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         if (intent.getStringExtra("TEAM").equals("0")) {

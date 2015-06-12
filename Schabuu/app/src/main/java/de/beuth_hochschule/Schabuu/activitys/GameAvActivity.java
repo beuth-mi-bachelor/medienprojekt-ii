@@ -102,7 +102,7 @@ public class GameAvActivity extends Activity {
 
         time_left.setText("00:00");
         createLoadingScreen();
-        setTimeOut();
+        //setTimeOut();
         /*
 
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));
@@ -162,7 +162,6 @@ public class GameAvActivity extends Activity {
         teamTextView.setTextColor(Color.parseColor("#ffffff"));
         teamTextView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         teamTextView.setTextSize(36);
-        teamTextView.setText("\f130");
         teamTextView.append(" "+intent.getStringExtra("TEAM"));
 
 
@@ -172,9 +171,9 @@ public class GameAvActivity extends Activity {
         iconView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         iconView.setTextSize(36);
         if (intent.getStringExtra("MODE").equals("CAM")) {
-            iconView.setText("\f183");
+            iconView.setText("\uf183");
         }else{
-            iconView.setText("\f130");
+            iconView.setText("\uf130");
         }
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
         if (intent.getStringExtra("TEAM").equals("0")) {
