@@ -67,7 +67,7 @@
     var elem = document.getElementById("really-cool-video");
 
 
-    addSourceToVideo(elem, "rtmp://ws2.nanocosmos.net/live/test-video", "rtmp/mp4");
+    addSourceToVideo(elem, stream, "rtmp/mp4");
 
     var player = videojs('really-cool-video', {}, function () {
         this.play();
