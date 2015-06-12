@@ -312,7 +312,7 @@ public class RoomActivity extends Activity {
         }
         if (player.role.equals("audio")) {
             intent = new Intent(RoomActivity.this, GameAvActivity.class);
-            intent.putExtra("MODE", "CAM");
+            intent.putExtra("MODE", "AUDIO");
         }
         if (player.role.equals("video")) {
             intent = new Intent(RoomActivity.this, GameAvActivity.class);
