@@ -33,13 +33,12 @@ app.get('/debug', function (req, res) {
 });
 
 app.get('/video', function (req, res) {
+    //var game = new Game(server, new Room(server, "test", 4, ""), 3, 30);
     var allGames = Game.getAllGamesAsArray();
 
     if (allGames.length > 0) {
         var rand = Math.floor(Math.random() * allGames.length);
-
         var currentGame = allGames[rand];
-
         var timeLeft = currentGame.currentTime * (currentGame.rounds - currentGame.currentRound + 1) + (3 * currentGame.timeOutBetweenRounds);
         var videoStream = currentGame.streamNames.video;
 
@@ -51,7 +50,7 @@ app.get('/video', function (req, res) {
     } else {
         res.render('video', {
             fallback: "img/no-game.png",
-            refresh: 1000
+            refresh: 2000
         });
     }
 
