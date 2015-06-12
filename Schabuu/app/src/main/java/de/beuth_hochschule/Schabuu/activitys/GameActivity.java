@@ -16,8 +16,12 @@ import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import de.beuth_hochschule.Schabuu.R;
@@ -301,12 +305,22 @@ public class GameActivity extends Activity {
 
                 // just to display it on device for debugging
                 System.out.println("game started: " + gameData.toString());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+
+                try {
+                    JSONObject words = (JSONObject) gameData.get("word");
+                    System.out.println(words);
+                    Iterator<?> keys = words.keys();
+
+                    while( keys.hasNext() ) {
+                        String key = (String)keys.next();
+                        JSONArray names = (JSONArray) words.get(key);
+                        System.out.println(key);
+                        System.out.println(names.toString());
+
                     }
-                });
+                } catch (JSONException e) {
+                    System.out.println(e.getMessage());
+                }
 
                 _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
                     @Override
