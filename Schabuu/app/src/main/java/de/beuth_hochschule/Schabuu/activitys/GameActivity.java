@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -28,8 +26,6 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
-import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
-import de.beuth_hochschule.Schabuu.util.RecievingUtils;
 import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 
 public class GameActivity extends Activity {
@@ -299,32 +295,37 @@ public class GameActivity extends Activity {
 
                 // just to display it on device for debugging
                 System.out.println("game started: " + gameData.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject words = (JSONObject) gameData.get("word");
+                            System.out.println(words);
+                            Iterator<?> keys = words.keys();
 
-                try {
-                    JSONObject words = (JSONObject) gameData.get("word");
-                    System.out.println(words);
-                    Iterator<?> keys = words.keys();
+                            while( keys.hasNext() ) {
+                                String key = (String)keys.next();
+                                JSONArray names = (JSONArray) words.get(key);
+                                System.out.println(key);
+                                System.out.println(names.toString());
 
-                    while( keys.hasNext() ) {
-                        String key = (String)keys.next();
-                        JSONArray names = (JSONArray) words.get(key);
-                        System.out.println(key);
-                        System.out.println(names.toString());
+                                getLetters(key,20);
 
-                        getLetters(key,20);
+                                LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+                                solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+                                    @Override
+                                    public void call(Object... args) {
+                                        _server.emit(Events.GAME_SOLUTION, null);
+                                    }
+                                }, GameActivity.this, key);
 
-                        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
-                        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
-                            @Override
-                            public void call(Object... args) {
-                                _server.emit(Events.GAME_SOLUTION, null);
                             }
-                        }, GameActivity.this, key);
-
+                        } catch (JSONException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
-                } catch (JSONException e) {
-                    System.out.println(e.getMessage());
-                }
+                });
+
 
                 _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
                     @Override
@@ -332,11 +333,15 @@ public class GameActivity extends Activity {
                         final JSONObject data = (JSONObject) args[0];
                         // just to display it on device for debugging
                         System.out.println("gametime is: " + data.toString());
-                        time_left.setText(data.toString());
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
+                                try {
+                                    time_left.setText(data.get("time").toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }

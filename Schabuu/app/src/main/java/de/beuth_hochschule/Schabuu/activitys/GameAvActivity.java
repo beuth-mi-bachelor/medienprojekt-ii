@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,9 +25,6 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
-import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
-import de.beuth_hochschule.Schabuu.util.RecievingUtils;
-import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 import de.beuth_hochschule.Schabuu.util.StreamingUtils;
 
 public class GameAvActivity extends Activity {
@@ -243,34 +239,33 @@ public class GameAvActivity extends Activity {
                 // just to display it on device for debugging
                 System.out.println("game started: " + gameData.toString());
 
-                try {
-                    JSONObject words = (JSONObject) gameData.get("word");
-                    System.out.println(words);
-                    Iterator<?> keys = words.keys();
-
-                    while( keys.hasNext() ) {
-                        String key = (String)keys.next();
-                        JSONArray names = (JSONArray) words.get(key);
-
-                        System.out.println(key);
-                        System.out.println(names.toString());
-                        solution.setText(key);
-                        for (int i = 0; i <views.size();i++){
-                            views.get(i).setText(names.getInt(i));
-                        }
-
-                    }
-
-
-
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject words = (JSONObject) gameData.get("word");
+                            System.out.println(words);
+                            Iterator<?> keys = words.keys();
+
+                            while (keys.hasNext()) {
+                                String key = (String) keys.next();
+                                JSONArray names = (JSONArray) words.get(key);
+
+                                System.out.println(key);
+                                System.out.println(names.toString());
+                                solution.setText(key);
+                                for (int i = 0; i < views.size(); i++) {
+                                    views.get(i).setText(names.getInt(i));
+                                }
+
+                            }
+
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 });
 
@@ -280,11 +275,14 @@ public class GameAvActivity extends Activity {
                         final JSONObject data = (JSONObject) args[0];
                         // just to display it on device for debugging
                         System.out.println("gametime is: " + data.toString());
-                        time_left.setText(data.toString());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "gametime is: " + data.toString(), Toast.LENGTH_SHORT).show();
+                                try {
+                                    time_left.setText(data.get("time").toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }
