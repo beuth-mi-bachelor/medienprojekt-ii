@@ -43,16 +43,17 @@ public class GameAvActivity extends Activity {
 
     private TextView descriptionTextView;
     private TextView teamTextView;
-    private ImageView iconView;
+    private TextView iconView;
     private LinearLayout loadingBackground;
 
     private Intent intent;
+    Typeface awesome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
-        Typeface awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
+        awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
          intent = getIntent();
         _server = ServerConnectorImplementation.getInstance();
 
@@ -148,21 +149,38 @@ public class GameAvActivity extends Activity {
     }
     private void createLoadingScreen() {
         descriptionTextView = (TextView) findViewById(R.id.description);
-        teamTextView = (TextView) findViewById(R.id.team_value);
-        iconView = (ImageView) findViewById(R.id.imageView);
-        loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
+        descriptionTextView.setTypeface(awesome);
+        descriptionTextView.setTextColor(Color.parseColor("#ffffff"));
+        descriptionTextView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        descriptionTextView.setTextSize(36);
         descriptionTextView.setText(getResources().getString(R.string.guesser_description));
 
-        if (intent.getStringExtra("TEAM") != null && intent.getStringExtra("TEAM").equals("0")) {
-            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
-        } else
-            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
-        if (intent.getStringExtra("TEAM") != null) {
-            teamTextView.append(intent.getStringExtra("TEAM"));
+
+
+        teamTextView = (TextView) findViewById(R.id.team_value);
+        teamTextView.setTypeface(awesome);
+        teamTextView.setTextColor(Color.parseColor("#ffffff"));
+        teamTextView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        teamTextView.setTextSize(36);
+        teamTextView.setText("\f130");
+        teamTextView.append(" "+intent.getStringExtra("TEAM"));
+
+
+        iconView = (TextView) findViewById(R.id.imageView);
+        iconView.setTypeface(awesome);
+        iconView.setTextColor(Color.parseColor("#ffffff"));
+        iconView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+        iconView.setTextSize(36);
+        if (intent.getStringExtra("MODE").equals("CAM")) {
+            iconView.setText("\f183");
+        }else{
+            iconView.setText("\f130");
         }
-        iconView.setImageDrawable(getResources().getDrawable(R.drawable.guesser_icon));
-        if (intent.getStringExtra("STREAM_VIDEO") != null) {
-            strStreamname = intent.getStringExtra("STREAM_VIDEO");
+        loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
+        if (intent.getStringExtra("TEAM").equals("0")) {
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
+        } else {
+            loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
     }
 
