@@ -66,7 +66,7 @@ public class GameActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game_screen_guesser);
-        //loadingBackground.setVisibility(View.GONE);
+
         createLoadingScreen();
 
         TextView score1 = (TextView) findViewById(R.id.score1);
@@ -143,7 +143,7 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-        //setTimeOut();
+        setTimeOut();
     }
 
     private void createLoadingScreen() {

@@ -100,7 +100,8 @@ public class GameAvActivity extends Activity {
         solution.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
 
         time_left.setText("00:00");
-
+        createLoadingScreen();
+        setTimeOut();
         /*
 
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));
@@ -123,6 +124,23 @@ public class GameAvActivity extends Activity {
        }
        */
 
+    }
+    public void setTimeOut() {
+        Thread timerThread = new Thread() {
+            public void run() {
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+/*
+                    startGame();
+*/
+                    loadingBackground.setVisibility(View.GONE);
+                }
+            }
+        };
+        timerThread.start();
     }
     private void createLoadingScreen() {
         descriptionTextView = (TextView) findViewById(R.id.description);

@@ -13,7 +13,7 @@
                   android:layout_height="match_parent"
                   android:background="@color/schabuu_blue"
                   android:weightSum="1"
-                  android:visibility="gone"
+                  android:visibility="visible"
                   android:id="@+id/loading_screen"
                   android:longClickable="false">
 
