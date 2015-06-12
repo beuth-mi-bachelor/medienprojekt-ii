@@ -50,6 +50,9 @@ function Game(server, room, rounds, time) {
     }
     Game.games[this.room.name] = this;
     this.interval = null;
+    this.setDeleteTimeout = setTimeout(function() {
+        self.endGame();
+    }, 20000);
 }
 
 function setRole(currentPlayer, index, self) {
@@ -81,6 +84,7 @@ Game.getGame = function (name) {
  * starts game with this.rounds rounds
  */
 Game.prototype.startGame = function() {
+    this.setDeleteTimeout = clearTimeout(this.setDeleteTimeout);
     this.startRound();
     this.currentWord = Game.getDataset();
     this.server.emit("emitToRoom", this.room.name, 'game_start', {
