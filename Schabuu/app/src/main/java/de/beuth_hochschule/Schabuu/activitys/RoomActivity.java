@@ -308,7 +308,7 @@ public class RoomActivity extends Activity {
         Intent intent = new Intent();
         System.out.println(player.toString());
         if (player.role.equals("guesser")) {
-            intent = new Intent(RoomActivity.this, GameActivity.class);
+            intent = new Intent(RoomActivity.this, GameAvActivity.class);
             intent.putExtra("MODE", "AUDIO");
         }
         if (player.role.equals("audio")) {

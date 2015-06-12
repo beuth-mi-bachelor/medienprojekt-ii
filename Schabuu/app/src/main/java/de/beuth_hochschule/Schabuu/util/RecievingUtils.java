@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import net.nanocosmos.nanoStream.streamer.NanostreamPlayer;
@@ -51,6 +52,11 @@ public class RecievingUtils {
     }
 
     public void StartPlayer() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         dataFragment.mPlayer.start();
     }
 
