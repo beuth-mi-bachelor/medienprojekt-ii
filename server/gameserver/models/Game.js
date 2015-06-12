@@ -28,6 +28,10 @@ function Game(server, room, rounds, time) {
     this.currentTime = time || 30;
     this.timeOutBetweenRounds = 5;
     this.room = room;
+    this.score = {
+        0: 0,
+        1: 0
+    };
     this.points = [];
     this.streamNames = {
         audio: room.name + "-audio",
@@ -66,6 +70,14 @@ Game.getDataset = function () {
 };
 
 /**
+ * get selected game
+ * @returns {Game} containing the game instance
+ */
+Game.getGame = function (name) {
+    return Game.games[name];
+};
+
+/**
  * starts game with this.rounds rounds
  */
 Game.prototype.startGame = function() {
@@ -74,6 +86,7 @@ Game.prototype.startGame = function() {
     this.server.emit("emitToRoom", this.room.name, 'game_start', {
         time: this.currentTime,
         word: this.currentWord,
+        score: this.score,
         round: this.currentRound
     });
 };
@@ -89,6 +102,7 @@ Game.prototype.startRound = function() {
     this.server.emit("emitToRoom", this.room.name, 'game_round_start', {
         time: this.currentTime,
         word: this.currentWord,
+        score: this.score,
         round: this.currentRound
     });
     this.interval = setInterval(function() {
@@ -104,13 +118,38 @@ Game.prototype.startRound = function() {
 
 /**
  * ends a round
- * @param noWinner {boolean} if true it is draw, else someone won
+ * @param winner {Number} if null it is draw, else teamID won
  */
-Game.prototype.endRound = function(noWinner) {
+Game.prototype.endRound = function(winner) {
     this.interval = clearInterval(this.interval);
     this.interval = null;
     this.currentTime = this.time;
     var self = this;
+
+    for (var i = 0; i < this.players.length; i++) {
+        setRole(self.players[i], i, self);
+    }
+
+    if (!winner) {
+        this.points.push({0: 5, 1: 5});
+        this.score[0] += 5;
+        this.score[1] += 5;
+    } else {
+        if (parseInt(winner, 10) === 0) {
+            this.points.push({0: 10, 1: 0});
+            this.score[0] += 10;
+        }  else {
+            this.points.push({0: 0, 1: 10});
+            this.score[1] += 10;
+        }
+    }
+
+    this.server.emit("emitToRoom", this.room.name, 'game_round_end', {
+        points: this.points,
+        score: this.score,
+        players: this.players,
+        teamWon: winner
+    });
 
     if (this.rounds - this.currentRound <= 0) {
         this.endGame();
@@ -119,21 +158,6 @@ Game.prototype.endRound = function(noWinner) {
         setTimeout(this.startRound(), this.timeOutBetweenRounds);
     }
 
-    for (var i = 0; i < this.players.length; i++) {
-        setRole(self.players[i], i, self);
-    }
-
-    this.server.emit("emitToRoom", this.room.name, 'game_round_end', {
-        points: this.points,
-        players: this.players
-    });
-
-    // TODO: show scores
-    if (noWinner) {
-        // unentschieden
-    } else {
-        // some won
-    }
 };
 
 /**
@@ -151,7 +175,8 @@ Game.getAllGamesAsArray = function () {
  */
 Game.prototype.endGame = function() {
     this.server.emit("emitToRoom", this.room.name, 'game_end', {
-        points: this.points
+        points: this.points,
+        score: this.score
     });
     delete Game.games[this.room.name];
     console.log("game ended");

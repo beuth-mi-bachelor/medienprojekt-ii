@@ -71,7 +71,7 @@ public class GameActivity extends Activity {
         solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                System.out.println("!!!!!!!!!!!! SOLUTION DONE!");
+                _server.emit(Events.GAME_SOLUTION, null);
             }
         }, GameActivity.this, "KATZE");
 

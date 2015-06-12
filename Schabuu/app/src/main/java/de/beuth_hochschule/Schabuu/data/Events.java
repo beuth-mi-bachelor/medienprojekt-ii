@@ -116,7 +116,11 @@ public class Events {
      *      "word": {
      *          word(String): [list, of, words]
      *      }
-     *      "round": Integer
+     *      "round": Integer,
+     *      "score": {
+     *          0: Integeger,
+     *          1: Integer
+     *      }
      * }
      */
     public static final String GAME_START = "game_start";
@@ -134,7 +138,11 @@ public class Events {
      *      "word": {
      *          word(String): [list, of, words]
      *      }
-     *      "round": Integer
+     *      "round": Integer,
+     *      "score": {
+     *          0: Integeger,
+     *          1: Integer
+     *      }
      * }
      */
     public static final String GAME_ROUND_START = "game_round_start";
@@ -152,7 +160,11 @@ public class Events {
      *              "team_red": Integer,
      *              "team_blue": Integer
      *          }
-     *      ]
+     *      ],
+     *      "score": {
+     *          0: Integeger,
+     *          1: Integer
+     *      }
      * }
      */
     public static final String GAME_ROUND_END = "game_round_end";
@@ -171,10 +183,19 @@ public class Events {
      *              "team_blue": Integer
      *          }
      *      ],
+     *      "score": {
+     *          0: Integeger,
+     *          1: Integer
+     *      }
      *      "players": Array{Players}
      * }
      */
     public static final String GAME_END = "game_end";
+
+    /**
+     * only an emitter
+     */
+    public static final String GAME_SOLUTION = "solution_correct";
 
     /**
      * only an emitter

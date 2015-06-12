@@ -54,14 +54,13 @@ public class SolutionHolder {
     }
 
     public void addChar(String character) {
+        if (!this.isFull()) {
+            TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
+            currentTextView.setText(character);
+            this.charPointer++;
+        }
         if (this.isSolved()) {
             this.callback.call();
-        } else {
-            if (!this.isFull()) {
-                TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
-                currentTextView.setText(character);
-                this.charPointer++;
-            }
         }
     }
 
@@ -89,7 +88,8 @@ public class SolutionHolder {
     }
 
     private boolean isSolved() {
-        return this.solution.equals(this.buildSolution());
+        System.out.println(this.solution.toLowerCase() + " : " + this.buildSolution().toLowerCase());
+        return this.solution.toLowerCase().equals(this.buildSolution().toLowerCase());
     }
 
     private boolean isFull() {

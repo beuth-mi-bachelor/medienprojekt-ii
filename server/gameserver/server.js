@@ -93,6 +93,9 @@ function onConnect(client) {
     client.on("player_change_name", function(data) {
         onChangeName(this, data);
     });
+    client.on("solution_correct", function() {
+        onSolution(this);
+    });
 }
 
 function onDisconnect(client) {
@@ -118,6 +121,12 @@ function onChangeName(client, data) {
     var currentPlayer = Player.getPlayer(client.id);
     currentPlayer.changeName(data["playername"]);
     currentPlayer.room.players[client.id].name = data["playername"];
+}
+
+function onSolution(client) {
+    var currentPlayer = Player.getPlayer(client.id);
+    var roomName = currentPlayer.room.name;
+    var game = Game.getGame(roomName);
 }
 
 function onCheckRoom(client, data) {
