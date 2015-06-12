@@ -183,11 +183,11 @@ public class GameActivity extends Activity {
         iconView.setText("\uf11c");
 
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
-       /* if (intent.getStringExtra("TEAM").equals("0")) {
+        if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
-        }*/
+        }
 
         runOnUiThread(new Runnable() {
             @Override
