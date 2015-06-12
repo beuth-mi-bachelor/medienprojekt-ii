@@ -51,6 +51,7 @@ public class GameActivity extends Activity {
 
     private Intent intent;
     private Typeface awesome;
+    TextView time_left;
 
     private static final String LOG_TAG = "GameActivity";
 
@@ -75,7 +76,7 @@ public class GameActivity extends Activity {
 
         TextView score1 = (TextView) findViewById(R.id.score1);
         TextView score2 = (TextView) findViewById(R.id.score2);
-        TextView time_left = (TextView) findViewById(R.id.time_left);
+         time_left = (TextView) findViewById(R.id.time_left);
         TextView player_name = (TextView) findViewById(R.id.player_name);
         Button buttonDelete = (Button) findViewById(R.id.buttonDelete);
         Button buttonRenew = (Button) findViewById(R.id.buttonRenew);
@@ -109,15 +110,8 @@ public class GameActivity extends Activity {
         time_left.setText("00:00");
 
 
-        getLetters("KATZE", 10);
 
-        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
-        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                _server.emit(Events.GAME_SOLUTION, null);
-            }
-        }, GameActivity.this, "KATZE");
+
 
         //Button deleteButton = (Button) findViewById(R.id.buttonDelete);
         buttonDelete.setOnClickListener(new View.OnClickListener() {
@@ -317,6 +311,16 @@ public class GameActivity extends Activity {
                         System.out.println(key);
                         System.out.println(names.toString());
 
+                        getLetters(key,20);
+
+                        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+                        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+                            @Override
+                            public void call(Object... args) {
+                                _server.emit(Events.GAME_SOLUTION, null);
+                            }
+                        }, GameActivity.this, key);
+
                     }
                 } catch (JSONException e) {
                     System.out.println(e.getMessage());
@@ -328,6 +332,7 @@ public class GameActivity extends Activity {
                         final JSONObject data = (JSONObject) args[0];
                         // just to display it on device for debugging
                         System.out.println("gametime is: " + data.toString());
+                        time_left.setText(data.toString());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
