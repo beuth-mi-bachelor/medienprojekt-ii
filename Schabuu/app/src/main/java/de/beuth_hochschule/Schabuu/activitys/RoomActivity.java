@@ -333,9 +333,17 @@ public class RoomActivity extends Activity {
             System.out.println("PPPPPPPPPPPPP" + data.toString());
             final JSONObject game = (JSONObject) data.get("game");
             final JSONArray playersArray = (JSONArray) game.get("players");
+
+
+            final JSONObject streamNameArray = (JSONObject) game.get("streamNames");
+            final String streamAudio = (String) streamNameArray.get("audio");
+            final String streamVideo = (String) streamNameArray.get("video");
+
+
+
             for (int i=0; i < playersArray.length(); i++) {
                 JSONObject player = (JSONObject) playersArray.get(i);
-                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(), "PaulTest", "PaulTest");
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(),streamAudio,streamVideo);
                 playerList.put((String) player.get("name"), newPlayer);
             }
 
