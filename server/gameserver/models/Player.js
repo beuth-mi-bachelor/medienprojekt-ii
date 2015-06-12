@@ -24,7 +24,6 @@
         this.isActive = true;
         this.room = null;
         this.server = server;
-        // TODO: implement
         this.role = null;
         this.team = null;
         Player.players[clientID] = this;

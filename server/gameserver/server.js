@@ -154,9 +154,12 @@ function onChangeName(client, data) {
 }
 
 function onSolution(client) {
-    var currentPlayer = Player.getPlayer(client.id);
-    var roomName = currentPlayer.room.name;
-    var game = Game.getGame(roomName);
+    var currentPlayer = Player.getPlayer(client.id),
+        roomName = currentPlayer.room.name,
+        game = Game.getGame(roomName);
+
+    game.endRound(currentPlayer.team)
+
 }
 
 function onCheckRoom(client, data) {

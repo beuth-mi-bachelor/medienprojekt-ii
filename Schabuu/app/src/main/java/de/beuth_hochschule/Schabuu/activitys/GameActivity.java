@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -28,6 +29,7 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
+import de.beuth_hochschule.Schabuu.util.Player;
 import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 
 public class GameActivity extends Activity {
@@ -55,6 +57,11 @@ public class GameActivity extends Activity {
 
     private ServerConnector _server;
     private SolutionHolder solutionHolder;
+    TextView score1;
+    TextView score2;
+
+    private HashMap<String, Player> playerList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +79,12 @@ public class GameActivity extends Activity {
 
 
 
-        TextView score1 = (TextView) findViewById(R.id.score1);
-        TextView score2 = (TextView) findViewById(R.id.score2);
+         score1 = (TextView) findViewById(R.id.score1);
+         score2 = (TextView) findViewById(R.id.score2);
+
+        score1.setText(intent.getStringExtra("SCORE0"));
+        score2.setText(intent.getStringExtra("SCORE1"));
+
          time_left = (TextView) findViewById(R.id.time_left);
         TextView player_name = (TextView) findViewById(R.id.player_name);
         Button buttonDelete = (Button) findViewById(R.id.buttonDelete);
@@ -184,6 +195,51 @@ public class GameActivity extends Activity {
                 loadingBackground.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void getPlayerHashMap(JSONObject data) {
+        playerList = new HashMap<String, Player>();
+        try {
+            System.out.println("PPPPPPPPPPPPP" + data.toString());
+
+            final JSONArray playersArray = (JSONArray) data.get("players");
+            for (int i=0; i < playersArray.length(); i++) {
+                JSONObject player = (JSONObject) playersArray.get(i);
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(),intent.getStringExtra("STREAM_AUDIO"),intent.getStringExtra("STREAM_VIDEO"));
+                playerList.put((String) player.get("name"), newPlayer);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createActivity() {
+        Player player = playerList.get(intent.getStringExtra("USERNAME"));
+        Intent intent = new Intent();
+        System.out.println(player.toString());
+        if (player.role.equals("guesser")) {
+            intent = new Intent(GameActivity.this, GameActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("audio")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("video")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "CAM");
+        }
+        intent.putExtra("USERNAME", ""+player.name);
+        intent.putExtra("ROLE", ""+player.role);
+        intent.putExtra("TEAM", ""+player.team);
+        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
+        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
+        intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
+        intent.putExtra("SCORE0",1);
+        intent.putExtra("SCORE1",1);
+
+        startActivity(intent);
     }
 
 
@@ -355,6 +411,8 @@ public class GameActivity extends Activity {
                     }
                 });
 
+
+
                 _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
@@ -376,6 +434,18 @@ public class GameActivity extends Activity {
                     public void call(Object... args) {
 
                         final JSONObject data = (JSONObject) args[0];
+
+                        getPlayerHashMap(data);
+                        createActivity();
+
+
+
+
+
+
+
+
+
                         // just to display it on device for debugging
                         System.out.println("round ended: " + data.toString());
                         runOnUiThread(new Runnable() {
