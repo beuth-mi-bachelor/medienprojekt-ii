@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="de">
+<head>
+    <title>Schabuu: Video</title>
+    <meta charset="utf-8">
+    <meta name="description" lang="de" content="">
+    <meta name="keywords" lang="de" content="">
+    <meta name="author" content="Team Schabuu">
+
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <link rel="apple-touch-icon" href="./img/ic_launcher.png">
+
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="robots" content="index,follow,noarchive">
+
+    <link href="http://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/4.12/video.js"></script>
+
+    <style type="text/css">
+        html, body {
+            font-size: 90%;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .fallback img {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            display: block;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .video-js {
+            width: 100% !important;
+        }
+    </style>
+
+</head>
+<body>
+<script>
+    var param = location.search.split("=");
+    var stream = param[1] || "rtmp://ws2.nanocosmos.net/live/test-video";
+
+</script>
+<video id="really-cool-video" autoplay class="video-js vjs-default-skin" controls
+       preload="auto" width="450" height="800">
+</video>
+<script>
+    function addSourceToVideo(element, src, type) {
+        var source = document.createElement('source');
+
+        source.src = src;
+        source.type = type;
+
+        element.appendChild(source);
+    }
+
+    var elem = document.getElementById("really-cool-video");
+
+
+    addSourceToVideo(elem, "rtmp://ws2.nanocosmos.net/live/test-video", "rtmp/mp4");
+
+    var player = videojs('really-cool-video', {}, function () {
+        this.play();
+    });
+</script>
+</body>
+</html>
