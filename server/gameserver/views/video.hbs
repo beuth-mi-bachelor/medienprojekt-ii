@@ -24,19 +24,45 @@
             width: 100%;
             height: 100%;
         }
+        #refreshTimeout {
+            display: none;
+        }
+        .fallback {
+            display: block;
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .video-js {
+            width: 100% !important;
+        }
     </style>
 
 </head>
 <body>
+{{#if videoUrl}}
 <video id="really-cool-video" autoplay class="video-js vjs-default-skin" controls
-       preload="auto" width="640" height="264" poster="really-cool-video-poster.jpg"
-       data-setup='{}'>
-    <source src="rtmp://ws2.nanocosmos.net/live/test" type="rtmp/mp4">
-    <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a web browser
-        that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-    </p>
+       preload="auto" width="450" height="800">
+    <source src="rtmp://ws2.nanocosmos.net/live/{{videoUrl}}" type="rtmp/mp4">
 </video>
+<p>rtmp://ws2.nanocosmos.net/live/{{videoUrl}}</p>
+    <script>
+        var player = videojs('really-cool-video', {}, function() {
+            this.play();
+            this.on('error', function(e) {
+                location.reload();
+            });
+        });
+    </script>
+{{else}}
+<img class="fallback" src="{{fallback}}" alt="no game found" />
+{{/if}}
+<div id="refreshTimeout">{{refresh}}</div>
+<script>
+    window.setTimeout(function() {
+        location.reload();
+    }, parseInt(document.getElementById("refreshTimeout").innerHTML, 10));
+</script>
 </body>
 </html>
 

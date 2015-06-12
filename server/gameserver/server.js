@@ -35,9 +35,26 @@ app.get('/debug', function (req, res) {
 app.get('/video', function (req, res) {
     var allGames = Game.getAllGamesAsArray();
 
-    res.render('video', {
-        videoUrl: ""
-    });
+    if (allGames.length > 0) {
+        var rand = Math.floor(Math.random() * allGames.length);
+
+        var currentGame = allGames[rand];
+
+        var timeLeft = currentGame.currentTime * (currentGame.rounds - currentGame.currentRound + 1) + (3 * currentGame.timeOutBetweenRounds);
+        var videoStream = currentGame.streamNames.video;
+
+        res.render('video', {
+            videoUrl: videoStream,
+            fallback: "img/no-game.png",
+            refresh: timeLeft * 1000
+        });
+    } else {
+        res.render('video', {
+            fallback: "img/no-game.png",
+            refresh: 1000
+        });
+    }
+
 });
 
 app.get(/^(.+)$/, function (req, res) {
