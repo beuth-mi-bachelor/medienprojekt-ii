@@ -24,7 +24,7 @@ public class ServerConnectorImplementation implements ServerConnector {
 
     private ServerConnectorImplementation() {
         this.ip = "178.63.189.173";
-        this.port = 1337;
+        this.port = 80;
         try {
             socket = IO.socket("http://" + this.ip + ":" + this.port);
         } catch (URISyntaxException e) {
@@ -34,7 +34,7 @@ public class ServerConnectorImplementation implements ServerConnector {
 
     private ServerConnectorImplementation(String ip) {
         this.ip = ip;
-        this.port = 1337;
+        this.port = 80;
         try {
             socket = IO.socket("http://" + this.ip + ":" + this.port);
         } catch (URISyntaxException e) {
