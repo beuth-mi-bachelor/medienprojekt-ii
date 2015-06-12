@@ -18,7 +18,7 @@ app.locals.layout = false;
 app.set('views', __dirname + '/views');
 
 var args = process.argv.slice(2),
-    PORT = parseInt(args[0], 10) || 80;
+    PORT = parseInt(args[0], 10) || 8080;
 
 app.get('/debug', function (req, res) {
     var allRooms = Room.getAllRoomsAsArray(),
@@ -52,7 +52,7 @@ server.on('startAGame', function(room, rounds, time) {
 function init() {
     socket = io.listen(PORT);
     // TODO: Disable logging when done
-    app.listen(8080);
+    app.listen(80);
     setEventHandlers();
 }
 

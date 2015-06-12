@@ -79,7 +79,7 @@ public class MainMenuActivity extends Activity {
     }
 
     private void connectToServer() {
-        _server = ServerConnectorImplementation.getInstance("178.63.189.173", 80);
+        _server = ServerConnectorImplementation.getInstance("178.63.189.173", 8080);
         /**
          * ESTABLISHING CONNECTION
          */
