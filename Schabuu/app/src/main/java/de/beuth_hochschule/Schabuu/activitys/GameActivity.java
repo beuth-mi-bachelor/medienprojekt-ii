@@ -287,10 +287,10 @@ public class GameActivity extends Activity {
         int i = 0;
         LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
         LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
-        /*buttonLayout.removeAllViews();
+        buttonLayout.removeAllViews();
         buttonLayout2.removeAllViews();
         buttonLayout.addView(findViewById(R.id.buttonRenew));
-        buttonLayout2.addView(findViewById(R.id.buttonDelete));*/
+        buttonLayout2.addView(findViewById(R.id.buttonDelete));
 
         for (String s : result){
             i++;
