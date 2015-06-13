@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -26,6 +31,7 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
+import de.beuth_hochschule.Schabuu.util.Player;
 import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 
 public class GameActivity extends Activity {
@@ -44,19 +50,25 @@ public class GameActivity extends Activity {
     private TextView teamTextView;
     private TextView iconView;
     private LinearLayout loadingBackground;
-
+    private Vibrator myVib;
     private Intent intent;
     private Typeface awesome;
     TextView time_left;
-
+    private Typeface geoBold;
     private static final String LOG_TAG = "GameActivity";
 
     private ServerConnector _server;
     private SolutionHolder solutionHolder;
+    TextView score1;
+    TextView score2;
+
+    private HashMap<String, Player> playerList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
          awesome = Typeface.createFromAsset(getAssets(), "font/fontello.ttf");
 
         _server = ServerConnectorImplementation.getInstance();
@@ -70,8 +82,12 @@ public class GameActivity extends Activity {
 
 
 
-        TextView score1 = (TextView) findViewById(R.id.score1);
-        TextView score2 = (TextView) findViewById(R.id.score2);
+         score1 = (TextView) findViewById(R.id.score1);
+         score2 = (TextView) findViewById(R.id.score2);
+
+        score1.setText(intent.getStringExtra("SCORE0"));
+        score2.setText(intent.getStringExtra("SCORE1"));
+
          time_left = (TextView) findViewById(R.id.time_left);
         TextView player_name = (TextView) findViewById(R.id.player_name);
         Button buttonDelete = (Button) findViewById(R.id.buttonDelete);
@@ -88,7 +104,7 @@ public class GameActivity extends Activity {
         buttonDelete.setText("\ue80d");
         buttonRenew.setText("\ue80f");
 
-        buttonDelete.setTextSize(36);
+        buttonDelete.setTextSize(32);
         buttonRenew.setTextSize(36);
 
         buttonDelete.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -114,6 +130,7 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteChar();
+                myVib.vibrate(50);
             }
         });
 
@@ -122,6 +139,7 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteWord();
+                myVib.vibrate(50);
             }
         });
 
@@ -137,7 +155,7 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-
+        //getLetters("KATZE",20);
         createLoadingScreen();
         //setTimeOut();
 
@@ -170,11 +188,24 @@ public class GameActivity extends Activity {
         iconView.setText("\uf11c");
 
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
+/*
         if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
+*/
+
+        /* DELETE AFTER IT */
+        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                _server.emit(Events.GAME_SOLUTION, null);
+            }
+        }, GameActivity.this, "HAUS", geoBold);
+        getLetters("HAUS",20);
+        /* DELETE AFTER IT */
 
         runOnUiThread(new Runnable() {
             @Override
@@ -182,6 +213,51 @@ public class GameActivity extends Activity {
                 loadingBackground.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void getPlayerHashMap(JSONObject data) {
+        playerList = new HashMap<String, Player>();
+        try {
+            System.out.println("PPPPPPPPPPPPP" + data.toString());
+
+            final JSONArray playersArray = (JSONArray) data.get("players");
+            for (int i=0; i < playersArray.length(); i++) {
+                JSONObject player = (JSONObject) playersArray.get(i);
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(),intent.getStringExtra("STREAM_AUDIO"),intent.getStringExtra("STREAM_VIDEO"));
+                playerList.put((String) player.get("name"), newPlayer);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createActivity() {
+        Player player = playerList.get(intent.getStringExtra("USERNAME"));
+        Intent intent = new Intent();
+        System.out.println(player.toString());
+        if (player.role.equals("guesser")) {
+            intent = new Intent(GameActivity.this, GameActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("audio")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("video")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "CAM");
+        }
+        intent.putExtra("USERNAME", ""+player.name);
+        intent.putExtra("ROLE", ""+player.role);
+        intent.putExtra("TEAM", ""+player.team);
+        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
+        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
+        intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
+        intent.putExtra("SCORE0",1);
+        intent.putExtra("SCORE1",1);
+
+        startActivity(intent);
     }
 
 
@@ -237,7 +313,17 @@ public class GameActivity extends Activity {
                 result[j++] = letters[i];
             }
         }
-        for (String s : result) createButton(s);
+        int i = 0;
+        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+        LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
+        for (String s : result){
+            i++;
+            if(i >10){
+                createButton(s, buttonLayout2);
+            } else {
+                createButton(s,buttonLayout);
+            }
+        }
     }
 
     //returns array with random capital letters by given number
@@ -254,24 +340,20 @@ public class GameActivity extends Activity {
 
     //creates a new Button in the LinearLayout button_panel in activity_gamescreen_av.xml and sets
     //letter from itself in TextView when clicked
-    public void createButton(String letter) {
-        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+    public void createButton(String letter,LinearLayout buttonLayout) {
         Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
         Button btn = new Button(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.weight = 1.0f;
-        params.width = 0;
-        params.setMargins(1, 1, 1, 1);
-        btn.setLayoutParams(params);
+        params.setMargins(2, 0, 2, 0);
+        //btn.setLayoutParams(params);
         //btn.setBackgroundResource(R.drawable.buttoncolor1);
         btn.setBackgroundColor(Color.parseColor("#0D485C"));
         btn.setText(letter);
         btn.setTag("button_" + letter);
         btn.setTypeface(geoBold);
         btn.setTextColor(Color.parseColor("#ffffff"));
-        btn.setWidth(40);
-        btn.setHeight(40);
         btn.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,9 +361,11 @@ public class GameActivity extends Activity {
                 Button b = (Button) v;
                 String buttonText = b.getText().toString();
                 solutionHolder.addChar(buttonText);
+                myVib.vibrate(50);
             }
         });
-        buttonLayout.addView(btn);
+        btn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        buttonLayout.addView(btn,params);
     }
 
     private void startGame() {
@@ -317,7 +401,7 @@ public class GameActivity extends Activity {
                                     public void call(Object... args) {
                                         _server.emit(Events.GAME_SOLUTION, null);
                                     }
-                                }, GameActivity.this, key);
+                                }, GameActivity.this, key, geoBold);
 
                             }
                         } catch (JSONException e) {
@@ -347,6 +431,8 @@ public class GameActivity extends Activity {
                     }
                 });
 
+
+
                 _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
@@ -368,6 +454,18 @@ public class GameActivity extends Activity {
                     public void call(Object... args) {
 
                         final JSONObject data = (JSONObject) args[0];
+
+                        getPlayerHashMap(data);
+                        createActivity();
+
+
+
+
+
+
+
+
+
                         // just to display it on device for debugging
                         System.out.println("round ended: " + data.toString());
                         runOnUiThread(new Runnable() {

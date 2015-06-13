@@ -322,6 +322,10 @@ public class RoomActivity extends Activity {
         intent.putExtra("TEAM", ""+player.team);
         intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
         intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
+        intent.putExtra("USERNAME",username);
+        intent.putExtra("SCORE0","0");
+        intent.putExtra("SCORE1","0");
+
 
         startActivity(intent);
     }
@@ -370,6 +374,8 @@ public class RoomActivity extends Activity {
             @Override
             public void call(Object... args) {
                 final JSONObject data = (JSONObject) args[0];
+
+
 
                 // just to display it on device for debugging
                 System.out.println("room was switched: " + data.toString());

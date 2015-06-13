@@ -13,7 +13,7 @@
                   android:layout_height="match_parent"
                   android:background="@color/schabuu_blue"
                   android:weightSum="1"
-                  android:visibility="visible"
+                  android:visibility="gone"
                   android:id="@+id/loading_screen"
                   android:longClickable="false">
 
@@ -165,14 +165,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
         android:orientation="horizontal"
         android:id="@+id/solutionLayout"
         android:gravity="center_horizontal"
-        android:weightSum="10"
-        android:background="@color/schabuu_darkgreen" >
+        android:weightSum="12"
+        android:background="@color/schabuu_yellow" >
+
     </LinearLayout>
 
     <LinearLayout
@@ -184,38 +185,41 @@
 
         <LinearLayout
             android:id="@+id/button_panel"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="11"
+            android:gravity="center_vertical">
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonRenew"
-                android:scaleType="center"
-                android:height="40dp"
-                android:width="40dp"
                 android:background="@color/schabuu_green"
-                android:layout_margin="2dp"/>
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="2dp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="0.5">
+            android:layout_weight="0.5"
+            android:weightSum="11"
+            android:id="@+id/button_panel2"
+            android:gravity="center_vertical">
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonDelete"
-                android:width="40dp"
-                android:height="40dp"
                 android:background="@color/schabuu_green"
-                android:layout_margin="2dp" />
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="2dp" />
         </LinearLayout>
 
     </LinearLayout>

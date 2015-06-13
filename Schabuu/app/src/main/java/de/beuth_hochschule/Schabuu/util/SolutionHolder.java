@@ -1,8 +1,11 @@
 package de.beuth_hochschule.Schabuu.util;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.Layout;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,24 +25,31 @@ public class SolutionHolder {
     private Activity appContext;
     private int charPointer;
     private Emitter.Listener callback;
+    private LinearLayout layout;
 
-    public SolutionHolder(LinearLayout layout, Emitter.Listener callback, Activity appContext, String solution) {
+    public SolutionHolder(LinearLayout layout, Emitter.Listener callback, Activity appContext, String solution, Typeface geoBold) {
         this.solutionInputHolder = new ArrayList<TextView>();
         this.solution = solution;
         this.lengthOfSolution = solution.length();
         this.appContext = appContext;
         this.charPointer = 0;
+        this.layout = layout;
         SolutionHolder self = this;
         this.callback = callback;
         for (int i = 0; i < this.lengthOfSolution; i++) {
             TextView textView = new TextView(new ContextThemeWrapper(self.appContext, R.style.input_solution));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             params.weight = 1.0f;
             params.width = 0;
             params.setMargins(10, 5, 10, 5);
             textView.setLayoutParams(params);
             textView.setBackgroundResource(R.color.schabuu_white);
+            textView.setTypeface(geoBold);
+            textView.setTextSize(20);
+            textView.setAlpha(0.7f);
+            textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            textView.setTextColor(Color.parseColor("#474569"));
             self.solutionInputHolder.add(textView);
         }
         this.appendToView(layout);
@@ -66,10 +76,14 @@ public class SolutionHolder {
 
     public void deleteChar() {
         this.charPointer--;
+        if (this.charPointer < 0) {
+            this.charPointer = 0;
+        }
         if (this.charPointer >= 0) {
             TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
             currentTextView.setText("");
         }
+        isSolved();
     }
 
     public void deleteWord() {
@@ -78,6 +92,7 @@ public class SolutionHolder {
             currentTextView.setText("");
         }
         this.charPointer = 0;
+        isSolved();
     }
 
     private String buildSolution() {
@@ -91,6 +106,28 @@ public class SolutionHolder {
 
     private boolean isSolved() {
         System.out.println(this.solution.toLowerCase() + " : " + this.buildSolution().toLowerCase());
+        if(this.buildSolution().equals(solution)){
+            int childcount = layout.getChildCount();
+            for (int i=0; i < childcount; i++){
+                TextView v = (TextView) layout.getChildAt(i);
+                v.setTextColor(Color.parseColor("#699D7E"));
+                layout.setBackgroundColor(Color.parseColor("#699D7E"));
+            }
+        } else if (this.buildSolution().length() == solution.length()){
+            int childcount = layout.getChildCount();
+            for (int i=0; i < childcount; i++){
+                TextView v = (TextView) layout.getChildAt(i);
+                v.setTextColor(Color.parseColor("#ff6666"));
+                layout.setBackgroundColor(Color.parseColor("#ff6666"));
+            }
+        } else if (this.buildSolution().length() < solution.length()){
+            int childcount = layout.getChildCount();
+            for (int i=0; i < childcount; i++){
+                TextView v = (TextView) layout.getChildAt(i);
+                v.setTextColor(Color.parseColor("#474569"));
+                layout.setBackgroundColor(Color.parseColor("#474569"));
+            }
+        }
         return this.solution.toLowerCase().equals(this.buildSolution().toLowerCase());
     }
 
