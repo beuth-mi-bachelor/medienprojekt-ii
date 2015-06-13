@@ -20,12 +20,12 @@ import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
 public class GameEndActivity extends Activity {
 
-    private TextView winnerIs;
     private TextView winnerTeam;
     private TextView scoreOne;
     private TextView scoreTwo;
     private TextView trophySmall;
     private TextView trophyBig;
+    private TextView winnerIs;
     private Button endButton;
     private Typeface awesome;
     private Intent intent;
@@ -45,12 +45,13 @@ public class GameEndActivity extends Activity {
         setContentView(R.layout.activity_game_end);
 
         winnerIs = (TextView) findViewById(R.id.winnerIs);
+
         winnerTeam = (TextView) findViewById(R.id.teamWin);
         scoreOne = (TextView) findViewById(R.id.scoreOne);
         scoreTwo = (TextView) findViewById(R.id.scoreTwo);
         trophySmall = (TextView) findViewById(R.id.smallTrophy);
         trophyBig = (TextView) findViewById(R.id.bigTrophy);
-        endButton = (Button) findViewById(R.id.button_end);
+        endButton = (Button) findViewById(R.id.button_end_game);
 
         winnerIs.setTypeface(geoBold);
         winnerTeam.setTypeface(geoBold);
@@ -75,10 +76,8 @@ public class GameEndActivity extends Activity {
         endButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
 
         winnerTeam.setText(intent.getStringExtra("WINNER_TEAM"));
-        System.out.println(intent.getStringExtra("SCORE_1"));
         scoreOne.append(intent.getStringExtra("SCORE_1"));
         scoreTwo.append(intent.getStringExtra("SCORE_2"));
-        winnerIs.setText(intent.getStringExtra("WINNER_TEAM"));
 
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,24 +85,10 @@ public class GameEndActivity extends Activity {
                 _server.goBackToLobby(new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
-                        final JSONObject data = (JSONObject) args[0];
 
-                        // just to display it on device for debugging
-                        System.out.println("room was switched: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
-                                _server.goBackToLobby(new Emitter.Listener() {
-                                    @Override
-                                    public void call(Object... args) {
-                                        goBackToMain();
-                                    }
-                                });
-                            }
-                        });
                     }
                 });
+                goBackToMain();
             }
         });
     }
@@ -126,16 +111,7 @@ public class GameEndActivity extends Activity {
         _server.goBackToLobby(new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JSONObject data = (JSONObject) args[0];
-
-                // just to display it on device for debugging
-                System.out.println("room was switched: " + data.toString());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                goBackToMain();
             }
         });
     }

@@ -150,7 +150,7 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-        //getLetters("KATZE",20);
+
         createLoadingScreen();
         setTimeOut();
 
