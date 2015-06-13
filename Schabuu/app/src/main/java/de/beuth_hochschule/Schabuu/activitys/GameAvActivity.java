@@ -104,7 +104,6 @@ public class GameAvActivity extends Activity {
 
          time_left = (TextView) findViewById(R.id.time_left);
          solution = (TextView) findViewById(R.id.loesungswort);
-        TextView player_name = (TextView) findViewById(R.id.player_name);
 
         word_one.setTypeface(geoBold);
         word_two.setTypeface(geoBold);
@@ -116,9 +115,6 @@ public class GameAvActivity extends Activity {
         score2.setTypeface(geoBold);
         time_left.setTypeface(geoBold);
         solution.setTypeface(geoBold);
-        player_name.setTypeface(geoBold);
-
-        player_name.setAlpha(0.5f);
 
         word_one.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         word_two.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));

@@ -89,14 +89,12 @@ public class GameActivity extends Activity {
         score2.setText(intent.getStringExtra("SCORE1"));
 
          time_left = (TextView) findViewById(R.id.time_left);
-        TextView player_name = (TextView) findViewById(R.id.player_name);
         Button buttonDelete = (Button) findViewById(R.id.buttonDelete);
         Button buttonRenew = (Button) findViewById(R.id.buttonRenew);
 
         score1.setTypeface(geoBold);
         score2.setTypeface(geoBold);
         time_left.setTypeface(geoBold);
-        player_name.setTypeface(geoBold);
 
         buttonDelete.setTypeface(awesome);
         buttonRenew.setTypeface(awesome);
@@ -113,7 +111,6 @@ public class GameActivity extends Activity {
         buttonDelete.setTextColor(Color.parseColor("#ffffff"));
         buttonRenew.setTextColor(Color.parseColor("#ffffff"));
 
-        player_name.setAlpha(0.5f);
 
         score1.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         score2.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
