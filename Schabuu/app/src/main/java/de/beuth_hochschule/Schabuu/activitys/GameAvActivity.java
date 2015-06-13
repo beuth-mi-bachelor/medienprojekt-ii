@@ -103,7 +103,6 @@ public class GameAvActivity extends Activity {
 
          time_left = (TextView) findViewById(R.id.time_left);
          solution = (TextView) findViewById(R.id.loesungswort);
-        TextView player_name = (TextView) findViewById(R.id.player_name);
 
         word_one.setTypeface(geoBold);
         word_two.setTypeface(geoBold);
@@ -115,9 +114,6 @@ public class GameAvActivity extends Activity {
         score2.setTypeface(geoBold);
         time_left.setTypeface(geoBold);
         solution.setTypeface(geoBold);
-        player_name.setTypeface(geoBold);
-
-        player_name.setAlpha(0.5f);
 
         word_one.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         word_two.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -137,8 +133,11 @@ public class GameAvActivity extends Activity {
         //setTimeOut();
 
 
-        startGame();
-
+        if(intent.getStringExtra("FIRSTROUND").equals("YES")){
+            startGame();
+        }else{
+            startNewRound();
+        }
         /*
 
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));
@@ -250,12 +249,19 @@ public class GameAvActivity extends Activity {
                 playerList.put((String) player.get("name"), newPlayer);
             }
 
+            JSONObject scores = (JSONObject) data.get("score");
+            String score1 = scores.getString("0");
+            String score2 = scores.getString("1");
+
+            createActivity(score1,score2);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void createActivity() {
+    private void createActivity(String score1,String score2) {
         Player player = playerList.get(intent.getStringExtra("USERNAME"));
         Intent intent = new Intent();
         System.out.println(player.toString());
@@ -277,10 +283,67 @@ public class GameAvActivity extends Activity {
         intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
         intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
         intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
-        intent.putExtra("SCORE0",1);
-        intent.putExtra("SCORE1",1);
+        intent.putExtra("SCORE0",score1);
+        intent.putExtra("SCORE1",score2);
+
+        intent.putExtra("FIRSTROUND","NO");
 
         startActivity(intent);
+    }
+    private  void startNewRound(){
+        _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject gameData = (JSONObject) args[0];
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject words = (JSONObject) gameData.get("word");
+                            System.out.println(words);
+                            Iterator<?> keys = words.keys();
+
+                            while (keys.hasNext()) {
+                                String key = (String) keys.next();
+                                JSONArray names = (JSONArray) words.get(key);
+
+                                System.out.println(key);
+                                System.out.println(names.toString());
+                                solution.setText(key);
+                                for (int i = 0; i < views.size(); i++) {
+                                    views.get(i).setText(names.getString(i));
+                                }
+                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+        _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject data = (JSONObject) args[0];
+                // just to display it on device for debugging
+                System.out.println("gametime is: " + data.toString());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            time_left.setText(data.get("time").toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
     }
 
     private void startGame() {
@@ -313,7 +376,7 @@ public class GameAvActivity extends Activity {
                                 System.out.println(names.toString());
                                 solution.setText(key);
                                 for (int i = 0; i < views.size(); i++) {
-                                    views.get(i).setText(names.getInt(i));
+                                    views.get(i).setText(names.getString(i));
                                 }
 
                             }
@@ -367,7 +430,6 @@ public class GameAvActivity extends Activity {
                         final JSONObject data = (JSONObject) args[0];
 
                         getPlayerHashMap(data);
-                        createActivity();
 
                         // just to display it on device for debugging
                         System.out.println("round ended: " + data.toString());
@@ -377,6 +439,10 @@ public class GameAvActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
+                        _server.removeListener(Events.GAME_ROUND_START);
+                        _server.removeListener(Events.GAME_ROUND_END);
+                        _server.removeListener(Events.GAME_UPDATE);
+
                     }
                 });
 
@@ -389,6 +455,7 @@ public class GameAvActivity extends Activity {
                         _server.removeListener(Events.GAME_END);
                         // just to display it on device for debugging
                         System.out.println("game has ended");
+                        showEndGameScreen();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -404,6 +471,9 @@ public class GameAvActivity extends Activity {
 
     }
 
+    public void showEndGameScreen() {
+        startActivity(new Intent(GameAvActivity.this, GameEndActivity.class));
+    }
     
 
 

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -46,11 +48,11 @@ public class GameActivity extends Activity {
     private TextView teamTextView;
     private TextView iconView;
     private LinearLayout loadingBackground;
-
+    private Vibrator myVib;
     private Intent intent;
     private Typeface awesome;
     TextView time_left;
-
+    private Typeface geoBold;
     private static final String LOG_TAG = "GameActivity";
 
     private ServerConnector _server;
@@ -63,7 +65,8 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
          awesome = Typeface.createFromAsset(getAssets(), "font/fontello.ttf");
 
         _server = ServerConnectorImplementation.getInstance();
@@ -84,14 +87,12 @@ public class GameActivity extends Activity {
         score2.setText(intent.getStringExtra("SCORE1"));
 
          time_left = (TextView) findViewById(R.id.time_left);
-        TextView player_name = (TextView) findViewById(R.id.player_name);
         Button buttonDelete = (Button) findViewById(R.id.buttonDelete);
         Button buttonRenew = (Button) findViewById(R.id.buttonRenew);
 
         score1.setTypeface(geoBold);
         score2.setTypeface(geoBold);
         time_left.setTypeface(geoBold);
-        player_name.setTypeface(geoBold);
 
         buttonDelete.setTypeface(awesome);
         buttonRenew.setTypeface(awesome);
@@ -99,7 +100,7 @@ public class GameActivity extends Activity {
         buttonDelete.setText("\ue80d");
         buttonRenew.setText("\ue80f");
 
-        buttonDelete.setTextSize(36);
+        buttonDelete.setTextSize(34);
         buttonRenew.setTextSize(36);
 
         buttonDelete.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -108,7 +109,6 @@ public class GameActivity extends Activity {
         buttonDelete.setTextColor(Color.parseColor("#ffffff"));
         buttonRenew.setTextColor(Color.parseColor("#ffffff"));
 
-        player_name.setAlpha(0.5f);
 
         score1.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         score2.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -125,6 +125,7 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteChar();
+                myVib.vibrate(50);
             }
         });
 
@@ -133,6 +134,7 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteWord();
+                myVib.vibrate(50);
             }
         });
 
@@ -148,11 +150,15 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-
+        //getLetters("KATZE",20);
         createLoadingScreen();
         //setTimeOut();
 
-        startGame();
+        if(intent.getStringExtra("FIRSTROUND").equals("YES")){
+            startGame();
+        }else{
+            startNewRound();
+        }
     }
 
     private void createLoadingScreen() {
@@ -181,11 +187,14 @@ public class GameActivity extends Activity {
         iconView.setText("\uf11c");
 
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
+
         if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
+
+
 
         runOnUiThread(new Runnable() {
             @Override
@@ -207,38 +216,19 @@ public class GameActivity extends Activity {
                 playerList.put((String) player.get("name"), newPlayer);
             }
 
+            JSONObject scores = (JSONObject) data.get("score");
+            String score1 = scores.getString("0");
+            String score2 = scores.getString("1");
+
+            createActivity(score1,score2);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void createActivity() {
-        Player player = playerList.get(intent.getStringExtra("USERNAME"));
-        Intent intent = new Intent();
-        System.out.println(player.toString());
-        if (player.role.equals("guesser")) {
-            intent = new Intent(GameActivity.this, GameActivity.class);
-            intent.putExtra("MODE", "AUDIO");
-        }
-        if (player.role.equals("audio")) {
-            intent = new Intent(GameActivity.this, GameAvActivity.class);
-            intent.putExtra("MODE", "AUDIO");
-        }
-        if (player.role.equals("video")) {
-            intent = new Intent(GameActivity.this, GameAvActivity.class);
-            intent.putExtra("MODE", "CAM");
-        }
-        intent.putExtra("USERNAME", ""+player.name);
-        intent.putExtra("ROLE", ""+player.role);
-        intent.putExtra("TEAM", ""+player.team);
-        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
-        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
-        intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
-        intent.putExtra("SCORE0",1);
-        intent.putExtra("SCORE1",1);
 
-        startActivity(intent);
-    }
 
 
     @Override
@@ -278,6 +268,7 @@ public class GameActivity extends Activity {
     //gets the word to be described and the maximum number of the buttons to be shown
     //creates then a new button in our game screen layout guesser
     public void getLetters(String word, int numberOfMaximumLetters) {
+
         String[] letters = new String[word.length()];
         for (int i = 0; i < word.length(); i++) {
             letters[i] = Character.toString(word.charAt(i));
@@ -293,7 +284,22 @@ public class GameActivity extends Activity {
                 result[j++] = letters[i];
             }
         }
-        for (String s : result) createButton(s);
+        int i = 0;
+        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+        LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
+        buttonLayout.removeAllViews();
+        buttonLayout2.removeAllViews();
+        buttonLayout.addView(findViewById(R.id.buttonRenew));
+        buttonLayout2.addView(findViewById(R.id.buttonDelete));
+
+        for (String s : result){
+            i++;
+            if(i >8){
+                createButton(s, buttonLayout2);
+            } else {
+                createButton(s,buttonLayout);
+            }
+        }
     }
 
     //returns array with random capital letters by given number
@@ -310,24 +316,20 @@ public class GameActivity extends Activity {
 
     //creates a new Button in the LinearLayout button_panel in activity_gamescreen_av.xml and sets
     //letter from itself in TextView when clicked
-    public void createButton(String letter) {
-        LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
+    public void createButton(String letter,LinearLayout buttonLayout) {
         Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
         Button btn = new Button(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.weight = 1.0f;
-        params.width = 0;
-        params.setMargins(1, 1, 1, 1);
-        btn.setLayoutParams(params);
+        params.setMargins(2, 0, 2, 0);
+        //btn.setLayoutParams(params);
         //btn.setBackgroundResource(R.drawable.buttoncolor1);
         btn.setBackgroundColor(Color.parseColor("#0D485C"));
         btn.setText(letter);
         btn.setTag("button_" + letter);
         btn.setTypeface(geoBold);
         btn.setTextColor(Color.parseColor("#ffffff"));
-        btn.setWidth(40);
-        btn.setHeight(40);
         btn.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,9 +337,107 @@ public class GameActivity extends Activity {
                 Button b = (Button) v;
                 String buttonText = b.getText().toString();
                 solutionHolder.addChar(buttonText);
+                myVib.vibrate(50);
             }
         });
-        buttonLayout.addView(btn);
+        btn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        buttonLayout.addView(btn,params);
+    }
+
+
+
+    private void createActivity(String score1,String score2) {
+        Player player = playerList.get(intent.getStringExtra("USERNAME"));
+        Intent intent = new Intent();
+        System.out.println(player.toString());
+        if (player.role.equals("guesser")) {
+            intent = new Intent(GameActivity.this, GameActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("audio")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("video")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "CAM");
+        }
+        intent.putExtra("USERNAME", ""+player.name);
+        intent.putExtra("ROLE", ""+player.role);
+        intent.putExtra("TEAM", ""+player.team);
+        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
+        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
+        intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
+        intent.putExtra("SCORE0",score1);
+        intent.putExtra("SCORE1",score2);
+
+        intent.putExtra("FIRSTROUND","NO");
+
+        startActivity(intent);
+    }
+
+    private  void startNewRound(){
+        _server.addListener(Events.GAME_ROUND_START,new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject gameData = (JSONObject) args[0];
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject words = (JSONObject) gameData.get("word");
+                            System.out.println(words);
+                            Iterator<?> keys = words.keys();
+
+                            while( keys.hasNext() ) {
+                                String key = (String)keys.next();
+                                JSONArray names = (JSONArray) words.get(key);
+                                System.out.println(key);
+                                System.out.println(names.toString());
+
+                                getLetters(key,16);
+
+                                LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+                                solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+                                    @Override
+                                    public void call(Object... args) {
+                                        _server.emit(Events.GAME_SOLUTION, null);
+                                    }
+                                }, GameActivity.this, key, geoBold);
+
+                            }
+                        } catch (JSONException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                });
+
+            }
+        });
+        _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject data = (JSONObject) args[0];
+                // just to display it on device for debugging
+                System.out.println("gametime is: " + data.toString());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            time_left.setText(data.get("time").toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
+
+
     }
 
     private void startGame() {
@@ -365,7 +465,7 @@ public class GameActivity extends Activity {
                                 System.out.println(key);
                                 System.out.println(names.toString());
 
-                                getLetters(key,20);
+                                getLetters(key,16);
 
                                 LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
                                 solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
@@ -373,7 +473,7 @@ public class GameActivity extends Activity {
                                     public void call(Object... args) {
                                         _server.emit(Events.GAME_SOLUTION, null);
                                     }
-                                }, GameActivity.this, key);
+                                }, GameActivity.this, key, geoBold);
 
                             }
                         } catch (JSONException e) {
@@ -428,15 +528,6 @@ public class GameActivity extends Activity {
                         final JSONObject data = (JSONObject) args[0];
 
                         getPlayerHashMap(data);
-                        createActivity();
-
-
-
-
-
-
-
-
 
                         // just to display it on device for debugging
                         System.out.println("round ended: " + data.toString());
@@ -446,6 +537,9 @@ public class GameActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
+                        _server.removeListener(Events.GAME_ROUND_START);
+                        _server.removeListener(Events.GAME_ROUND_END);
+                        _server.removeListener(Events.GAME_UPDATE);
                     }
                 });
 
@@ -457,6 +551,7 @@ public class GameActivity extends Activity {
                         _server.removeListener(Events.GAME_ROUND_START);
                         _server.removeListener(Events.GAME_END);
                         // just to display it on device for debugging
+                        showEndGameScreen();
                         System.out.println("game has ended");
                         runOnUiThread(new Runnable() {
                             @Override
@@ -470,6 +565,8 @@ public class GameActivity extends Activity {
 
             }
         });
-
+    }
+    public void showEndGameScreen() {
+        startActivity(new Intent(GameActivity.this, GameEndActivity.class));
     }
 }

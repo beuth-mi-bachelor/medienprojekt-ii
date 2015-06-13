@@ -79,5 +79,9 @@
     <string name="play_alon">Play</string>
     <string name="title_activity_game_end">GameEnd</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="scoreOne" />
+    <string name="scoreTwo" />
+    <string name="Winner">Gewonnen hat</string>
+    <string name="TeamWin" />
+    <string name="buttonEnd">Beenden</string>
 </resources>

@@ -1,39 +1,147 @@
 package de.beuth_hochschule.Schabuu.activitys;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.nkzawa.emitter.Emitter;
+
+import org.json.JSONObject;
 
 import de.beuth_hochschule.Schabuu.R;
+import de.beuth_hochschule.Schabuu.data.ServerConnector;
+import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 
 public class GameEndActivity extends Activity {
+
+    private TextView winnerIs;
+    private TextView winnerTeam;
+    private TextView scoreOne;
+    private TextView scoreTwo;
+    private TextView trophySmall;
+    private TextView trophyBig;
+    private Button endButton;
+    private Typeface awesome;
+    private Intent intent;
+
+    private ServerConnector _server;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _server = ServerConnectorImplementation.getInstance();
+
+        intent = getIntent();
+
+        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        awesome = Typeface.createFromAsset(getAssets(), "font/font_awesome/FontAwesome.otf");
+
         setContentView(R.layout.activity_game_end);
+
+        winnerIs = (TextView) findViewById(R.id.winnerIs);
+        winnerTeam = (TextView) findViewById(R.id.teamWin);
+        scoreOne = (TextView) findViewById(R.id.scoreOne);
+        scoreTwo = (TextView) findViewById(R.id.scoreTwo);
+        trophySmall = (TextView) findViewById(R.id.smallTrophy);
+        trophyBig = (TextView) findViewById(R.id.bigTrophy);
+        endButton = (Button) findViewById(R.id.button_end);
+
+        winnerIs.setTypeface(geoBold);
+        winnerTeam.setTypeface(geoBold);
+        scoreOne.setTypeface(geoBold);
+        scoreTwo.setTypeface(geoBold);
+        trophySmall.setTypeface(awesome);
+        trophyBig.setTypeface(awesome);
+        endButton.setTypeface(geoBold);
+
+        scoreOne.setText("Score \n");
+        scoreTwo.setText("Score \n");
+        trophySmall.setText("\uf091");
+        trophyBig.setText("\uf091");
+        winnerTeam.setText("");
+
+        winnerIs.setTextSize(40);
+        scoreOne.setTextSize(20);
+        scoreTwo.setTextSize(20);
+        trophySmall.setTextSize(70);
+        trophyBig.setTextSize(100);
+
+        endButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
+
+        winnerTeam.setText(intent.getStringExtra("WINNER_TEAM"));
+        //scoreOne.append(intent.getStringExtra("SCORE_1"));
+        //scoreTwo.append(intent.getStringExtra("SCORE_2"));
+        scoreOne.append("10");
+        scoreTwo.append("30");
+
+        endButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _server.goBackToLobby(new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+
+                        // just to display it on device for debugging
+                        System.out.println("room was switched: " + data.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                                _server.goBackToLobby(new Emitter.Listener() {
+                                    @Override
+                                    public void call(Object... args) {
+                                        goBackToMain();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    private void goBackToMain() {
+        Intent intent = new Intent(GameEndActivity.this, MainMenuActivity.class);
+        startActivity(intent);
+        GameEndActivity.this.finish();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_game_end, menu);
-        return true;
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+        _server.setPlayerInActive();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void onBackPressed() {
+        super.onBackPressed();  // Always call the superclass method first
+        _server.goBackToLobby(new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject data = (JSONObject) args[0];
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+                // just to display it on device for debugging
+                System.out.println("room was switched: " + data.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
+
 }
