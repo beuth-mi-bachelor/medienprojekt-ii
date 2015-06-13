@@ -104,7 +104,7 @@ public class GameActivity extends Activity {
         buttonDelete.setText("\ue80d");
         buttonRenew.setText("\ue80f");
 
-        buttonDelete.setTextSize(32);
+        buttonDelete.setTextSize(34);
         buttonRenew.setTextSize(36);
 
         buttonDelete.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -204,7 +204,7 @@ public class GameActivity extends Activity {
                 _server.emit(Events.GAME_SOLUTION, null);
             }
         }, GameActivity.this, "HAUS", geoBold);
-        getLetters("HAUS",20);
+        getLetters("HAUS",16);
         /* DELETE AFTER IT */
 
         runOnUiThread(new Runnable() {
@@ -318,7 +318,7 @@ public class GameActivity extends Activity {
         LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
         for (String s : result){
             i++;
-            if(i >10){
+            if(i >8){
                 createButton(s, buttonLayout2);
             } else {
                 createButton(s,buttonLayout);

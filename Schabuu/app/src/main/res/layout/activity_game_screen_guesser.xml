@@ -189,8 +189,9 @@
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:orientation="horizontal"
-            android:weightSum="11"
-            android:gravity="center_vertical">
+            android:weightSum="9"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_gravity="center">
 
             <Button
                 android:layout_width="0dp"
@@ -199,7 +200,7 @@
                 android:background="@color/schabuu_green"
                 android:layout_weight="1"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="2dp" />
+                android:layout_marginRight="26dp" />
 
         </LinearLayout>
 
@@ -208,9 +209,10 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.5"
-            android:weightSum="11"
+            android:weightSum="9"
             android:id="@+id/button_panel2"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_gravity="center">
 
             <Button
                 android:layout_width="0dp"
@@ -219,7 +221,7 @@
                 android:background="@color/schabuu_green"
                 android:layout_weight="1"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="2dp" />
+                android:layout_marginRight="30dp" />
         </LinearLayout>
 
     </LinearLayout>
