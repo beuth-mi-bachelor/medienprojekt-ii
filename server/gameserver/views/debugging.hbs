@@ -66,6 +66,20 @@
                 <li>Video: {{this.streamNames.video}}</li>
                 <li>Audio: {{this.streamNames.audio}}</li>
                 <li>Time between rounds: {{this.timeOutBetweenRounds}}</li>
+                <li>Score:
+                    <ul>
+                        {{#each this.score}}
+                            {{@key}}: {{this}}
+                        {{/each}}
+                    </ul>
+                </li>
+                <li>Points:
+                    <ul>
+                        {{#each this.score}}
+                            <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </li>
                 <li> Players:
                     <ul>
                         {{#each this.players}}

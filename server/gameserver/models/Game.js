@@ -30,9 +30,9 @@ function Game(server, room, rounds, time) {
     this.server = server;
     this.rounds = rounds || 4;
     this.currentRound = 1;
-    this.time = time || 5;
+    this.time = time || 60;
     this.currentTime = this.time;
-    this.timeOutBetweenRounds = 3;
+    this.timeOutBetweenRounds = 8;
     this.room = room.name;
     this.score = {
         0: 0,
@@ -106,8 +106,6 @@ Game.prototype.startGame = function() {
  * starts a round with this.time time
  */
 Game.prototype.startRound = function() {
-    console.log("round started now");
-
     var self = this;
     if (this.currentRound != 1) {
         this.currentWord = Game.getDataset();
@@ -169,7 +167,6 @@ Game.prototype.endRound = function(winner) {
         this.endGame();
     } else {
         this.currentRound += 1;
-        console.log("timeout is calling" + this.timeOutBetweenRounds * 1000);
         setTimeout(this.startRound.bind(this), this.timeOutBetweenRounds * 1000);
     }
 
@@ -194,7 +191,6 @@ Game.prototype.endGame = function() {
         score: this.score
     });
     delete Game.games[this.room];
-    console.log("game ended");
 };
 
 /**

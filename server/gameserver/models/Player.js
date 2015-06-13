@@ -91,7 +91,6 @@
             room = new Room(this.server, roomName);
         }
         if (room.isFull()) {
-            console.log("room was full");
             client.emit("room_full", room);
             return;
         }
