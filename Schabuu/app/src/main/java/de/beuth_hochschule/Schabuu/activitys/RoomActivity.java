@@ -276,7 +276,7 @@ public class RoomActivity extends Activity {
 
             for (int i=0; i < playersArray.length(); i++) {
                 JSONObject player = (JSONObject) playersArray.get(i);
-                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(),"test","test");
+                Player newPlayer = new Player((String) player.get("name"), (String) player.get("role"), player.get("team").toString(), streamAudio, streamVideo);
                 playerList.put((String) player.get("name"), newPlayer);
             }
 
