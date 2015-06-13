@@ -30,7 +30,7 @@ function Game(server, room, rounds, time) {
     this.server = server;
     this.rounds = rounds || 4;
     this.currentRound = 1;
-    this.time = time || 60;
+    this.time = time || 5;
     this.currentTime = this.time;
     this.timeOutBetweenRounds = 8;
     this.room = room.name;
@@ -141,7 +141,7 @@ Game.prototype.endRound = function(winner) {
         setRole(self.players[i], i, self.currentRound);
     }
 
-    if (!winner) {
+    if (winner === true) {
         this.points.push({0: 5, 1: 5});
         this.score[0] += 5;
         this.score[1] += 5;
