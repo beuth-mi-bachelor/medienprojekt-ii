@@ -76,9 +76,6 @@ public class RoomActivity extends Activity {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
-
-                        // just to display it on device for debugging
-                        System.out.println("room was switched: " + data.toString());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -175,8 +172,6 @@ public class RoomActivity extends Activity {
             e.printStackTrace();
         }
 
-        // just to display it on device for debugging
-        System.out.println("room updated: " + data.toString());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -237,10 +232,8 @@ public class RoomActivity extends Activity {
     }
 
     private void createActivity() {
-        System.out.println("ALLE DAAAAA");
         Player player = playerList.get(username);
         Intent intent = new Intent();
-        System.out.println(player.toString());
         if (player.role.equals("guesser")) {
             intent = new Intent(RoomActivity.this, GameActivity.class);
             intent.putExtra("MODE", "AUDIO");
@@ -271,7 +264,6 @@ public class RoomActivity extends Activity {
     private void getPlayerHashMap(JSONObject data) {
         playerList = new HashMap<String, Player>();
         try {
-            System.out.println("PPPPPPPPPPPPP" + data.toString());
             final JSONObject game = (JSONObject) data.get("game");
             final JSONArray playersArray = (JSONArray) game.get("players");
 

@@ -140,8 +140,8 @@ public class GameAvActivity extends Activity {
         }
         /*
 
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!STREAM"+intent.getStringExtra("STREAM_VIDEO"));
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AUDIO"+intent.getStringExtra("STREAM_AUDIO"));
+        System.out.println("STREAM"+intent.getStringExtra("STREAM_VIDEO"));
+        System.out.println("AUDIO"+intent.getStringExtra("STREAM_AUDIO"));
        if(intent.getStringExtra("MODE").equals("CAM")){
            utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_VIDEO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext(),false);
            utils.toggleStreaming();
@@ -233,7 +233,6 @@ public class GameAvActivity extends Activity {
     private void getPlayerHashMap(JSONObject data) {
         playerList = new HashMap<String, Player>();
         try {
-            System.out.println("PPPPPPPPPPPPP" + data.toString());
 
             final JSONArray playersArray = (JSONArray) data.get("players");
             for (int i=0; i < playersArray.length(); i++) {
@@ -257,7 +256,6 @@ public class GameAvActivity extends Activity {
     private void createActivity(String score1,String score2) {
         Player player = playerList.get(intent.getStringExtra("USERNAME"));
         Intent intent = new Intent();
-        System.out.println(player.toString());
         if (player.role.equals("guesser")) {
             intent = new Intent(GameAvActivity.this, GameActivity.class);
             intent.putExtra("MODE", "AUDIO");
@@ -292,18 +290,14 @@ public class GameAvActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject words = (JSONObject) gameData.get("word");
-                            System.out.println(words);
                             Iterator<?> keys = words.keys();
 
                             while (keys.hasNext()) {
                                 String key = (String) keys.next();
                                 JSONArray names = (JSONArray) words.get(key);
 
-                                System.out.println(key);
-                                System.out.println(names.toString());
                                 solution.setText(key);
                                 for (int i = 0; i < views.size(); i++) {
                                     views.get(i).setText(names.getString(i));
@@ -321,9 +315,6 @@ public class GameAvActivity extends Activity {
             @Override
             public void call(Object... args) {
                 final JSONObject data = (JSONObject) args[0];
-                // just to display it on device for debugging
-                System.out.println("gametime is: " + data.toString());
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -339,19 +330,8 @@ public class GameAvActivity extends Activity {
         _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-
                 final JSONObject data = (JSONObject) args[0];
-
                 getPlayerHashMap(data);
-
-                // just to display it on device for debugging
-                System.out.println("round ended: " + data.toString());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
                 _server.removeListener(Events.GAME_ROUND_START);
                 _server.removeListener(Events.GAME_ROUND_END);
                 _server.removeListener(Events.GAME_UPDATE);
@@ -369,25 +349,17 @@ public class GameAvActivity extends Activity {
 
                 final JSONObject gameData = (JSONObject) args[0];
 
-                // just to display it on device for debugging
-                System.out.println("game started: " + gameData.toString());
-
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject words = (JSONObject) gameData.get("word");
-                            System.out.println(words);
                             Iterator<?> keys = words.keys();
 
                             while (keys.hasNext()) {
                                 String key = (String) keys.next();
                                 JSONArray names = (JSONArray) words.get(key);
 
-                                System.out.println(key);
-                                System.out.println(names.toString());
                                 solution.setText(key);
                                 for (int i = 0; i < views.size(); i++) {
                                     views.get(i).setText(names.getString(i));
@@ -406,8 +378,7 @@ public class GameAvActivity extends Activity {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
-                        // just to display it on device for debugging
-                        System.out.println("gametime is: " + data.toString());
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -424,35 +395,15 @@ public class GameAvActivity extends Activity {
                 _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
-
                         final JSONObject data = (JSONObject) args[0];
-                        // just to display it on device for debugging
-                        System.out.println("next round started: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "next round started: " + data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                 });
 
                 _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
-
                         final JSONObject data = (JSONObject) args[0];
-
                         getPlayerHashMap(data);
-
-                        // just to display it on device for debugging
-                        System.out.println("round ended: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
                         _server.removeListener(Events.GAME_ROUND_START);
                         _server.removeListener(Events.GAME_ROUND_END);
                         _server.removeListener(Events.GAME_UPDATE);
@@ -467,15 +418,7 @@ public class GameAvActivity extends Activity {
                         _server.removeListener(Events.GAME_ROUND_END);
                         _server.removeListener(Events.GAME_ROUND_START);
                         _server.removeListener(Events.GAME_END);
-                        // just to display it on device for debugging
-                        System.out.println("game has ended");
                         showEndGameScreen();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "game has ended", Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                 });
 

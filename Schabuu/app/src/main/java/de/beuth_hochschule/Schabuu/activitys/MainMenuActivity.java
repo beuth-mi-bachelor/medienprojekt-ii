@@ -100,7 +100,6 @@ public class MainMenuActivity extends Activity {
                                     initDone(data);
                                 }
                             });
-                            System.out.println("CONNECTED TO SERVER");
                         }
                     },
                     // callback for connection error
@@ -231,12 +230,10 @@ public class MainMenuActivity extends Activity {
     }
 
     public void initDone(final JSONObject data) {
-        // Only for debugging
-        System.out.println(data.toString());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), "Connected successfully: " + data.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
             }
         });
     }
