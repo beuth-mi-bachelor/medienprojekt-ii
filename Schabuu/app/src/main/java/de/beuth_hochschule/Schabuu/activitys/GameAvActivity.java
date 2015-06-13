@@ -27,7 +27,6 @@ import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
 import de.beuth_hochschule.Schabuu.util.Player;
-import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 import de.beuth_hochschule.Schabuu.util.StreamingUtils;
 
 public class GameAvActivity extends Activity {
@@ -292,7 +291,7 @@ public class GameAvActivity extends Activity {
         startActivity(intent);
     }
     private  void startNewRound(){
-        _server.addListener(Events.GAME_ROUND_START,new Emitter.Listener() {
+        _server.addListener(Events.GAME_ROUND_START, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 final JSONObject gameData = (JSONObject) args[0];
@@ -344,8 +343,6 @@ public class GameAvActivity extends Activity {
                 });
             }
         });
-
-
 
     }
 
@@ -458,6 +455,7 @@ public class GameAvActivity extends Activity {
                         _server.removeListener(Events.GAME_END);
                         // just to display it on device for debugging
                         System.out.println("game has ended");
+                        showEndGameScreen();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -473,6 +471,9 @@ public class GameAvActivity extends Activity {
 
     }
 
+    public void showEndGameScreen() {
+        startActivity(new Intent(GameAvActivity.this, GameEndActivity.class));
+    }
     
 
 
