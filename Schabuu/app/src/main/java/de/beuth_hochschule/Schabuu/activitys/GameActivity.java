@@ -156,7 +156,11 @@ public class GameActivity extends Activity {
         createLoadingScreen();
         //setTimeOut();
 
-        startGame();
+        if(intent.getStringExtra("FIRSTROUND").equals("YES")){
+            startGame();
+        }else{
+            startNewRound();
+        }
     }
 
     private void createLoadingScreen() {
@@ -224,38 +228,19 @@ public class GameActivity extends Activity {
                 playerList.put((String) player.get("name"), newPlayer);
             }
 
+            JSONObject scores = (JSONObject) data.get("score");
+            String score1 = scores.getString("0");
+            String score2 = scores.getString("1");
+
+            createActivity(score1,score2);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void createActivity() {
-        Player player = playerList.get(intent.getStringExtra("USERNAME"));
-        Intent intent = new Intent();
-        System.out.println(player.toString());
-        if (player.role.equals("guesser")) {
-            intent = new Intent(GameActivity.this, GameActivity.class);
-            intent.putExtra("MODE", "AUDIO");
-        }
-        if (player.role.equals("audio")) {
-            intent = new Intent(GameActivity.this, GameAvActivity.class);
-            intent.putExtra("MODE", "AUDIO");
-        }
-        if (player.role.equals("video")) {
-            intent = new Intent(GameActivity.this, GameAvActivity.class);
-            intent.putExtra("MODE", "CAM");
-        }
-        intent.putExtra("USERNAME", ""+player.name);
-        intent.putExtra("ROLE", ""+player.role);
-        intent.putExtra("TEAM", ""+player.team);
-        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
-        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
-        intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
-        intent.putExtra("SCORE0",1);
-        intent.putExtra("SCORE1",1);
 
-        startActivity(intent);
-    }
 
 
     @Override
@@ -365,6 +350,102 @@ public class GameActivity extends Activity {
         buttonLayout.addView(btn,params);
     }
 
+
+
+    private void createActivity(String score1,String score2) {
+        Player player = playerList.get(intent.getStringExtra("USERNAME"));
+        Intent intent = new Intent();
+        System.out.println(player.toString());
+        if (player.role.equals("guesser")) {
+            intent = new Intent(GameActivity.this, GameActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("audio")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "AUDIO");
+        }
+        if (player.role.equals("video")) {
+            intent = new Intent(GameActivity.this, GameAvActivity.class);
+            intent.putExtra("MODE", "CAM");
+        }
+        intent.putExtra("USERNAME", ""+player.name);
+        intent.putExtra("ROLE", ""+player.role);
+        intent.putExtra("TEAM", ""+player.team);
+        intent.putExtra("STREAM_AUDIO", ""+player.streamAudio);
+        intent.putExtra("STREAM_VIDEO", ""+player.streamVideo);
+        intent.putExtra("USERNAME",intent.getStringExtra("USERNAME"));
+        intent.putExtra("SCORE0",score1);
+        intent.putExtra("SCORE1",score2);
+
+        intent.putExtra("FIRSTROUND","NO");
+
+        startActivity(intent);
+    }
+
+    private  void startNewRound(){
+        _server.addListener(Events.GAME_ROUND_START,new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject gameData = (JSONObject) args[0];
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "game started: " + gameData.toString(), Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject words = (JSONObject) gameData.get("word");
+                            System.out.println(words);
+                            Iterator<?> keys = words.keys();
+
+                            while( keys.hasNext() ) {
+                                String key = (String)keys.next();
+                                JSONArray names = (JSONArray) words.get(key);
+                                System.out.println(key);
+                                System.out.println(names.toString());
+
+                                getLetters(key,16);
+
+                                LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+                                solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+                                    @Override
+                                    public void call(Object... args) {
+                                        _server.emit(Events.GAME_SOLUTION, null);
+                                    }
+                                }, GameActivity.this, key, geoBold);
+
+                            }
+                        } catch (JSONException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                });
+
+            }
+        });
+        _server.addListener(Events.GAME_UPDATE, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject data = (JSONObject) args[0];
+                // just to display it on device for debugging
+                System.out.println("gametime is: " + data.toString());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            time_left.setText(data.get("time").toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+    }
+
     private void startGame() {
 
         // here player tells server that he wants to start the game
@@ -390,7 +471,7 @@ public class GameActivity extends Activity {
                                 System.out.println(key);
                                 System.out.println(names.toString());
 
-                                getLetters(key,20);
+                                getLetters(key,16);
 
                                 LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
                                 solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
@@ -453,15 +534,6 @@ public class GameActivity extends Activity {
                         final JSONObject data = (JSONObject) args[0];
 
                         getPlayerHashMap(data);
-                        createActivity();
-
-
-
-
-
-
-
-
 
                         // just to display it on device for debugging
                         System.out.println("round ended: " + data.toString());
@@ -471,6 +543,9 @@ public class GameActivity extends Activity {
                                 Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
+                        _server.removeListener(Events.GAME_ROUND_START);
+                        _server.removeListener(Events.GAME_ROUND_END);
+                        _server.removeListener(Events.GAME_UPDATE);
                     }
                 });
 
