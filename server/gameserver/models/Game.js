@@ -10,9 +10,9 @@ if (!Game.games) {
 Game.roles = ["guesser", "audio", "video"];
 Game.rotationRoles = [
     ["guesser", "audio", "video", "guesser"],
-    ["audio", "guesser", "guesser", "video"],
-    ["guesser", "video", "audio", "guesser"],
-    ["video", "guesser", "guesser", "audio"]
+    ["guesser", "audio", "video", "guesser"],
+    ["guesser", "audio", "video", "guesser"],
+    ["guesser", "audio", "video", "guesser"]
 ];
 Game.team = [0, 1];
 
