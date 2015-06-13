@@ -29,7 +29,9 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
+import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
 import de.beuth_hochschule.Schabuu.util.Player;
+import de.beuth_hochschule.Schabuu.util.RecievingUtils;
 import de.beuth_hochschule.Schabuu.util.SolutionHolder;
 
 public class GameActivity extends Activity {
@@ -59,6 +61,9 @@ public class GameActivity extends Activity {
     private SolutionHolder solutionHolder;
     TextView score1;
     TextView score2;
+
+    RecievingUtils utils;
+    RecievingUtils utils2;
 
     private HashMap<String, Player> playerList;
 
@@ -138,18 +143,18 @@ public class GameActivity extends Activity {
             }
         });
 
-        /*
-        RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_VIDEO"), authUser, authPass);
+
+        utils = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_VIDEO"), authUser, authPass);
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
 
-        RecievingUtils utils2 = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_AUDIO"), authUser, authPass);
-        SurfacePlayerView surfaceView2 = (SurfacePlayerView) findViewById(R.id.view_sound);
-        surfaceView2.getHolder().addCallback(utils.GetPlayer());
+        //utils2 = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_AUDIO"), authUser, authPass);
+        //SurfacePlayerView surfaceView2 = (SurfacePlayerView) findViewById(R.id.view_sound);
+        //surfaceView2.getHolder().addCallback(utils.GetPlayer());
 
         utils.StartPlayer();
-        utils2.StartPlayer();
-        */
+        //utils2.StartPlayer();
+
 
         createLoadingScreen();
         setTimeOut();
@@ -236,6 +241,7 @@ public class GameActivity extends Activity {
     }
 
     public void setTimeOut() {
+
         Thread timerThread = new Thread() {
             public void run() {
                 try {
@@ -243,6 +249,7 @@ public class GameActivity extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
+                    utils.StartPlayer();
                     startGame();
                     runOnUiThread(new Runnable() {
                         @Override
@@ -476,10 +483,10 @@ public class GameActivity extends Activity {
                             JSONObject words = (JSONObject) gameData.get("word");
                             Iterator<?> keys = words.keys();
 
-                            while( keys.hasNext() ) {
-                                String key = (String)keys.next();
+                            while (keys.hasNext()) {
+                                String key = (String) keys.next();
                                 JSONArray names = (JSONArray) words.get(key);
-                                getLetters(key,16);
+                                getLetters(key, 16);
 
                                 LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
                                 solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
@@ -553,12 +560,12 @@ public class GameActivity extends Activity {
         if (Integer.parseInt(score1.getText().toString()) > Integer.parseInt(score2.getText().toString())) {
             intent.putExtra("WINNER_TEAM", "TEAM 0");
             intent.putExtra("SCORE_2",score1.getText().toString());
-            intent.putExtra("SCORE_1",score2.getText().toString());
+            intent.putExtra("SCORE_1", score2.getText().toString());
         }
         else {
             intent.putExtra("WINNER_TEAM", "TEAM 1");
             intent.putExtra("SCORE_1",score2.getText().toString());
-            intent.putExtra("SCORE_2",score1.getText().toString());
+            intent.putExtra("SCORE_2", score1.getText().toString());
         }
 
         startActivity(intent);
