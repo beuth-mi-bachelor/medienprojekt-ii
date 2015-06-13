@@ -5,11 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,10 +75,9 @@ public class GameEndActivity extends Activity {
         endButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
 
         winnerTeam.setText(intent.getStringExtra("WINNER_TEAM"));
-        //scoreOne.append(intent.getStringExtra("SCORE_1"));
-        //scoreTwo.append(intent.getStringExtra("SCORE_2"));
-        scoreOne.append("10");
-        scoreTwo.append("30");
+        scoreOne.append(intent.getStringExtra("SCORE_1"));
+        scoreTwo.append(intent.getStringExtra("SCORE_2"));
+        winnerIs.setText(intent.getStringExtra("WINNER_TEAM"));
 
         endButton.setOnClickListener(new View.OnClickListener() {
             @Override

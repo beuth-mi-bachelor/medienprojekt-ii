@@ -472,7 +472,20 @@ public class GameAvActivity extends Activity {
     }
 
     public void showEndGameScreen() {
-        startActivity(new Intent(GameAvActivity.this, GameEndActivity.class));
+        intent = new Intent(GameAvActivity.this, GameEndActivity.class);
+
+        if (Integer.parseInt(intent.getStringExtra("SCORE0")) > Integer.parseInt(intent.getStringExtra("SCORE1"))) {
+            intent.putExtra("WINNER_TEAM", "TEAM 0");
+            intent.putExtra("SCORE_2",intent.getStringExtra("SCORE0"));
+            intent.putExtra("SCORE_1",intent.getStringExtra("SCORE1"));
+        }
+        else {
+            intent.putExtra("WINNER_TEAM", "TEAM 1");
+            intent.putExtra("SCORE_1",intent.getStringExtra("SCORE0"));
+            intent.putExtra("SCORE_2",intent.getStringExtra("SCORE1"));
+        }
+
+        startActivity(intent);
     }
     
 
