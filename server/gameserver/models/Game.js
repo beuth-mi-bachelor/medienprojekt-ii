@@ -30,7 +30,7 @@ function Game(server, room, rounds, time) {
     this.server = server;
     this.rounds = rounds || 1000000;
     this.currentRound = 1;
-    this.time = time || 60;
+    this.time = time || 600;
     this.currentTime = this.time;
     this.timeOutBetweenRounds = 8;
     this.room = room.name;
@@ -40,8 +40,8 @@ function Game(server, room, rounds, time) {
     };
     this.points = [];
     this.streamNames = {
-        audio: this.room + "-audio",
-        video: this.room + "-video"
+        audio: "testaudio",
+        video: "test"
     };
     this.currentWord = Game.getDataset();
     var self = this;
@@ -119,7 +119,8 @@ Game.prototype.startRound = function() {
     this.interval = setInterval(function() {
         self.currentTime -= 1;
         self.server.emit("emitToRoom", self.room, 'game_update', {
-            time: self.currentTime
+            time: self.currentTime,
+            word: self.currentWord
         });
         if (self.currentTime <= 0) {
             self.endRound(true);
