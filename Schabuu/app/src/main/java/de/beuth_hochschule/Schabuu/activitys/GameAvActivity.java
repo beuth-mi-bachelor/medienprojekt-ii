@@ -491,10 +491,12 @@ public class GameAvActivity extends Activity {
         if (Integer.parseInt(score1.getText().toString()) > Integer.parseInt(score2.getText().toString())) {
             intent.putExtra("WINNER_TEAM", "TEAM 0");
             intent.putExtra("SCORE_2",score1.getText().toString());
+            System.out.println("ASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD"+score1.getText().toString());
             intent.putExtra("SCORE_1",score2.getText().toString());
         }
         else {
             intent.putExtra("WINNER_TEAM", "TEAM 1");
+            System.out.println("ASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD"+score1.getText().toString());
             intent.putExtra("SCORE_1",score2.getText().toString());
             intent.putExtra("SCORE_2",score1.getText().toString());
         }

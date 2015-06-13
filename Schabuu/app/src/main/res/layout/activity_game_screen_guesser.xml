@@ -13,7 +13,7 @@
                   android:layout_height="match_parent"
                   android:background="@color/schabuu_blue"
                   android:weightSum="1"
-                  android:visibility="visible"
+                  android:visibility="gone"
                   android:id="@+id/loading_screen"
                   android:longClickable="false">
 
@@ -162,24 +162,6 @@
         android:background="@color/schabuu_green"
         android:visibility="visible">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/buttonRenew"
-            android:background="@color/schabuu_green"
-            android:layout_weight="1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="26dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/buttonDelete"
-            android:background="@color/schabuu_green"
-            android:layout_weight="1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="30dp" />
-
         <LinearLayout
             android:id="@+id/button_panel"
             android:layout_width="wrap_content"
@@ -189,6 +171,15 @@
             android:weightSum="9"
             android:gravity="center_vertical|center_horizontal"
             android:layout_gravity="center">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonRenew"
+                android:background="@color/schabuu_green"
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="26dp" />
 
         </LinearLayout>
 
@@ -202,6 +193,14 @@
             android:gravity="center_vertical|center_horizontal"
             android:layout_gravity="center">
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonDelete"
+                android:background="@color/schabuu_green"
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="30dp" />
         </LinearLayout>
 
     </LinearLayout>

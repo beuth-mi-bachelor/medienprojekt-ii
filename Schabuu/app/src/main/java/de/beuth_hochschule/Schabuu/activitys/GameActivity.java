@@ -60,6 +60,9 @@ public class GameActivity extends Activity {
     TextView score1;
     TextView score2;
 
+    String scoreTeam0;
+    String scoreTeam1;
+
     private HashMap<String, Player> playerList;
 
     @Override
@@ -281,8 +284,8 @@ public class GameActivity extends Activity {
         int i = 0;
         LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
         LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
-        buttonLayout.removeAllViews();
-        buttonLayout2.removeAllViews();
+        /*buttonLayout.removeAllViews();
+        buttonLayout2.removeAllViews();*/
 
 
         for (String s : result){
@@ -434,7 +437,19 @@ public class GameActivity extends Activity {
 
                 final JSONObject data = (JSONObject) args[0];
 
+
+                try {
+                    JSONObject scores = (JSONObject) data.get("score");
+                    scoreTeam0  = scores.getString("0");
+                    scoreTeam1  = scores.getString("1");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                 getPlayerHashMap(data);
+
+
 
                 // just to display it on device for debugging
                 System.out.println("round ended: " + data.toString());
@@ -583,15 +598,17 @@ public class GameActivity extends Activity {
     public void showEndGameScreen() {
         intent = new Intent(GameActivity.this, GameEndActivity.class);
 
-        if (Integer.parseInt(score1.getText().toString()) > Integer.parseInt(score2.getText().toString())) {
+        if (Integer.parseInt(scoreTeam0) > Integer.parseInt(scoreTeam1)) {
             intent.putExtra("WINNER_TEAM", "TEAM 0");
-            intent.putExtra("SCORE_2",score1.getText().toString());
-            intent.putExtra("SCORE_1",score2.getText().toString());
+            intent.putExtra("SCORE_2",scoreTeam0);
+            intent.putExtra("SCORE_1",scoreTeam1);
+            System.out.println("ASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD"+scoreTeam0);
         }
         else {
             intent.putExtra("WINNER_TEAM", "TEAM 1");
-            intent.putExtra("SCORE_1",score2.getText().toString());
-            intent.putExtra("SCORE_2",score1.getText().toString());
+            intent.putExtra("SCORE_1",scoreTeam0);
+            intent.putExtra("SCORE_2",scoreTeam1);
+            System.out.println("ASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASDASD"+scoreTeam1);
         }
 
         startActivity(intent);
