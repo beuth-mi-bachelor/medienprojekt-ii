@@ -144,6 +144,7 @@ public class GameAvActivity extends Activity {
         }
 
        if(intent.getStringExtra("MODE").equals("CAM")){
+           findViewById(R.id.view_audio).setVisibility(View.GONE);
            AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
            am.setMicrophoneMute(true);
            utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_VIDEO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext(),false);
@@ -151,15 +152,17 @@ public class GameAvActivity extends Activity {
        }
 
        if(intent.getStringExtra("MODE").equals("AUDIO")){
+           findViewById(R.id.view_audio).setVisibility(View.GONE);
+           AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+           am.setMicrophoneMute(false);
            //utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_AUDIO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view_audio), getApplicationContext(),true);
-           utils = new StreamingUtils(serverUrl, "testaudio", license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view_audio), getApplicationContext(),true);
-
+           utils = new StreamingUtils(serverUrl, "testaudio", license, authUser, authPass, null, getApplicationContext(),true);
            utils.toggleStreaming();
 
 
-           rutils = new RecievingUtils(this, license, strStreamUrl,intent.getStringExtra("STREAM_VIDEO") , authUser, authPass);
-           SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
-           surfaceView.getHolder().addCallback(rutils.GetPlayer());
+           //rutils = new RecievingUtils(this, license, strStreamUrl,intent.getStringExtra("STREAM_VIDEO") , authUser, authPass);
+           //SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
+           //surfaceView.getHolder().addCallback(rutils.GetPlayer());
 
 
 
@@ -186,7 +189,7 @@ public class GameAvActivity extends Activity {
                         }
                     });
                     if(intent.getStringExtra("MODE").equals("AUDIO")){
-                       rutils.StartPlayer();
+//                       rutils.StartPlayer();
                     }
 
                 }

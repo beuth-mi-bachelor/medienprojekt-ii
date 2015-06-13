@@ -69,13 +69,13 @@ public class StreamingUtils extends Activity implements NanostreamEventListener 
                 streamLib.setRotation(Rotation.ROTATION_270);
 
             }else{
-                streamLib = new nanoStream(false, vSettings, surfacePlayerView.getHolder(), true, aSettings, license, serverUrl, streamName, authUser, authPass, this,
+                streamLib = new nanoStream(false, vSettings, null, true, aSettings, license, serverUrl, streamName, authUser, authPass, this,
                         abcSettings, logSettings, true, false, "");
 
-                mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
-                mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
-                mVideoCam.setCameraOrientation(90);
-                streamLib.setVideoSource(mVideoCam);
+//                mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
+//                mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
+//                mVideoCam.setCameraOrientation(90);
+//                streamLib.setVideoSource(mVideoCam);
             }
 
 
