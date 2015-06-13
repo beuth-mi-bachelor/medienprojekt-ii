@@ -22,20 +22,20 @@ function Game(server, room, rounds, time) {
     this.players = [];
     var index = 0;
     this.server = server;
-    this.rounds = rounds || 3;
+    this.rounds = rounds || 4;
     this.currentRound = 1;
     this.time = time || 30;
     this.currentTime = time || 30;
     this.timeOutBetweenRounds = 8;
-    this.room = room;
+    this.room = room.name;
     this.score = {
         0: 0,
         1: 0
     };
     this.points = [];
     this.streamNames = {
-        audio: room.name + "-audio",
-        video: room.name + "-video"
+        audio: this.room + "-audio",
+        video: this.room + "-video"
     };
     this.currentWord = Game.getDataset();
     var self = this;
@@ -48,7 +48,7 @@ function Game(server, room, rounds, time) {
             index++;
         }
     }
-    Game.games[this.room.name] = this;
+    Game.games[this.room] = this;
     this.interval = null;
 }
 
@@ -81,25 +81,28 @@ Game.getGame = function (name) {
  * starts game with this.rounds rounds
  */
 Game.prototype.startGame = function() {
-    this.startRound();
     this.currentWord = Game.getDataset();
-    this.server.emit("emitToRoom", this.room.name, 'game_start', {
+    this.server.emit("emitToRoom", this.room, 'game_start', {
         time: this.currentTime,
         word: this.currentWord,
         score: this.score,
         round: this.currentRound
     });
+    this.startRound();
+
 };
 
 /**
  * starts a round with this.time time
  */
 Game.prototype.startRound = function() {
+    console.log("round started now");
+
     var self = this;
     if (this.currentRound != 1) {
         this.currentWord = Game.getDataset();
     }
-    this.server.emit("emitToRoom", this.room.name, 'game_round_start', {
+    this.server.emit("emitToRoom", this.room, 'game_round_start', {
         time: this.currentTime,
         word: this.currentWord,
         score: this.score,
@@ -107,7 +110,7 @@ Game.prototype.startRound = function() {
     });
     this.interval = setInterval(function() {
         self.currentTime -= 1;
-        self.server.emit("emitToRoom", self.room.name, 'game_update', {
+        self.server.emit("emitToRoom", self.room, 'game_update', {
             time: self.currentTime
         });
         if (self.currentTime <= 0) {
@@ -144,7 +147,7 @@ Game.prototype.endRound = function(winner) {
         }
     }
 
-    this.server.emit("emitToRoom", this.room.name, 'game_round_end', {
+    this.server.emit("emitToRoom", this.room, 'game_round_end', {
         points: this.points,
         score: this.score,
         players: this.players,
@@ -156,7 +159,8 @@ Game.prototype.endRound = function(winner) {
         this.endGame();
     } else {
         this.currentRound += 1;
-        setTimeout(this.startRound(), this.timeOutBetweenRounds);
+        console.log("timeout is calling" + this.timeOutBetweenRounds * 1000);
+        setTimeout(this.startRound.bind(this), this.timeOutBetweenRounds * 1000);
     }
 
 };
@@ -175,11 +179,11 @@ Game.getAllGamesAsArray = function () {
  * ends a game
  */
 Game.prototype.endGame = function() {
-    this.server.emit("emitToRoom", this.room.name, 'game_end', {
+    this.server.emit("emitToRoom", this.room, 'game_end', {
         points: this.points,
         score: this.score
     });
-    delete Game.games[this.room.name];
+    delete Game.games[this.room];
     console.log("game ended");
 };
 
