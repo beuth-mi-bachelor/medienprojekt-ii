@@ -53,22 +53,9 @@
 </script>
 <video id="really-cool-video" autoplay class="video-js vjs-default-skin" controls
        preload="auto" width="450" height="800">
+    <source src="rtmp://ws2.nanocosmos.net/live/test" type="rtmp/mp4">
 </video>
 <script>
-    function addSourceToVideo(element, src, type) {
-        var source = document.createElement('source');
-
-        source.src = src;
-        source.type = type;
-
-        element.appendChild(source);
-    }
-
-    var elem = document.getElementById("really-cool-video");
-
-
-    addSourceToVideo(elem, stream, "rtmp/mp4");
-
     var player = videojs('really-cool-video', {}, function () {
         this.play();
     });
