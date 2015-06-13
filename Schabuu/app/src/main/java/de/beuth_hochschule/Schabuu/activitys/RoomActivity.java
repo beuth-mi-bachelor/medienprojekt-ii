@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 
@@ -64,7 +63,7 @@ public class RoomActivity extends Activity {
         else newRoomSetup(intent.getStringExtra("ROOM_NAME"));
 
         // BACK BUTTON
-        Button backButton = (Button)findViewById(R.id.back_button);
+        Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setTypeface(awesome);
         backButton.setTextColor(Color.parseColor("#ffffff"));
         backButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -101,29 +100,15 @@ public class RoomActivity extends Activity {
         playerOneView.setTypeface(geoBold);
         playerOneView.setTextSize(48);
         playerOneView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
-        playerOneView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent newIntent = new Intent(RoomActivity.this, GameAvActivity.class);
-                newIntent.putExtra("MODE", "NOCAM");
-                startActivity(newIntent);
-            }
-        });
 
         //PLAYER TWO
-        TextView playerTwoView = (TextView)findViewById(R.id.player_two);
+        TextView playerTwoView = (TextView) findViewById(R.id.player_two);
         playerTwoView.setTypeface(geoBold);
         playerTwoView.setTextSize(48);
         playerTwoView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
-        playerTwoView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent newIntent = new Intent(RoomActivity.this, GameAvActivity.class);
-                newIntent.putExtra("MODE", "CAM");
-                startActivity(newIntent);
-            }
-        });
 
         // PLAYER THREE
-        TextView playerThreeView = (TextView)findViewById(R.id.player_three);
+        TextView playerThreeView = (TextView) findViewById(R.id.player_three);
         playerThreeView.setTypeface(geoBold);
         playerThreeView.setTextSize(48);
         playerThreeView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
@@ -134,16 +119,12 @@ public class RoomActivity extends Activity {
         });
 
         // PLAYER FOUR
-        TextView playerFourView = (TextView)findViewById(R.id.player_four);
+        TextView playerFourView = (TextView) findViewById(R.id.player_four);
         playerFourView.setTypeface(geoBold);
         playerFourView.setTextSize(48);
         playerFourView.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
-        playerFourView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(RoomActivity.this, GameActivity.class));
-            }
-        });
     }
+
 
     public void randomRoomSetup() {
         _server.joinRandomRoom(
