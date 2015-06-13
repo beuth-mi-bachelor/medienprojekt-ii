@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -48,11 +50,11 @@ public class GameActivity extends Activity {
     private TextView teamTextView;
     private TextView iconView;
     private LinearLayout loadingBackground;
-
+    private Vibrator myVib;
     private Intent intent;
     private Typeface awesome;
     TextView time_left;
-
+    private Typeface geoBold;
     private static final String LOG_TAG = "GameActivity";
 
     private ServerConnector _server;
@@ -65,7 +67,8 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Typeface geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
+        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        geoBold = Typeface.createFromAsset(getAssets(), "font/geomanist_font_family/Geomanist-Bold.otf");
          awesome = Typeface.createFromAsset(getAssets(), "font/fontello.ttf");
 
         _server = ServerConnectorImplementation.getInstance();
@@ -127,6 +130,7 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteChar();
+                myVib.vibrate(50);
             }
         });
 
@@ -135,6 +139,7 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
                 solutionHolder.deleteWord();
+                myVib.vibrate(50);
             }
         });
 
@@ -150,7 +155,7 @@ public class GameActivity extends Activity {
         utils.StartPlayer();
         utils2.StartPlayer();
         */
-        //getLetters("HALLO",20);
+        //getLetters("KATZE",20);
         createLoadingScreen();
         //setTimeOut();
 
@@ -183,11 +188,24 @@ public class GameActivity extends Activity {
         iconView.setText("\uf11c");
 
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
+/*
         if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
+*/
+
+        /* DELETE AFTER IT */
+        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
+        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                _server.emit(Events.GAME_SOLUTION, null);
+            }
+        }, GameActivity.this, "HAUS", geoBold);
+        getLetters("HAUS",20);
+        /* DELETE AFTER IT */
 
         runOnUiThread(new Runnable() {
             @Override
@@ -343,8 +361,10 @@ public class GameActivity extends Activity {
                 Button b = (Button) v;
                 String buttonText = b.getText().toString();
                 solutionHolder.addChar(buttonText);
+                myVib.vibrate(50);
             }
         });
+        btn.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         buttonLayout.addView(btn,params);
     }
 
@@ -381,7 +401,7 @@ public class GameActivity extends Activity {
                                     public void call(Object... args) {
                                         _server.emit(Events.GAME_SOLUTION, null);
                                     }
-                                }, GameActivity.this, key);
+                                }, GameActivity.this, key, geoBold);
 
                             }
                         } catch (JSONException e) {

@@ -171,8 +171,9 @@
         android:orientation="horizontal"
         android:id="@+id/solutionLayout"
         android:gravity="center_horizontal"
-        android:weightSum="10"
+        android:weightSum="12"
         android:background="@color/schabuu_darkgreen" >
+
     </LinearLayout>
 
     <LinearLayout

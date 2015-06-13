@@ -1,8 +1,11 @@
 package de.beuth_hochschule.Schabuu.util;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.Layout;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +26,7 @@ public class SolutionHolder {
     private int charPointer;
     private Emitter.Listener callback;
 
-    public SolutionHolder(LinearLayout layout, Emitter.Listener callback, Activity appContext, String solution) {
+    public SolutionHolder(LinearLayout layout, Emitter.Listener callback, Activity appContext, String solution, Typeface geoBold) {
         this.solutionInputHolder = new ArrayList<TextView>();
         this.solution = solution;
         this.lengthOfSolution = solution.length();
@@ -40,6 +43,11 @@ public class SolutionHolder {
             params.setMargins(10, 5, 10, 5);
             textView.setLayoutParams(params);
             textView.setBackgroundResource(R.color.schabuu_white);
+            textView.setTypeface(geoBold);
+            textView.setTextSize(20);
+            textView.setAlpha(0.7f);
+            textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            textView.setTextColor(Color.parseColor("#474569"));
             self.solutionInputHolder.add(textView);
         }
         this.appendToView(layout);
@@ -66,6 +74,9 @@ public class SolutionHolder {
 
     public void deleteChar() {
         this.charPointer--;
+        if (this.charPointer < 0) {
+            this.charPointer = 0;
+        }
         if (this.charPointer >= 0) {
             TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
             currentTextView.setText("");
