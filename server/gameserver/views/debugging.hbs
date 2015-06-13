@@ -58,10 +58,10 @@
 <div class="clear">
 {{#each games}}
     <ul>
-        <li><h3>Game in {{this.room.name}}</h3>
+        <li><h3>Game in {{this.room}}</h3>
             <ul>
                 <li>Time: {{this.currentTime}}/{{this.time}}, Round: {{this.currentRound}}/{{this.rounds}}</li>
-                <li>Data:    {{#each this.currentWord}}
+                <li>Word:    {{#each this.currentWord}}
                     {{@key}}: {{this}}
                 {{/each}}</li>
                 <li>Video: {{this.streamNames.video}}</li>

@@ -83,6 +83,12 @@ function init() {
     // TODO: Disable logging when done
     app.listen(8080);
     setEventHandlers();
+
+    /*
+    var room = new Room(server, "testaaaa", 4, "");
+    var game = new Game(server, room, 4, 10);
+    game.startGame();
+*/
 }
 
 var setEventHandlers = function() {
@@ -181,7 +187,9 @@ function onPlayerInactive(client) {
     player.setActivitiy(false);
     if (player.room) {
         var currentRoom = Room.getRoom(player.room.name);
-        currentRoom.players[player.id].isActive = player.isActive;
+        if (currentRoom && currentRoom.players && currentRoom.players[player.id] && currentRoom.players[player.id].isActive) {
+            currentRoom.players[player.id].isActive = player.isActive;
+        }
     }
 }
 
@@ -202,6 +210,7 @@ function onPlayerReady(client) {
         var rdy = currentRoom.playerIsReady();
         if (rdy) {
             Game.games[currentRoom.name].startGame();
+            console.log("--- " + Game.games[currentRoom.name]);
         }
     }
 }
