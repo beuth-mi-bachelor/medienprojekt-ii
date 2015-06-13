@@ -156,7 +156,7 @@ public class GameAvActivity extends Activity {
            AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
            am.setMicrophoneMute(false);
            //utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_AUDIO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view_audio), getApplicationContext(),true);
-           utils = new StreamingUtils(serverUrl, "testaudio", license, authUser, authPass, null, getApplicationContext(),true);
+           utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_AUDIO"), license, authUser, authPass, null, getApplicationContext(),true);
            utils.toggleStreaming();
 
 

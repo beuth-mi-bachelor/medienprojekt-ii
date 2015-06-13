@@ -145,7 +145,7 @@ public class GameActivity extends Activity {
 
 
         utils = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_VIDEO"), authUser, authPass);
-        utils2 = new RecievingUtils(this, license, strStreamUrl, "testaudio", authUser, authPass);
+        utils2 = new RecievingUtils(this, license, strStreamUrl, intent.getStringExtra("STREAM_AUDIO"), authUser, authPass);
 
         SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
         surfaceView.getHolder().addCallback(utils.GetPlayer());
