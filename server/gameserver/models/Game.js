@@ -8,6 +8,12 @@ if (!Game.games) {
 }
 
 Game.roles = ["guesser", "audio", "video"];
+Game.rotationRoles = [
+    ["guesser", "audio", "video", "guesser"],
+    ["audio", "guesser", "guesser", "video"],
+    ["video", "guesser", "audio", "guesser"],
+    ["guesser", "video", "guesser", "audio"]
+];
 Game.team = [0, 1];
 
 /**
@@ -24,9 +30,9 @@ function Game(server, room, rounds, time) {
     this.server = server;
     this.rounds = rounds || 4;
     this.currentRound = 1;
-    this.time = time || 30;
-    this.currentTime = time || 30;
-    this.timeOutBetweenRounds = 8;
+    this.time = time || 5;
+    this.currentTime = this.time;
+    this.timeOutBetweenRounds = 3;
     this.room = room.name;
     this.score = {
         0: 0,
@@ -42,8 +48,12 @@ function Game(server, room, rounds, time) {
     for (var player in room.players) {
         if (room.players.hasOwnProperty(player)) {
             var currentPlayer = Player.getPlayer(room.players[player].id);
-            setRole(currentPlayer, index, self);
-            currentPlayer.team =  Game.team[(index) % Game.team.length];
+            setRole(currentPlayer, index, self.currentRound);
+            if (index === 0 || index === 1) {
+                currentPlayer.team = Game.team[0];
+            } else {
+                currentPlayer.team = Game.team[1];
+            }
             this.players.push(currentPlayer);
             index++;
         }
@@ -52,8 +62,8 @@ function Game(server, room, rounds, time) {
     this.interval = null;
 }
 
-function setRole(currentPlayer, index, self) {
-    currentPlayer.role = Game.roles[(index + (self.currentRound-1)) % Game.roles.length];
+function setRole(currentPlayer, index, round) {
+    currentPlayer.role = Game.rotationRoles[(round-1) % Game.rotationRoles.length][index];
 }
 
 /**
@@ -130,7 +140,7 @@ Game.prototype.endRound = function(winner) {
     var self = this;
 
     for (var i = 0; i < this.players.length; i++) {
-        setRole(self.players[i], i, self);
+        setRole(self.players[i], i, self.currentRound);
     }
 
     if (!winner) {
