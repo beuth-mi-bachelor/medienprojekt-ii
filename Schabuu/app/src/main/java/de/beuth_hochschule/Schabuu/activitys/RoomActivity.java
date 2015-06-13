@@ -83,7 +83,6 @@ public class RoomActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
                                 _server.goBackToLobby(new Emitter.Listener() {
                                     @Override
                                     public void call(Object... args) {
@@ -153,35 +152,16 @@ public class RoomActivity extends Activity {
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
 
-                        // just to display it on device for debugging
-                        System.out.println("room was switched: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                 },
                 new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         // no args supplied
-
-
                         final JSONObject data = (JSONObject) args[0];
                         getPlayerHashMap(data);
                         createActivity();
 
-
-                        // just to display it on device for debugging
-                        System.out.println("game is ready");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
-                            }
-                        });
 
                     }
                 },
@@ -235,7 +215,6 @@ public class RoomActivity extends Activity {
                         progBars.get(i).setVisibility(View.VISIBLE);
                     }
                 }
-                Toast.makeText(getApplicationContext(), "room updated: " + data.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -248,14 +227,6 @@ public class RoomActivity extends Activity {
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
 
-                        // just to display it on device for debugging
-                        System.out.println("room was switched: " + data.toString());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                 },
                 new Emitter.Listener() {
@@ -264,18 +235,8 @@ public class RoomActivity extends Activity {
                         // no args supplied
 
                         final JSONObject data = (JSONObject) args[0];
-                        System.out.println("HALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOO");
                         getPlayerHashMap(data);
                         createActivity();
-
-                        // just to display it on device for debugging
-                        System.out.println("game is ready");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "game is ready", Toast.LENGTH_SHORT).show();
-                            }
-                        });
                     }
                 },
                 new Emitter.Listener() {
@@ -288,12 +249,6 @@ public class RoomActivity extends Activity {
                 new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "Room is already full", Toast.LENGTH_SHORT).show();
-                            }
-                        });
                         RoomActivity.this.goBackToMain();
                     }
                 }
@@ -325,6 +280,8 @@ public class RoomActivity extends Activity {
         intent.putExtra("USERNAME",username);
         intent.putExtra("SCORE0","0");
         intent.putExtra("SCORE1","0");
+
+        intent.putExtra("FIRSTROUND","YES");
 
 
         startActivity(intent);
@@ -375,16 +332,6 @@ public class RoomActivity extends Activity {
             public void call(Object... args) {
                 final JSONObject data = (JSONObject) args[0];
 
-
-
-                // just to display it on device for debugging
-                System.out.println("room was switched: " + data.toString());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), data.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         });
     }
