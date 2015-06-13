@@ -28,7 +28,7 @@ function Game(server, room, rounds, time) {
     this.players = [];
     var index = 0;
     this.server = server;
-    this.rounds = rounds || 4;
+    this.rounds = rounds || 1000000;
     this.currentRound = 1;
     this.time = time || 60;
     this.currentTime = this.time;
