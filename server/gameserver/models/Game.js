@@ -30,7 +30,7 @@ function Game(server, room, rounds, time) {
     this.server = server;
     this.rounds = rounds || 4;
     this.currentRound = 1;
-    this.time = time || 60;
+    this.time = time || 1000;
     this.currentTime = this.time;
     this.timeOutBetweenRounds = 8;
     this.room = room.name;
