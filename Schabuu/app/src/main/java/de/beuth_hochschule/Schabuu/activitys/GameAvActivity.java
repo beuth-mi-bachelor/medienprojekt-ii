@@ -165,7 +165,7 @@ public class GameAvActivity extends Activity {
         Thread timerThread = new Thread() {
             public void run() {
                 try {
-                    sleep(2700);
+                    sleep(7700);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
