@@ -25,6 +25,7 @@ public class SolutionHolder {
     private Activity appContext;
     private int charPointer;
     private Emitter.Listener callback;
+    private LinearLayout layout;
 
     public SolutionHolder(LinearLayout layout, Emitter.Listener callback, Activity appContext, String solution, Typeface geoBold) {
         this.solutionInputHolder = new ArrayList<TextView>();
@@ -32,6 +33,7 @@ public class SolutionHolder {
         this.lengthOfSolution = solution.length();
         this.appContext = appContext;
         this.charPointer = 0;
+        this.layout = layout;
         SolutionHolder self = this;
         this.callback = callback;
         for (int i = 0; i < this.lengthOfSolution; i++) {
@@ -81,6 +83,7 @@ public class SolutionHolder {
             TextView currentTextView = this.solutionInputHolder.get(this.charPointer);
             currentTextView.setText("");
         }
+        isSolved();
     }
 
     public void deleteWord() {
@@ -89,6 +92,7 @@ public class SolutionHolder {
             currentTextView.setText("");
         }
         this.charPointer = 0;
+        isSolved();
     }
 
     private String buildSolution() {
@@ -102,6 +106,28 @@ public class SolutionHolder {
 
     private boolean isSolved() {
         System.out.println(this.solution.toLowerCase() + " : " + this.buildSolution().toLowerCase());
+        if(this.buildSolution().equals(solution)){
+            int childcount = layout.getChildCount();
+            for (int i=0; i < childcount; i++){
+                TextView v = (TextView) layout.getChildAt(i);
+                v.setTextColor(Color.parseColor("#699D7E"));
+                layout.setBackgroundColor(Color.parseColor("#699D7E"));
+            }
+        } else if (this.buildSolution().length() == solution.length()){
+            int childcount = layout.getChildCount();
+            for (int i=0; i < childcount; i++){
+                TextView v = (TextView) layout.getChildAt(i);
+                v.setTextColor(Color.parseColor("#ff6666"));
+                layout.setBackgroundColor(Color.parseColor("#ff6666"));
+            }
+        } else if (this.buildSolution().length() < solution.length()){
+            int childcount = layout.getChildCount();
+            for (int i=0; i < childcount; i++){
+                TextView v = (TextView) layout.getChildAt(i);
+                v.setTextColor(Color.parseColor("#474569"));
+                layout.setBackgroundColor(Color.parseColor("#474569"));
+            }
+        }
         return this.solution.toLowerCase().equals(this.buildSolution().toLowerCase());
     }
 
