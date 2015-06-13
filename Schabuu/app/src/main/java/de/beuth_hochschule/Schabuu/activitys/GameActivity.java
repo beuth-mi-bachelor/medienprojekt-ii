@@ -189,24 +189,14 @@ public class GameActivity extends Activity {
         iconView.setText("\uf11c");
 
         loadingBackground = (LinearLayout) findViewById(R.id.loading_screen);
-/*
+
         if (intent.getStringExtra("TEAM").equals("0")) {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_green));
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
-*/
 
-        /* DELETE AFTER IT */
-        LinearLayout linLaySolution = (LinearLayout) findViewById(R.id.solutionLayout);
-        solutionHolder = new SolutionHolder(linLaySolution, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                _server.emit(Events.GAME_SOLUTION, null);
-            }
-        }, GameActivity.this, "HAUS", geoBold);
-        getLetters("HAUS",16);
-        /* DELETE AFTER IT */
+
 
         runOnUiThread(new Runnable() {
             @Override
@@ -280,6 +270,7 @@ public class GameActivity extends Activity {
     //gets the word to be described and the maximum number of the buttons to be shown
     //creates then a new button in our game screen layout guesser
     public void getLetters(String word, int numberOfMaximumLetters) {
+
         String[] letters = new String[word.length()];
         for (int i = 0; i < word.length(); i++) {
             letters[i] = Character.toString(word.charAt(i));
@@ -298,6 +289,11 @@ public class GameActivity extends Activity {
         int i = 0;
         LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_panel);
         LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
+        buttonLayout.removeAllViews();
+        buttonLayout2.removeAllViews();
+        buttonLayout.addView(findViewById(R.id.buttonRenew));
+        buttonLayout2.addView(findViewById(R.id.buttonDelete));
+
         for (String s : result){
             i++;
             if(i >8){
