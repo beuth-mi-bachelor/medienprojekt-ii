@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -26,7 +27,9 @@ import de.beuth_hochschule.Schabuu.R;
 import de.beuth_hochschule.Schabuu.data.Events;
 import de.beuth_hochschule.Schabuu.data.ServerConnector;
 import de.beuth_hochschule.Schabuu.data.ServerConnectorImplementation;
+import de.beuth_hochschule.Schabuu.ui.SurfacePlayerView;
 import de.beuth_hochschule.Schabuu.util.Player;
+import de.beuth_hochschule.Schabuu.util.RecievingUtils;
 import de.beuth_hochschule.Schabuu.util.StreamingUtils;
 
 public class GameAvActivity extends Activity {
@@ -63,6 +66,7 @@ public class GameAvActivity extends Activity {
 
     TextView score1;
     TextView score2;
+    RecievingUtils rutils;
 
     private HashMap<String, Player> playerList;
 
@@ -129,8 +133,8 @@ public class GameAvActivity extends Activity {
         time_left.setText("00:00");
 
 
-        createLoadingScreen();
-        setTimeOut();
+
+
 
 
         if(intent.getStringExtra("FIRSTROUND").equals("YES")){
@@ -138,27 +142,35 @@ public class GameAvActivity extends Activity {
         }else{
             startNewRound();
         }
-        /*
 
-        System.out.println("STREAM"+intent.getStringExtra("STREAM_VIDEO"));
-        System.out.println("AUDIO"+intent.getStringExtra("STREAM_AUDIO"));
        if(intent.getStringExtra("MODE").equals("CAM")){
+           findViewById(R.id.view_audio).setVisibility(View.GONE);
+           AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+           am.setMicrophoneMute(true);
            utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_VIDEO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view), getApplicationContext(),false);
            utils.toggleStreaming();
        }
+
        if(intent.getStringExtra("MODE").equals("AUDIO")){
+           findViewById(R.id.view_audio).setVisibility(View.GONE);
+           AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+           am.setMicrophoneMute(false);
            //utils = new StreamingUtils(serverUrl, intent.getStringExtra("STREAM_AUDIO"), license, authUser, authPass, (SurfacePlayerView) findViewById(R.id.view_audio), getApplicationContext(),true);
-           //utils.toggleStreaming();
+           utils = new StreamingUtils(serverUrl, "testaudio", license, authUser, authPass, null, getApplicationContext(),true);
+           utils.toggleStreaming();
 
 
-           RecievingUtils utils = new RecievingUtils(this, license, strStreamUrl,intent.getStringExtra("STREAM_VIDEO") , authUser, authPass);
-           SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
-           surfaceView.getHolder().addCallback(utils.GetPlayer());
-           utils.StartPlayer();
+           //rutils = new RecievingUtils(this, license, strStreamUrl,intent.getStringExtra("STREAM_VIDEO") , authUser, authPass);
+           //SurfacePlayerView surfaceView = (SurfacePlayerView) findViewById(R.id.view);
+           //surfaceView.getHolder().addCallback(rutils.GetPlayer());
+
+
+
 
 
        }
-       */
+        createLoadingScreen();
+        setTimeOut();
 
     }
     public void setTimeOut() {
@@ -176,6 +188,9 @@ public class GameAvActivity extends Activity {
                             loadingBackground.setVisibility(View.GONE);
                         }
                     });
+                    if(intent.getStringExtra("MODE").equals("AUDIO")){
+//                       rutils.StartPlayer();
+                    }
 
                 }
             }
@@ -433,7 +448,7 @@ public class GameAvActivity extends Activity {
 
         if (Integer.parseInt(score1.getText().toString()) > Integer.parseInt(score2.getText().toString())) {
             intent.putExtra("WINNER_TEAM", "TEAM 0");
-            intent.putExtra("SCORE_2",score1.getText().toString());
+            intent.putExtra("SCORE_2", score1.getText().toString());
             intent.putExtra("SCORE_1",score2.getText().toString());
         }
         else {

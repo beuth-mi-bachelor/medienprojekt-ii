@@ -77,8 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         class="de.beuth_hochschule.Schabuu.ui.SurfacePlayerView"
-        android:id="@+id/view_audio"
-        android:visibility="gone" />
+        android:id="@+id/view_audio"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"

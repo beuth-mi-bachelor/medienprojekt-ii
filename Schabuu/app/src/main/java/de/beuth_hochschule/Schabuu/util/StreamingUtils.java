@@ -26,10 +26,10 @@ import net.nanocosmos.nanoStream.streamer.nanoStream;
 public class StreamingUtils extends Activity implements NanostreamEventListener {
     //Sending Attributes
     private nanoStream streamLib;
-    private int width = 640;
-    private int height = 480;
-    private int BIT_RATE = 500000;
-    private int FRAME_RATE = 15;
+    private int width = 320;
+    private int height = 240;
+    private int BIT_RATE = 250000;
+    private int FRAME_RATE = 10;
     private AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode abcMode = AdaptiveBitrateControlSettings.AdaptiveBitrateControlMode.QUALITY_DEGRADE_AND_FRAME_DROP;
     private VideoCamera mVideoCam = null;
     private nanoStream.VideoSourceType vsType = nanoStream.VideoSourceType.EXTERNAL;
@@ -53,13 +53,14 @@ public class StreamingUtils extends Activity implements NanostreamEventListener 
 
             vSettings.setVideoSourceType(nanoStream.VideoSourceType.EXTERNAL);
 
-            AudioSettings aSettings = new AudioSettings(2, 32 * 1024, 44100);
+            AudioSettings aSettings = new AudioSettings(1, 32 * 1024, 44100);
 
 
 
             if(!audio){
                 streamLib = new nanoStream(true, vSettings, surfacePlayerView.getHolder(), true, aSettings, license, serverUrl, streamName, authUser, authPass, this,
                         abcSettings, logSettings, true, false, "");
+
 
                 mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
                 mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
@@ -68,13 +69,13 @@ public class StreamingUtils extends Activity implements NanostreamEventListener 
                 streamLib.setRotation(Rotation.ROTATION_270);
 
             }else{
-                streamLib = new nanoStream(false, vSettings, surfacePlayerView.getHolder(), true, aSettings, license, serverUrl, streamName, authUser, authPass, this,
+                streamLib = new nanoStream(false, vSettings, null, true, aSettings, license, serverUrl, streamName, authUser, authPass, this,
                         abcSettings, logSettings, true, false, "");
 
-                mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
-                mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
-                mVideoCam.setCameraOrientation(90);
-                streamLib.setVideoSource(mVideoCam);
+//                mVideoCam = new VideoCamera(width, height, FRAME_RATE, surfacePlayerView.getHolder());
+//                mVideoCam.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
+//                mVideoCam.setCameraOrientation(90);
+//                streamLib.setVideoSource(mVideoCam);
             }
 
 
