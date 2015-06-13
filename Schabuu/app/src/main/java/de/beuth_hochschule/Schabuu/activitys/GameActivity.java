@@ -152,7 +152,7 @@ public class GameActivity extends Activity {
         */
         //getLetters("KATZE",20);
         createLoadingScreen();
-        //setTimeOut();
+        setTimeOut();
 
         if(intent.getStringExtra("FIRSTROUND").equals("YES")){
             startGame();
@@ -196,12 +196,6 @@ public class GameActivity extends Activity {
 
 
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                loadingBackground.setVisibility(View.GONE);
-            }
-        });
     }
 
     private void getPlayerHashMap(JSONObject data) {
@@ -247,7 +241,7 @@ public class GameActivity extends Activity {
         Thread timerThread = new Thread() {
             public void run() {
                 try {
-                    sleep(7000);
+                    sleep(2700);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -569,15 +563,15 @@ public class GameActivity extends Activity {
     public void showEndGameScreen() {
         intent = new Intent(GameActivity.this, GameEndActivity.class);
 
-        if (Integer.parseInt(intent.getStringExtra("SCORE0")) > Integer.parseInt(intent.getStringExtra("SCORE1"))) {
+        if (Integer.parseInt(score1.getText().toString()) > Integer.parseInt(score2.getText().toString())) {
             intent.putExtra("WINNER_TEAM", "TEAM 0");
-            intent.putExtra("SCORE_2",intent.getStringExtra("SCORE0"));
-            intent.putExtra("SCORE_1",intent.getStringExtra("SCORE1"));
+            intent.putExtra("SCORE_2",score1.getText().toString());
+            intent.putExtra("SCORE_1",score2.getText().toString());
         }
         else {
             intent.putExtra("WINNER_TEAM", "TEAM 1");
-            intent.putExtra("SCORE_1",intent.getStringExtra("SCORE0"));
-            intent.putExtra("SCORE_2",intent.getStringExtra("SCORE1"));
+            intent.putExtra("SCORE_1",score2.getText().toString());
+            intent.putExtra("SCORE_2",score1.getText().toString());
         }
 
         startActivity(intent);

@@ -75,6 +75,7 @@ public class GameEndActivity extends Activity {
         endButton.setShadowLayer(1, 1, 1, Color.parseColor("#ff333333"));
 
         winnerTeam.setText(intent.getStringExtra("WINNER_TEAM"));
+        System.out.println(intent.getStringExtra("SCORE_1"));
         scoreOne.append(intent.getStringExtra("SCORE_1"));
         scoreTwo.append(intent.getStringExtra("SCORE_2"));
         winnerIs.setText(intent.getStringExtra("WINNER_TEAM"));
