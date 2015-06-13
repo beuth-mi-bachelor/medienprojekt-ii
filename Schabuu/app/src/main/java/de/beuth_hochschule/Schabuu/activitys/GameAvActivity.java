@@ -130,7 +130,7 @@ public class GameAvActivity extends Activity {
 
 
         createLoadingScreen();
-        //setTimeOut();
+        setTimeOut();
 
 
         if(intent.getStringExtra("FIRSTROUND").equals("YES")){
@@ -165,7 +165,7 @@ public class GameAvActivity extends Activity {
         Thread timerThread = new Thread() {
             public void run() {
                 try {
-                    sleep(7000);
+                    sleep(6700);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -216,13 +216,6 @@ public class GameAvActivity extends Activity {
         } else {
             loadingBackground.setBackgroundColor(getResources().getColor(R.color.schabuu_blue));
         }
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                loadingBackground.setVisibility(View.GONE);
-            }
-        });
     }
 
     @Override
@@ -341,6 +334,27 @@ public class GameAvActivity extends Activity {
                         }
                     }
                 });
+            }
+        });
+        _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+
+                final JSONObject data = (JSONObject) args[0];
+
+                getPlayerHashMap(data);
+
+                // just to display it on device for debugging
+                System.out.println("round ended: " + data.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                _server.removeListener(Events.GAME_ROUND_START);
+                _server.removeListener(Events.GAME_ROUND_END);
+                _server.removeListener(Events.GAME_UPDATE);
             }
         });
 
@@ -474,15 +488,15 @@ public class GameAvActivity extends Activity {
     public void showEndGameScreen() {
         intent = new Intent(GameAvActivity.this, GameEndActivity.class);
 
-        if (Integer.parseInt(intent.getStringExtra("SCORE0")) > Integer.parseInt(intent.getStringExtra("SCORE1"))) {
+        if (Integer.parseInt(score1.getText().toString()) > Integer.parseInt(score2.getText().toString())) {
             intent.putExtra("WINNER_TEAM", "TEAM 0");
-            intent.putExtra("SCORE_2",intent.getStringExtra("SCORE0"));
-            intent.putExtra("SCORE_1",intent.getStringExtra("SCORE1"));
+            intent.putExtra("SCORE_2",score1.getText().toString());
+            intent.putExtra("SCORE_1",score2.getText().toString());
         }
         else {
             intent.putExtra("WINNER_TEAM", "TEAM 1");
-            intent.putExtra("SCORE_1",intent.getStringExtra("SCORE0"));
-            intent.putExtra("SCORE_2",intent.getStringExtra("SCORE1"));
+            intent.putExtra("SCORE_1",score2.getText().toString());
+            intent.putExtra("SCORE_2",score1.getText().toString());
         }
 
         startActivity(intent);
