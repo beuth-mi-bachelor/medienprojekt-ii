@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -553,6 +551,7 @@ public class GameActivity extends Activity {
                         _server.removeListener(Events.GAME_ROUND_START);
                         _server.removeListener(Events.GAME_END);
                         // just to display it on device for debugging
+                        showEndGameScreen();
                         System.out.println("game has ended");
                         runOnUiThread(new Runnable() {
                             @Override
@@ -566,6 +565,8 @@ public class GameActivity extends Activity {
 
             }
         });
-
+    }
+    public void showEndGameScreen() {
+        startActivity(new Intent(GameActivity.this, GameEndActivity.class));
     }
 }
