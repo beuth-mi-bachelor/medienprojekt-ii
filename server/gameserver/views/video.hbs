@@ -79,11 +79,5 @@
         <img src="{{fallback}}" alt="no game found"/>
     </div>
 {{/if}}
-<div id="refreshTimeout">{{refresh}}</div>
-<script>
-    window.setTimeout(function () {
-        location.reload();
-    }, parseInt(document.getElementById("refreshTimeout").innerHTML, 10));
-</script>
 </body>
 </html>
