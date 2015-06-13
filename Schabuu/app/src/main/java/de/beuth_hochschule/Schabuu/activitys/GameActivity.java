@@ -241,7 +241,7 @@ public class GameActivity extends Activity {
         Thread timerThread = new Thread() {
             public void run() {
                 try {
-                    sleep(7700);
+                    sleep(6700);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -283,8 +283,7 @@ public class GameActivity extends Activity {
         LinearLayout buttonLayout2 = (LinearLayout) findViewById(R.id.button_panel2);
         buttonLayout.removeAllViews();
         buttonLayout2.removeAllViews();
-        buttonLayout.addView(findViewById(R.id.buttonRenew));
-        buttonLayout2.addView(findViewById(R.id.buttonDelete));
+
 
         for (String s : result){
             i++;
@@ -427,6 +426,27 @@ public class GameActivity extends Activity {
                         }
                     }
                 });
+            }
+        });
+        _server.addListener(Events.GAME_ROUND_END, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+
+                final JSONObject data = (JSONObject) args[0];
+
+                getPlayerHashMap(data);
+
+                // just to display it on device for debugging
+                System.out.println("round ended: " + data.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "round ended: " + data.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                _server.removeListener(Events.GAME_ROUND_START);
+                _server.removeListener(Events.GAME_ROUND_END);
+                _server.removeListener(Events.GAME_UPDATE);
             }
         });
 
